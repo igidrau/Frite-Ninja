@@ -1,37 +1,35 @@
-final float g = 9.86;
+final PVector g = new PVector(0, -9.86);
 final float G = 6.67*(10^(-11));
-final float friction = 0;
+final float viscosite = 0.017*(10^-3);
 final float densite = 0;
 
 class Patate{
-  int x, y, type;
-  float vx, vy, masse, taille;
-  String img;
+  int type;
+  float masse, taille;
+  PImage img;
+  PVector position, v;
   public Patate(int x, int y, int vx, int vy, int masse, float taille, int type){
-    this.x = x;
-    this.y = y;
-    this.vx = vx;
-    this.vy = vy;
+    this.position = new PVector(x, y);
+    this.v = new PVector(vx, vy);
     this.masse = masse;
     this.taille = taille;
     this.type = type;
     
     if (type == 0){
-      this.img = "patate-" + type + "-" + random(3);
+      this.img = loadImage("images/patate-" + type + "-" + int(random(3)));
     }else{
-      this.img = "patate-" + type;
+      this.img = loadImage("images/patate-" + type);
     }
   }
   
   void mouvementTerrestre(){
-    float ax = 
-    this.x += this.vx/20;
-    this.y += this.vy/20;
-    this.vy -= g;  
+    //PVector a = v.mult(-6*PI*taille*viscosite).add(g.mult(1-densite*4*PI/3*pow(taille, 3)));
+    this.v = this.v.add(g.div(100));
+    this.position = this.position.add(this.v.div(100));
   }
-  
+  /*
   void mouvementGeo(){
-    int d = (int)sqrt((this.x)^2+(this.x)^2);
+    int d = (int)sqrt(pow(this.x,2)+(this.x)^2);
     float alpha = atan(x/y);
-  }
-}}
+  }*/
+}
