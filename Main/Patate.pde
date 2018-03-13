@@ -2,7 +2,7 @@ final PVector g = new PVector(0, -9.86);
 final float G = 6.67*(10^(-11));
 final float viscosite = 0.017*(10^-3);
 final float densite = 0;
-final float parsec = 3.5;
+final float parsec = 2.5;
 
 class Patate{
   int type;
@@ -24,7 +24,12 @@ class Patate{
   }
   
   void mouvementTerrestre(){
-    PVector f = v.mult(-6*PI*taille*viscosite).add(g.mult(1-densite*4*PI/3*pow(taille, 3)));
+    
+    PVector f = PVector.mult(g, masse).add(PVector.mult(v, -6*PI*taille*viscosite));//*(1-densite*4*PI/3*pow(taille,3))
+    System.out.print(f);
+    System.out.print(PVector.mult(g, masse));
+    System.out.print(g);
+    System.out.println(PVector.mult(v, -6*PI*taille*viscosite));
     this.v = this.v.add(f.div(parsec*this.masse));
     this.position = this.position.add(this.v.div(parsec));
   }
