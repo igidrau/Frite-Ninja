@@ -1,5 +1,5 @@
 Fenetre fenetre;
-Patate test = new Patate(300, 300, 0, 0, 5, 10, 0);
+Patate test = new Patate(300, 300, 4, 4, 5, 10, 0);
 
 
 void setup() {
