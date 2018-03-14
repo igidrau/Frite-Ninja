@@ -1,18 +1,21 @@
 final PVector g = new PVector(0, -9.86);
 final float G = 6.67*(10^(-11));
-final float viscosite = 0.017*(10^-3);
-final float densite = 0;
-final float parsec = 2.5;
+final float viscosite = 0.001002;//0.000017;
+final float densite = 1;
+final float parsec = 500;
+final float echelle = 300;
+final float mvpatate = 0.9;
+
 
 class Patate{
   int type;
   float masse, taille;
   PImage img;
   PVector position, v;
-  public Patate(int x, int y, int vx, int vy, int masse, float taille, int type){
+  public Patate(int x, int y, float vx, float vy, float taille, int type){
     this.position = new PVector(x, y);
     this.v = new PVector(vx, vy);
-    this.masse = masse;
+    this.masse = 4*PI/3*pow(taille,3)*mvpatate;
     this.taille = taille;
     this.type = type;
     
@@ -24,14 +27,17 @@ class Patate{
   }
   
   void mouvementTerrestre(){
-    
-    PVector f = PVector.mult(g, masse).add(PVector.mult(v, -6*PI*taille*viscosite));//*(1-densite*4*PI/3*pow(taille,3))
-    System.out.print(f);
-    System.out.print(PVector.mult(g, masse));
-    System.out.print(g);
-    System.out.println(PVector.mult(v, -6*PI*taille*viscosite));
-    this.v = this.v.add(f.div(parsec*this.masse));
-    this.position = this.position.add(this.v.div(parsec));
+    PVector grav = PVector.mult(g, masse);
+    PVector frottement = PVector.mult(v, -6*PI*taille*viscosite);
+    PVector f = PVector.add(grav, frottement).add(PVector.mult(g, -densite*4*PI/3*pow(taille,3)));
+    PVector a = PVector.div(f, this.masse);
+    /*System.out.print(f);
+    System.out.print(a);
+    System.out.print(PVector.mult(v, -6*PI*taille*viscosite));
+    System.out.print(this.position);
+    System.out.println(this.v);*/
+    this.v = PVector.add(v, PVector.div(a, parsec));
+    this.position = PVector.add(this.position, PVector.div(this.v, parsec/echelle));
   }
   /*
   void mouvementGeo(){
