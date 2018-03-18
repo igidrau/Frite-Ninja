@@ -3,7 +3,7 @@ final float parsec = 1; // le nombre d'images par seconde
 final float echelleTerre = 300; // pxl/m
 final float echelleGeopw = 4.5; //(10^)pxl/m
 
-interface Fenetre {
+static interface Fenetre {
   PGraphics getContenu() ;
   
   void mousePress();
