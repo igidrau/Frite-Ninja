@@ -1,5 +1,5 @@
 // Une interface qui permet notamment de séparer les fonctions draw(), mouseClick() etc. pour chaque affichage.
-final float parsec = 1; // le nombre d'images par seconde
+final float parsec = 0.25; // le nombre d'images par seconde
 final float echelleTerre = 300; // pxl/m
 final float echelleGeopw = 4.5; //(10^)pxl/m
 
@@ -89,7 +89,7 @@ class JeuGeo implements Fenetre {
   
   void drow(){
     //println(test.size());
-    //clear();
+    clear();
     translate(displayWidth/2, displayHeight/2);
     rotate(PI);
     ellipse(0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
@@ -107,12 +107,13 @@ class JeuGeo implements Fenetre {
   }
   
   void creerPatate(){
-    float angle = 0.0;//random(2*PI);
+    float angle = random(2*PI);//random(2*PI);
     PVector depart;
     Patate test1;
     depart = PVector.fromAngle(angle);
-    depart.mult((rTerrenb+0.1) * pow(10,rTerrepw));
-    test1 = new Patate(depart.x, depart.y, 0, 14000, 0.2, 0);
+    depart.mult((rTerrenb) * pow(10,rTerrepw));
+    PVector vitesse = PVector.fromAngle(angle+random(-PI/2,PI/2)).mult(random(8000,14500));
+    test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, 0.2, 0);
     test.add(test1);
   }
 }
