@@ -6,7 +6,7 @@ int nbpatates = 30;
 void setup() {
   fullScreen();
   frameRate(1000);
-  fenetre = new JeuGeo(createGraphics(displayWidth, displayHeight));
+  fenetre = new JeuTerre(createGraphics(displayWidth, displayHeight));
 }
 
 void draw() {
