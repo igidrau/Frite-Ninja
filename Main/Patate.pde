@@ -1,9 +1,9 @@
 final PVector g = new PVector(0, -9.86);
 final float Gnb = 6.67; //SI
 final int Gpw = -11;
-final float viscosite = 0.000017; //0.01002 (air : 0.000017, eau : 0.001002 (remonté à 0.01002 pour accentuer l'effet)) SI
+final float viscosite = 0.000017; // (air : 0.000017, eau : 0.001002 (remonté à 0.002002 pour accentuer l'effet)) SI
 final float densite = 0; //1 (air : 0, eau : 1) kg/L
-final float mvpatate = 1; // la densité d'une patate (à ajuster) kg/L
+final float mvpatate = 1.1; // la densité d'une patate (à ajuster) kg/L
 final float mTerrenb = 5.9722; //kg
 final int mTerrepw = 24;
 final float rTerrenb = 3.1855; //m
@@ -23,11 +23,13 @@ class Patate{
     this.taille = taille;
     this.type = type;
     
+    String nom ="";
     if (type == 0){
-      this.img = loadImage("images/patate-" + type + "-" + int(random(3))); //chargement du skin de la patate en fonction de son type (non fonctionnel)
+      nom = "patate-" +type + "-" + int(random(3)) + ".png";
     }else{
-      this.img = loadImage("images/patate-" + type);
+      nom = "patate-" + type + ".png";
     }
+    this.img = loadImage(nom);
   }
   
   void mouvementTerrestre(){ //simule le déplacement d'une patate dans un référentiel terrestre (fonctionnel)
@@ -46,12 +48,5 @@ class Patate{
     PVector a = PVector.div(this.position, d).mult(-pds/this.masse);
     this.v.add(PVector.div(a,parsec));
     this.position.add(PVector.div(this.v, parsec));
-    print(pds);
-    print("  ");
-    print(alpha*360/PI);
-    println(" ");
-    print(a);
-    print(this.v);
-    println(this.position);
   }
 }
