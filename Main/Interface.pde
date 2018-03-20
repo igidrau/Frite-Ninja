@@ -1,5 +1,5 @@
 // Une interface qui permet notamment de séparer les fonctions draw(), mouseClick() etc. pour chaque affichage.
-final float parsec = 0.25; // le nombre d'images par seconde
+float parsec; // le nombre d'images par seconde
 final float echelleTerre = 300; // pxl/m
 final float echelleGeopw = 4.5; //(10^)pxl/m
 
@@ -35,9 +35,7 @@ class JeuTerre implements Fenetre {
   private PGraphics contenu;
   public JeuTerre(PGraphics contenu) {
     contenu.beginDraw();
-    for(int i=0; i<nbpatates; i++){
-      this.creerPatate();
-    }
+    parsec = 500;
     contenu.endDraw();
     this.contenu = contenu;
   }
@@ -47,11 +45,11 @@ class JeuTerre implements Fenetre {
   }
   
   void drow(){
-    //clear();
+    clear();
     translate(displayWidth, displayHeight);
     rotate(PI);
     for(Patate i : test){
-      ellipse(i.position.x*echelleTerre, i.position.y*echelleTerre, 10, 10);
+      image(i.img, i.position.x*echelleTerre, i.position.y*echelleTerre, (int)displayWidth/40, (int)displayWidth/30);
       i.mouvementTerrestre();
     }
     for(int i=test.size()-1; i>=0; i--)
@@ -76,9 +74,7 @@ class JeuGeo implements Fenetre {
   private PGraphics contenu;
   public JeuGeo(PGraphics contenu) {
     contenu.beginDraw();
-    /*for(int i=0; i<nbpatates; i++){
-      this.creerPatate();
-    }*/
+    parsec = 0.2;
     contenu.endDraw();
     this.contenu = contenu;
   }
@@ -88,7 +84,6 @@ class JeuGeo implements Fenetre {
   }
   
   void drow(){
-    //println(test.size());
     clear();
     translate(displayWidth/2, displayHeight/2);
     rotate(PI);
@@ -98,8 +93,10 @@ class JeuGeo implements Fenetre {
       i.mouvementGeo();
     }
     for(int i=test.size()-1; i>=0; i--)
-      if(sqrt(pow(test.get(i).position.x,2)+pow(test.get(i).position.y,2))<rTerrenb*pow(10,rTerrepw))
+      if(sqrt(pow(test.get(i).position.x,2)+pow(test.get(i).position.y,2))<rTerrenb*pow(10,rTerrepw)){
         test.remove(i);
+        this.creerPatate();
+      }
   }
   
   void mousePress(){
@@ -112,7 +109,7 @@ class JeuGeo implements Fenetre {
     Patate test1;
     depart = PVector.fromAngle(angle);
     depart.mult((rTerrenb) * pow(10,rTerrepw));
-    PVector vitesse = PVector.fromAngle(angle+random(-PI/2,PI/2)).mult(random(8000,14500));
+    PVector vitesse = PVector.fromAngle(angle+random(-PI/2,PI/2)).mult(random(10000,14500));
     test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, 0.2, 0);
     test.add(test1);
   }
