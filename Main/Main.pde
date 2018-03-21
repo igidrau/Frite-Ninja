@@ -5,13 +5,20 @@ int nbpatates = 30;
 
 void setup() {
   fullScreen();
-  frameRate(1000);
-  fenetre = new JeuTerre(createGraphics(displayWidth, displayHeight));
+  frameRate(60);
+  fenetre = new Menu();
 }
 
 void draw() {
   if(fenetre!=null)
     fenetre.drow();
+}
+
+
+void mouseClicked() {
+  if(fenetre != null){
+    fenetre.mouseClick();
+  }
 }
 
 void mousePressed() {
