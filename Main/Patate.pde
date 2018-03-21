@@ -33,11 +33,11 @@ class Patate{
   }
   
   void mouvementTerrestre(){ //simule le déplacement d'une patate dans un référentiel terrestre (fonctionnel)
-    PVector grav = PVector.mult(g, masse);
-    PVector frottement = PVector.mult(v, -6*PI*taille*viscosite);
-    PVector f = PVector.add(grav, frottement).add(PVector.mult(g, -densite*4*PI/3*pow(taille,3)));
-    PVector a = PVector.div(f, this.masse);
-    this.v = PVector.add(v, PVector.div(a, parsec));
+    //PVector grav = PVector.mult(g, masse);
+    //PVector frottement = PVector.mult(v, -6*PI*taille*viscosite);
+    //PVector a = PVector.mult(g, masse).add(PVector.mult(v, -6*PI*taille*viscosite)).add(PVector.mult(g, -densite*4*PI/3*pow(taille,3))).div(this.masse);
+    //PVector a = PVector.div(f, this.masse);
+    this.v = PVector.add(v, PVector.div(PVector.mult(g, masse).add(PVector.mult(v, -6*PI*taille*viscosite)).add(PVector.mult(g, -densite*4*PI/3*pow(taille,3))).div(this.masse), parsec));
     this.position = PVector.add(this.position, PVector.div(this.v, parsec));
   }
   
