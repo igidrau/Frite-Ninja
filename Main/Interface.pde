@@ -2,6 +2,7 @@
 float parsec; // le nombre d'images par seconde
 final float echelleTerre = 300; // pxl/m
 final float echelleGeopw = 4.5; //(10^)pxl/m
+PImage doigt;
 
 static interface Fenetre {
   
@@ -47,12 +48,15 @@ class JeuTerre implements Fenetre {
   
   public JeuTerre() {
     parsec = 200;
+    imageMode(CENTER);
+    doigt = loadImage("RACKET-1-OMBRE.png");
   }
   
 
   
   void drow(){
     clear();
+    background(255);
     translate(displayWidth, displayHeight);
     rotate(PI);
     for(Patate i : test){
@@ -64,6 +68,12 @@ class JeuTerre implements Fenetre {
         test.remove(i);
         creerPatate();
       }
+    
+    if(mousePressed){
+      rotate(PI);
+      image(doigt,mouseX-displayWidth , mouseY-displayHeight, 100, 100);
+    }  
+      
   }
   
   void mousePress(){
@@ -81,11 +91,13 @@ class JeuTerre implements Fenetre {
 class JeuGeo implements Fenetre {
   
   public JeuGeo() {
-    parsec = 0.2;
+    parsec = 0.1;
+    doigt = loadImage("RACKET-1-OMBRE.png");
   }
   
   void drow(){
     clear();
+    background(255);
     translate(displayWidth/2, displayHeight/2);
     rotate(PI);
     ellipse(0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
@@ -98,6 +110,11 @@ class JeuGeo implements Fenetre {
         test.remove(i);
         this.creerPatate();
       }
+      
+    if(mousePressed){
+      rotate(PI);
+      image(doigt,mouseX-displayWidth/2 , mouseY-displayHeight/2, 100, 100);
+    }
   }
   
   void mousePress(){
