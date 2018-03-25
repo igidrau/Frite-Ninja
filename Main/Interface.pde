@@ -1,8 +1,8 @@
 // Une interface qui permet notamment de séparer les fonctions draw(), mouseClick() etc. pour chaque affichage.
 float parsec; // le nombre d'images par seconde
-final float echelleTerre = 300; // pxl/m
+final int echelleTerre = 300; // pxl/m
 final float echelleGeopw = 4.5; //(10^)pxl/m
-PImage doigt;
+
 
 static interface Fenetre {
   
@@ -46,8 +46,10 @@ class Menu implements Fenetre {
 
 class JeuTerre implements Fenetre {
   
+  PImage doigt;
   public JeuTerre() {
-    parsec = 200;
+    parsec = 100;
+    creerPatate();
     imageMode(CENTER);
     doigt = loadImage("RACKET-1-OMBRE.png");
   }
@@ -57,39 +59,52 @@ class JeuTerre implements Fenetre {
   void drow(){
     clear();
     background(255);
-    translate(displayWidth, displayHeight);
-    rotate(PI);
+    //translate(displayWidth, displayHeight);
+    //rotate(PI);
     for(Patate i : test){
-      image(i.img, i.position.x*echelleTerre, i.position.y*echelleTerre, (int)displayWidth/10, (int)displayWidth/7);
+      translate(displayWidth-i.position.x*echelleTerre, displayHeight-i.position.y*echelleTerre);
+      image(i.img, 0, 0, (int)displayWidth/10, (int)displayWidth/7);
       i.mouvementTerrestre();
+      translate(i.position.x*echelleTerre-displayWidth, i.position.y*echelleTerre-displayHeight);
     }
-    for(int i=test.size()-1; i>=0; i--)
+    for(int i=test.size()-1; i>=0; i--){
       if(test.get(i).position.y<-0.5){
         test.remove(i);
-        creerPatate();
       }
+    }
     
     if(mousePressed){
-      rotate(PI);
-      image(doigt,mouseX-displayWidth , mouseY-displayHeight, 100, 100);
-    }  
+      //rotate(PI);
+      image(doigt,mouseX, mouseY, 100, 100);
+      for(int i=test.size()-1; i>=0; i--){
+        if(abs(test.get(i).position.y*echelleTerre+(mouseY-displayHeight))<70 && abs(test.get(i).position.x*echelleTerre+(mouseX-displayWidth))<50){
+          test.remove(i);
+        }
+      }
+    }
+    if((int)random(100)==1)
+      creerPatate();
       
   }
   
   void mousePress(){
-    this.creerPatate();
+    //this.creerPatate();
   }
   
   void mouseClick(){}
   
   void creerPatate(){
-    Patate test1 = new Patate(random(displayWidth/echelleTerre), 0, random(-3, 3), random(4, 7), random(0.05,0.2), 0);
+    int type = (int)random(10);
+    if(type>4)
+      type = 0;
+    Patate test1 = new Patate(random(displayWidth/echelleTerre), 0, random(-3, 3), random(4, 7), random(0.025,0.1), type);
     test.add(test1);
   }
 }
 
 class JeuGeo implements Fenetre {
   
+  PImage doigt;
   public JeuGeo() {
     parsec = 0.1;
     doigt = loadImage("RACKET-1-OMBRE.png");
