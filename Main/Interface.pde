@@ -40,7 +40,7 @@ class Menu implements Fenetre {
   
   void mouseClick(){
     if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2))
-      fenetre = new JeuTerre();
+      fenetre = new JeuGeo();
   }
 }
 
@@ -59,8 +59,6 @@ class JeuTerre implements Fenetre {
   void drow(){
     clear();
     background(255);
-    //translate(displayWidth, displayHeight);
-    //rotate(PI);
     for(Patate i : test){
       translate(displayWidth-i.position.x*echelleTerre, displayHeight-i.position.y*echelleTerre);
       image(i.img, 0, 0, (int)displayWidth/10, (int)displayWidth/7);
@@ -106,7 +104,8 @@ class JeuGeo implements Fenetre {
   
   PImage doigt;
   public JeuGeo() {
-    parsec = 0.1;
+    parsec = 0.05;
+    creerPatate();
     doigt = loadImage("RACKET-1-OMBRE.png");
   }
   
@@ -114,10 +113,9 @@ class JeuGeo implements Fenetre {
     clear();
     background(255);
     translate(displayWidth/2, displayHeight/2);
-    rotate(PI);
     ellipse(0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
     for(Patate i : test){
-      ellipse(i.position.x*pow(10, -echelleGeopw), i.position.y*pow(10, -echelleGeopw), 10, 10);
+      image(i.img, i.position.x*pow(10, -echelleGeopw), i.position.y*pow(10, -echelleGeopw), (int)displayWidth/20, (int)displayWidth/14);
       i.mouvementGeo();
     }
     for(int i=test.size()-1; i>=0; i--)
@@ -125,27 +123,35 @@ class JeuGeo implements Fenetre {
         test.remove(i);
         this.creerPatate();
       }
-      
     if(mousePressed){
-      rotate(PI);
       image(doigt,mouseX-displayWidth/2 , mouseY-displayHeight/2, 100, 100);
+      for(int i=test.size()-1; i>=0; i--){
+        if(abs(test.get(i).position.y*pow(10,-echelleGeopw)-(mouseY-displayHeight/2))<70 && abs(test.get(i).position.x*pow(10,-echelleGeopw)-(mouseX-displayWidth/2))<50){
+          test.remove(i);
+        }
+      }
     }
+    if((int)random(50)==1)
+      creerPatate();
   }
   
   void mousePress(){
-    creerPatate();
+    //creerPatate();
   }
   
   void mouseClick(){}
   
   void creerPatate(){
+    int type = (int)random(10);
+    if(type>4)
+      type = 0;
     float angle = random(2*PI);//random(2*PI);
     PVector depart;
     Patate test1;
     depart = PVector.fromAngle(angle);
     depart.mult((rTerrenb) * pow(10,rTerrepw));
-    PVector vitesse = PVector.fromAngle(angle+random(-PI/2,PI/2)).mult(random(10000,14500));
-    test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, 0.2, 0);
+    PVector vitesse = PVector.fromAngle(angle+random(-PI/2,PI/2)).mult(random(12000,15000));
+    test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, random(0.05,0.1), type);
     test.add(test1);
   }
 }
