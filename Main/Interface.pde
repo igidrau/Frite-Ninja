@@ -129,17 +129,21 @@ class JeuTerre implements Fenetre {
 
 class JeuGeo implements Fenetre {
   
-  PImage doigt, terre;
+  PImage doigt, terre, fond;
   public JeuGeo() {
     parsec = 0.05;
     doigt = loadImage("RACKET-1-OMBRE.png");
+    terre = loadImage("Terre.png");
+    fond = loadImage("fond-geo.png");
+    fond.resize(displayWidth,displayHeight);
   }
   
   void drow(){
     clear();
-    background(255);
+    background(fond);
+    //image(fond,displayWidth/2,displayHeight/2,displayWidth,displayHeight);
     translate(displayWidth/2, displayHeight/2);
-    ellipse(0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
+    image(terre, 0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
     for(Patate i : test){
       translate(i.position.x*pow(10,-echelleGeopw), i.position.y*pow(10,-echelleGeopw));
       //rotate(atan(i.v.y/i.v.x));
@@ -185,4 +189,3 @@ class JeuGeo implements Fenetre {
     test.add(test1);
   }
 }
-
