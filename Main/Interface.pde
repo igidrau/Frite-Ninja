@@ -17,7 +17,7 @@ class Menu implements Fenetre {
   
   PImage jouer, boutique, parametre, m_score, quitter, instruct;
   public Menu() {
-    jouer = loadImage("bouton-0.png");
+    jouer = loadImage("bouton-0.png"); //chargement des boutons du menu
     boutique = loadImage("bouton-1.png");
     parametre = loadImage("bouton-3.png");
     m_score = loadImage("bouton-2.png");
@@ -27,7 +27,7 @@ class Menu implements Fenetre {
   }
   
   void drow(){
-    imageMode(CENTER);
+    imageMode(CENTER); //affichage des boutons du menu
     image(this.jouer,displayWidth/2, displayHeight/3);
     image(this.boutique,displayWidth/2, 2*displayHeight/3);
     image(this.parametre, displayWidth - 188/2, displayHeight-(displayHeight - 143/2));
@@ -39,7 +39,7 @@ class Menu implements Fenetre {
   void mousePress(){}
   
   void mouseClick(){
-    if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2))
+    if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2)) //bouton jouer
       fenetre = new MenuJeu();
   }
 }
@@ -49,12 +49,12 @@ class MenuJeu implements Fenetre {
   PImage b_classique, b_espace;
   
   public MenuJeu(){
-  b_classique = loadImage("bouton-7.png");
+  b_classique = loadImage("bouton-7.png"); //chargement des boutons
   b_espace = loadImage("bouton-8.png");
   }
   
   void drow(){
-    imageMode(CENTER);
+    imageMode(CENTER); //affichage des boutons
     image(this.b_classique,displayWidth/2, displayHeight/3);
     image(this.b_espace,displayWidth/2, 2*displayHeight/3);
   }
@@ -73,7 +73,7 @@ class JeuTerre implements Fenetre {
   
   PImage doigt;
   public JeuTerre() {
-    parsec = 100;
+    parsec = 80;
     creerPatate();
     imageMode(CENTER);
     doigt = loadImage("RACKET-1-OMBRE.png");
@@ -83,23 +83,23 @@ class JeuTerre implements Fenetre {
   
   void drow(){
     clear();
-    background(255);
-    //translate(displayWidth, displayHeight);
-    //rotate(PI);
+    background(#ffdd99);
     for(Patate i : test){
       translate(displayWidth-i.position.x*echelleTerre, displayHeight-i.position.y*echelleTerre);
+      //rotate(atan(i.v.y/i.v.x));
       image(i.img, 0, 0, (int)displayWidth/10, (int)displayWidth/7);
-      i.mouvementTerrestre();
+      //rotate(-atan(i.v.y/i.v.x));
       translate(i.position.x*echelleTerre-displayWidth, i.position.y*echelleTerre-displayHeight);
+      i.mouvementTerrestre();
     }
     for(int i=test.size()-1; i>=0; i--){
       if(test.get(i).position.y<-0.5){
         test.remove(i);
+        creerPatate();
       }
     }
     
     if(mousePressed){
-      //rotate(PI);
       image(doigt,mouseX, mouseY, 100, 100);
       for(int i=test.size()-1; i>=0; i--){
         if(abs(test.get(i).position.y*echelleTerre+(mouseY-displayHeight))<70 && abs(test.get(i).position.x*echelleTerre+(mouseX-displayWidth))<50){
@@ -129,10 +129,9 @@ class JeuTerre implements Fenetre {
 
 class JeuGeo implements Fenetre {
   
-  PImage doigt;
+  PImage doigt, terre;
   public JeuGeo() {
     parsec = 0.05;
-    creerPatate();
     doigt = loadImage("RACKET-1-OMBRE.png");
   }
   
@@ -142,7 +141,11 @@ class JeuGeo implements Fenetre {
     translate(displayWidth/2, displayHeight/2);
     ellipse(0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
     for(Patate i : test){
-      image(i.img, i.position.x*pow(10, -echelleGeopw), i.position.y*pow(10, -echelleGeopw), (int)displayWidth/20, (int)displayWidth/14);
+      translate(i.position.x*pow(10,-echelleGeopw), i.position.y*pow(10,-echelleGeopw));
+      //rotate(atan(i.v.y/i.v.x));
+      image(i.img, 0, 0, (int)displayWidth/20, (int)displayWidth/14);
+      //rotate(-atan(i.v.y/i.v.x));
+      translate(-i.position.x*pow(10,-echelleGeopw), -i.position.y*pow(10,-echelleGeopw));
       i.mouvementGeo();
     }
     for(int i=test.size()-1; i>=0; i--)
