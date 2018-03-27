@@ -17,13 +17,13 @@ class Patate{
   PImage img;
   PVector position, v;
   public Patate(float x, float y, float vx, float vy, float taille, int type){
-    this.position = new PVector(x, y);
-    this.v = new PVector(vx, vy);
+    this.position = new PVector(x, y); //vecteur position
+    this.v = new PVector(vx, vy); //vecteur vitesse
     this.masse = 4*PI/3*pow(taille,3)*mvpatate; //calcul de la masse en fonction du diamètre et de la densité
     this.taille = taille;
     this.type = type;
     
-    String nom ="";
+    String nom =""; //importation de l'image de la patate en fonction de son type
     if (type == 0){
       nom = "patate-" +type + "-" + int(random(3)) + ".png";
     }else{
@@ -33,20 +33,19 @@ class Patate{
   }
   
   void mouvementTerrestre(){ //simule le déplacement d'une patate dans un référentiel terrestre (fonctionnel)
-    //PVector grav = PVector.mult(g, masse);
-    //PVector frottement = PVector.mult(v, -6*PI*taille*viscosite);
-    //PVector a = PVector.mult(g, masse).add(PVector.mult(v, -6*PI*taille*viscosite)).add(PVector.mult(g, -densite*4*PI/3*pow(taille,3))).div(this.masse);
-    //PVector a = PVector.div(f, this.masse);
-    this.v = PVector.add(v, PVector.div(PVector.mult(g, masse).add(PVector.mult(v, -6*PI*taille*viscosite)).add(PVector.mult(g, -densite*4*PI/3*pow(taille,3))).div(this.masse), parsec));
-    this.position = PVector.add(this.position, PVector.div(this.v, parsec));
+    PVector grav = PVector.mult(g, masse); //vecteur force gravitationnelle
+    PVector frottement = PVector.mult(v, -6*PI*taille*viscosite); //vecteur force de friction
+    PVector archimede = PVector.mult(g, -densite*4*PI/3*pow(taille,3)); //vecteur poussée d'Archimède
+    PVector a = grav.add(frottement).add(archimede).div(this.masse); //vecteur accélération
+    this.v = PVector.add(v, PVector.div(a, parsec)); //vecteur vitesse
+    this.position = PVector.add(this.position, PVector.div(this.v, parsec)); //vecteur position
   }
   
-  void mouvementGeo(){ //simule le déplacement d'une patate dans un référentiel géocentrique (non fonctionnel)
+  void mouvementGeo(){ //simule le déplacement d'une patate dans un référentiel géocentrique (fonctionnel)
     float d = sqrt(pow(this.position.x,2)+pow(this.position.y,2));
-    float pds = Gnb*mTerrenb*this.masse/pow(d,2) * pow(10, Gpw+mTerrepw);
-    float alpha = atan(this.position.y/this.position.x)%(2*PI);
-    PVector a = PVector.div(this.position, d).mult(-pds/this.masse);
-    this.v.add(PVector.div(a,parsec));
-    this.position.add(PVector.div(this.v, parsec));
+    float pds = Gnb*mTerrenb*this.masse/pow(d,2) * pow(10, Gpw+mTerrepw); //valeur du poids
+    PVector a = PVector.div(this.position, d).mult(-pds/this.masse); //vecteur accélération
+    this.v.add(PVector.div(a,parsec)); //vecteur vitesse
+    this.position.add(PVector.div(this.v, parsec)); //vecteur position
   }
 }
