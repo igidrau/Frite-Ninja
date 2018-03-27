@@ -40,6 +40,31 @@ class Menu implements Fenetre {
   
   void mouseClick(){
     if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2))
+      fenetre = new MenuJeu();
+  }
+}
+
+class MenuJeu implements Fenetre {
+ 
+  PImage b_classique, b_espace;
+  
+  public MenuJeu(){
+  b_classique = loadImage("bouton-7.png");
+  b_espace = loadImage("bouton-8.png");
+  }
+  
+  void drow(){
+    imageMode(CENTER);
+    image(this.b_classique,displayWidth/2, displayHeight/3);
+    image(this.b_espace,displayWidth/2, 2*displayHeight/3);
+  }
+  
+  void mousePress(){}
+  
+  void mouseClick(){
+    if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2))
+      fenetre = new JeuTerre();
+    else if (((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2)))
       fenetre = new JeuGeo();
   }
 }
@@ -59,6 +84,8 @@ class JeuTerre implements Fenetre {
   void drow(){
     clear();
     background(255);
+    //translate(displayWidth, displayHeight);
+    //rotate(PI);
     for(Patate i : test){
       translate(displayWidth-i.position.x*echelleTerre, displayHeight-i.position.y*echelleTerre);
       image(i.img, 0, 0, (int)displayWidth/10, (int)displayWidth/7);
@@ -155,3 +182,4 @@ class JeuGeo implements Fenetre {
     test.add(test1);
   }
 }
+
