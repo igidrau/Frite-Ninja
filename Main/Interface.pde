@@ -122,7 +122,13 @@ class JeuTerre implements Fenetre {
     int type = (int)random(10);
     if(type>4)
       type = 0;
-    Patate test1 = new Patate(random(displayWidth/echelleTerre), 0, random(-3, 3), random(4, 7), random(0.025,0.1), type, random(-PI/8, PI/8));
+    float tourne;
+    if(type == 4){
+      tourne = 0;
+    }else{
+      tourne = random(-PI/8, PI/8);
+    }
+    Patate test1 = new Patate(random(displayWidth/echelleTerre), 0, random(-3, 3), random(4, 7), random(0.025,0.1), type, tourne);
     test.add(test1);
   }
 }
@@ -185,7 +191,13 @@ class JeuGeo implements Fenetre {
     depart = PVector.fromAngle(angle);
     depart.mult((rTerrenb) * pow(10,rTerrepw));
     PVector vitesse = PVector.fromAngle(angle+random(-PI/2,PI/2)).mult(random(12000,15000));
-    test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, random(0.05,0.1), type, random(-PI/8, PI/8));
+    float tourne;
+    if(type == 4){
+      tourne = 0;
+    }else{
+      tourne = random(-PI/8, PI/8);
+    }
+    test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, random(0.05,0.1), type, tourne);
     test.add(test1);
   }
 }
