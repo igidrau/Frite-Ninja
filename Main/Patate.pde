@@ -13,15 +13,18 @@ final PVector terre = new PVector(0,0);
 
 class Patate{
   int type;
-  float masse, taille;
+  float masse, taille, tourne, rotation;
   PImage img;
   PVector position, v;
-  public Patate(float x, float y, float vx, float vy, float taille, int type){
+  public Patate(float x, float y, float vx, float vy, float taille, int type, float rotation){
     this.position = new PVector(x, y); //vecteur position
     this.v = new PVector(vx, vy); //vecteur vitesse
     this.masse = 4*PI/3*pow(taille,3)*mvpatate; //calcul de la masse en fonction du diamètre et de la densité
     this.taille = taille;
     this.type = type;
+    
+    this.rotation = rotation;
+    this.tourne = 0;
     
     String nom =""; //importation de l'image de la patate en fonction de son type
     if (type == 0){
@@ -39,6 +42,7 @@ class Patate{
     PVector a = grav.add(frottement).add(archimede).div(this.masse); //vecteur accélération
     this.v = PVector.add(v, PVector.div(a, parsec)); //vecteur vitesse
     this.position = PVector.add(this.position, PVector.div(this.v, parsec)); //vecteur position
+    this.tourne+=this.rotation;
   }
   
   void mouvementGeo(){ //simule le déplacement d'une patate dans un référentiel géocentrique (fonctionnel)
@@ -47,5 +51,6 @@ class Patate{
     PVector a = PVector.div(this.position, d).mult(-pds/this.masse); //vecteur accélération
     this.v.add(PVector.div(a,parsec)); //vecteur vitesse
     this.position.add(PVector.div(this.v, parsec)); //vecteur position
+    this.tourne+=this.rotation;
   }
 }
