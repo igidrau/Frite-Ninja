@@ -2,7 +2,7 @@
 float parsec; // le nombre d'images par seconde
 final int echelleTerre = 300; // pxl/m
 final float echelleGeopw = 4.5; //(10^)pxl/m
-int score, meilleur_score;
+int score, meilleur_score, vie, frequence;
 
 
 static interface Fenetre {
@@ -81,7 +81,6 @@ class JeuTerre implements Fenetre {
   
   PFont police;
   PImage doigt, fond_cuisine;
-  int vie_classic, frequence;
   public JeuTerre() {
     parsec = 80;
     creerPatate();
@@ -92,7 +91,7 @@ class JeuTerre implements Fenetre {
     //textFont(police, 32);
     textSize(25);
     score = 0;
-    vie_classic = 5;
+    vie = 5;
     frequence = 60;
     fill(255);
     fond_cuisine.resize(displayWidth,displayHeight);
@@ -104,7 +103,7 @@ class JeuTerre implements Fenetre {
     clear();
     background(fond_cuisine);
     text("score: "+str(score), displayWidth/10, 50);
-    text("vie: "+str(vie_classic),9*displayWidth/10, 50);
+    text("vie: "+str(vie),9*displayWidth/10, 50);
     
     for(Patate i : test){
       translate(displayWidth-i.position.x*echelleTerre, displayHeight-i.position.y*echelleTerre);
@@ -117,7 +116,7 @@ class JeuTerre implements Fenetre {
     for(int i=test.size()-1; i>=0; i--){
       if(test.get(i).position.y<-0.5){
         test.remove(i);
-        vie_classic -= 1;
+        vie -= 1;
         creerPatate();
         
       }
@@ -142,15 +141,13 @@ class JeuTerre implements Fenetre {
     if((int)random(frequence)==1)
       creerPatate();
       
-    if(vie_classic <= 0){
+    if(vie <= 0){
       background(fond_cuisine);
       fenetre = new EcranScore();
     }
   }
   
-  void mousePress(){
-    //this.creerPatate();
-  }
+  void mousePress(){}
   
   void mouseClick(){}
   
@@ -176,7 +173,11 @@ class JeuGeo implements Fenetre {
   
   PImage doigt, terre, fond;
   public JeuGeo() {
+    textSize(25);
     parsec = 0.05;
+    score = 0;
+    vie = 5;
+    frequence = 60;
     doigt = loadImage("RACKET-1-OMBRE.png");
     terre = loadImage("Terre.png");
     fond = loadImage("fond-geo.png");
@@ -186,7 +187,8 @@ class JeuGeo implements Fenetre {
   void drow(){
     clear();
     background(fond);
-    //image(fond,displayWidth/2,displayHeight/2,displayWidth,displayHeight);
+    text("score: "+str(score), displayWidth/10, 50);
+    text("vie: "+str(vie),9*displayWidth/10, 50);
     translate(displayWidth/2, displayHeight/2);
     image(terre, 0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
     for(Patate i : test){
@@ -200,6 +202,7 @@ class JeuGeo implements Fenetre {
     for(int i=test.size()-1; i>=0; i--)
       if(sqrt(pow(test.get(i).position.x,2)+pow(test.get(i).position.y,2))<rTerrenb*pow(10,rTerrepw)){
         test.remove(i);
+        vie -= 1;
         this.creerPatate();
       }
     if(mousePressed){
@@ -207,16 +210,30 @@ class JeuGeo implements Fenetre {
       for(int i=test.size()-1; i>=0; i--){
         if(abs(test.get(i).position.y*pow(10,-echelleGeopw)-(mouseY-displayHeight/2))<70 && abs(test.get(i).position.x*pow(10,-echelleGeopw)-(mouseX-displayWidth/2))<50){
           test.remove(i);
+          score += 1;
         }
       }
     }
-    if((int)random(50)==1)
+    
+     if(score >= 10)
+      frequence = 40;
+    if(score >= 50)
+      frequence = 20;
+    if (score >= 100)
+      frequence = 10;
+      
+    if((int)random(frequence)==1)
       creerPatate();
+      
+    if(vie <= 0){
+      background(fond);
+      translate(-displayWidth/2, -displayHeight/2);
+      fenetre = new EcranScore();
+    }
+    
   }
   
-  void mousePress(){
-    //creerPatate();
-  }
+  void mousePress(){}
   
   void mouseClick(){}
   
