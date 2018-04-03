@@ -155,6 +155,9 @@ class JeuTerre implements Fenetre {
   void mouseClick(){}
   
   void creerPatate(){
+    int type = (int)random(10);
+    if(type>4)
+      type = 0;
     float tourne;
     if(type == 4){
       tourne = 0;
