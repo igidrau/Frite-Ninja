@@ -108,9 +108,9 @@ class JeuTerre implements Fenetre {
     
     for(Patate i : test){
       translate(displayWidth-i.position.x*echelleTerre, displayHeight-i.position.y*echelleTerre);
-      //rotate(atan(i.v.y/i.v.x));
+      rotate(i.tourne);
       image(i.img, 0, 0, (int)displayWidth/10, (int)displayWidth/7);
-      //rotate(-atan(i.v.y/i.v.x));
+      rotate(-i.tourne);
       translate(i.position.x*echelleTerre-displayWidth, i.position.y*echelleTerre-displayHeight);
       i.mouvementTerrestre();
     }
@@ -155,10 +155,13 @@ class JeuTerre implements Fenetre {
   void mouseClick(){}
   
   void creerPatate(){
-    int type = (int)random(10);
-    if(type>4)
-      type = 0;
-    Patate test1 = new Patate(random(displayWidth/echelleTerre), 0, random(-3, 3), random(4, 7), random(0.025,0.1), type);
+    float tourne;
+    if(type == 4){
+      tourne = 0;
+    }else{
+      tourne = random(-PI/8, PI/8);
+    }
+    Patate test1 = new Patate(random(displayWidth/echelleTerre), 0, random(-3, 3), random(4, 7), random(0.025,0.1), type, tourne);
     test.add(test1);
   }
 }
@@ -185,9 +188,9 @@ class JeuGeo implements Fenetre {
     image(terre, 0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
     for(Patate i : test){
       translate(i.position.x*pow(10,-echelleGeopw), i.position.y*pow(10,-echelleGeopw));
-      //rotate(atan(i.v.y/i.v.x));
+      rotate(i.tourne);
       image(i.img, 0, 0, (int)displayWidth/20, (int)displayWidth/14);
-      //rotate(-atan(i.v.y/i.v.x));
+      rotate(-i.tourne);
       translate(-i.position.x*pow(10,-echelleGeopw), -i.position.y*pow(10,-echelleGeopw));
       i.mouvementGeo();
     }
@@ -224,7 +227,13 @@ class JeuGeo implements Fenetre {
     depart = PVector.fromAngle(angle);
     depart.mult((rTerrenb) * pow(10,rTerrepw));
     PVector vitesse = PVector.fromAngle(angle+random(-PI/2,PI/2)).mult(random(12000,15000));
-    test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, random(0.05,0.1), type);
+    float tourne;
+    if(type == 4){
+      tourne = 0;
+    }else{
+      tourne = random(-PI/8, PI/8);
+    }
+    test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, random(0.05,0.1), type, tourne);
     test.add(test1);
   }
 }
