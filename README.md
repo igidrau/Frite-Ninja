@@ -1,4 +1,6 @@
 # Frite-Ninja
 Projet de bac
 
-http://scrumblr.ca/friteninja
+Cahier des charges : http://scrumblr.ca/friteninja
+
+Bibliothèques utilisées : sound
