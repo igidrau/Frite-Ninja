@@ -3,7 +3,7 @@ float parsec; // le nombre d'images par seconde
 final int echelleTerre = 300; // pxl/m
 final float echelleGeopw = 4.5; //(10^)pxl/m
 int score, meilleur_score, vie, frequence;
-
+//boolean music, musicjeu, musicjeu2, musicdubstep, musiceau;
 
 static interface Fenetre {
   
@@ -11,6 +11,7 @@ static interface Fenetre {
   void mousePress();
   void mouseClick();
 }
+
 
 
 class Menu implements Fenetre {
@@ -24,6 +25,10 @@ class Menu implements Fenetre {
     m_score = loadImage("bouton-2.png");
     quitter = loadImage("bouton-4.png");
     instruct = loadImage("bouton-5.png");
+    //musicmenu = new SoundFile(this, "musique-menu.mp3");
+    //musicmenu.play();
+    son_musique();
+    musicmenu.loop();
 
   }
   
@@ -67,10 +72,14 @@ class MenuJeu implements Fenetre {
   void mousePress(){}
   
   void mouseClick(){
-    if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2))
+    if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2)){
+      musicmenu.stop();
       fenetre = new JeuTerre();
-    else if (((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2)))
+  }
+    else if (((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2))){
+      musicmenu.stop();
       fenetre = new JeuGeo();
+    }
   }
 }
 
@@ -87,7 +96,7 @@ class JeuTerre implements Fenetre {
     imageMode(CENTER);
     fond_cuisine = loadImage("fond_cuisine.png");
     doigt = loadImage("RACKET-1-OMBRE.png");
-    //police = loadFont("French_Fries.tff");
+    //police = loadFont("secretsauce.ttf");
     //textFont(police, 32);
     textSize(25);
     score = 0;
@@ -102,7 +111,7 @@ class JeuTerre implements Fenetre {
   void drow(){
     clear();
     background(fond_cuisine);
-    text("score: "+str(score), displayWidth/10, 50);
+    text("score: "+str(score), 50, 50);
     text("vie: "+str(vie),9*displayWidth/10, 50);
     
     for(Patate i : test){
@@ -187,7 +196,7 @@ class JeuGeo implements Fenetre {
   void drow(){
     clear();
     background(fond);
-    text("score: "+str(score), displayWidth/10, 50);
+    text("score: "+str(score), 50, 50);
     text("vie: "+str(vie),9*displayWidth/10, 50);
     translate(displayWidth/2, displayHeight/2);
     image(terre, 0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
@@ -216,11 +225,17 @@ class JeuGeo implements Fenetre {
     }
     
      if(score >= 10)
-      frequence = 40;
+      frequence = 30;
     if(score >= 50)
-      frequence = 20;
+      frequence = 15;
     if (score >= 100)
       frequence = 10;
+    if (score >= 150)
+      frequence = 8;
+    if (score >= 200)
+      frequence = 5;
+    if (score >= 400)
+      frequence = 3;
       
     if((int)random(frequence)==1)
       creerPatate();
