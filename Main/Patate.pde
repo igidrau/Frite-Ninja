@@ -1,8 +1,8 @@
 final PVector g = new PVector(0, -9.86); //Intensité de la gravité à la surface de la Terre (SI)
 final float Gnb = 6.67; //Constante gravitationnelle (SI)
 final int Gpw = -11;
-final float viscosite = 0.000017; //Viscosité du milieu (air : 0.000017, eau : 0.001002 (remonté à 0.002002 pour accentuer l'effet)) (SI)
-final float densite = 0; //Densité du milieu (air : 0, eau : 1) (kg/L)
+float viscosite = 0.000017; //Viscosité du milieu (air : 0.000017, eau : 0.001002 (remonté à 0.002002 pour accentuer l'effet)) (SI)
+float densite = 0; //Densité du milieu (air : 0, eau : 1) (kg/L)
 final float mvpatate = 1.1; //Densité d'une patate (à ajuster) (kg/L)
 final float mTerrenb = 5.9722; //Masse de la Terre (kg)
 final int mTerrepw = 24;

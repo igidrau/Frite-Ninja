@@ -2,7 +2,8 @@
 float parsec; // le nombre d'images par seconde
 final int echelleTerre = 300; // pxl/m
 final float echelleGeopw = 4.5; //(10^)pxl/m
-int score, meilleur_score, vie, frequence;
+int score, meilleur_score, vie, frequence, multiple;
+boolean mlg;
 
 
 static interface Fenetre {
@@ -24,6 +25,8 @@ class Menu implements Fenetre {
     m_score = loadImage("bouton-2.png");
     quitter = loadImage("bouton-4.png");
     instruct = loadImage("bouton-5.png");
+    musique_menu();
+    musique.loop();
 
   }
   
@@ -67,10 +70,14 @@ class MenuJeu implements Fenetre {
   void mousePress(){}
   
   void mouseClick(){
-    if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2))
+    if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2)){
+      musique.stop();
       fenetre = new JeuTerre();
-    else if (((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2)))
+    }
+    else if (((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2))){
+      musique.stop();
       fenetre = new JeuGeo();
+    }
   }
 }
 
@@ -93,8 +100,12 @@ class JeuTerre implements Fenetre {
     score = 0;
     vie = 5;
     frequence = 60;
+    multiple = 1;
+    mlg = false;
     fill(255);
     fond_cuisine.resize(displayWidth,displayHeight);
+    musique_cuisine();
+    musique.loop();
   }
   
 
@@ -115,10 +126,9 @@ class JeuTerre implements Fenetre {
     }
     for(int i=test.size()-1; i>=0; i--){
       if(test.get(i).position.y<-0.5){
+        if(test.get(i).type!=1 && mlg==false)
+          vie -= 1;        
         test.remove(i);
-        vie -= 1;
-        creerPatate();
-        
       }
     }
     
@@ -126,8 +136,8 @@ class JeuTerre implements Fenetre {
       image(doigt,mouseX, mouseY, 100, 100);
       for(int i=test.size()-1; i>=0; i--){
         if(abs(test.get(i).position.y*echelleTerre+(mouseY-displayHeight))<70 && abs(test.get(i).position.x*echelleTerre+(mouseX-displayWidth))<50){
+          coupePatate(test.get(i));
           test.remove(i);
-          score += 1;
         }
       }
     }
@@ -137,11 +147,14 @@ class JeuTerre implements Fenetre {
       frequence = 20;
     if (score >= 100)
       frequence = 10;
+    if(mlg)
+      frequence = (int) frequence/2;
       
     if((int)random(frequence)==1)
       creerPatate();
       
     if(vie <= 0){
+      musique.stop();
       background(fond_cuisine);
       fenetre = new EcranScore();
     }
@@ -158,11 +171,34 @@ class JeuTerre implements Fenetre {
     float tourne;
     if(type == 4){
       tourne = 0;
-    }else{
+    }
+    
+    else{
       tourne = random(-PI/16, PI/16);
     }
     Patate test1 = new Patate(random(displayWidth/echelleTerre), 0, random(-3, 3), random(4, 7), random(0.025,0.1), type, tourne);
     test.add(test1);
+  }
+  
+  void coupePatate(Patate coupe){
+    score += 1*multiple;
+    if(coupe.type == 1 && mlg==false){
+      vie-=1;
+      score-=1*multiple;
+    }
+    
+    else if(coupe.type == 2){
+     viscosite = 0.002;
+     densite = 1;
+    }
+    
+    else if(coupe.type == 3){
+      multiple *= 2;
+    }
+   
+    else if(coupe.type == 4){
+      mlg = true;
+    }
   }
 }
 
@@ -182,6 +218,8 @@ class JeuGeo implements Fenetre {
     terre = loadImage("Terre.png");
     fond = loadImage("fond-geo.png");
     fond.resize(displayWidth,displayHeight);
+    musique_space();
+    musique.loop();
   }
   
   void drow(){
@@ -226,6 +264,7 @@ class JeuGeo implements Fenetre {
       creerPatate();
       
     if(vie <= 0){
+      musique.stop();
       background(fond);
       translate(-displayWidth/2, -displayHeight/2);
       fenetre = new EcranScore();
