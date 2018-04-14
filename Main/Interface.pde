@@ -19,12 +19,12 @@ class Menu implements Fenetre {
   
   PImage jouer, boutique, parametre, m_score, quitter, instruct;
   public Menu() {
-    jouer = loadImage("bouton-0.png"); //chargement des boutons du menu
-    boutique = loadImage("bouton-1.png");
-    parametre = loadImage("bouton-3.png");
-    m_score = loadImage("bouton-2.png");
-    quitter = loadImage("bouton-4.png");
-    instruct = loadImage("bouton-5.png");
+    jouer = loadImage("images/boutons/bouton-0.png"); //chargement des boutons du menu
+    boutique = loadImage("images/boutons/bouton-1.png");
+    parametre = loadImage("images/boutons/bouton-3.png");
+    m_score = loadImage("images/boutons/bouton-2.png");
+    quitter = loadImage("images/boutons/bouton-4.png");
+    instruct = loadImage("images/boutons/bouton-5.png");
     musique_menu();
     musique.loop();
 
@@ -57,8 +57,8 @@ class MenuJeu implements Fenetre {
   PImage b_classique, b_espace;
   
   public MenuJeu(){
-  b_classique = loadImage("bouton-7.png"); //chargement des boutons
-  b_espace = loadImage("bouton-8.png");
+  b_classique = loadImage("images/boutons/bouton-7.png"); //chargement des boutons
+  b_espace = loadImage("images/boutons/bouton-8.png");
   }
   
   void drow(){
@@ -92,8 +92,8 @@ class JeuTerre implements Fenetre {
     parsec = 80;
     creerPatate();
     imageMode(CENTER);
-    fond_cuisine = loadImage("fond_cuisine.png");
-    doigt = loadImage("RACKET-1-OMBRE.png");
+    fond_cuisine = loadImage("images/fonds/fond_cuisine.png");
+    doigt = loadImage("images/raquettes/RACKET-1-OMBRE.png");
     //police = loadFont("French_Fries.tff");
     //textFont(police, 32);
     textSize(25);
@@ -214,9 +214,10 @@ class JeuGeo implements Fenetre {
     score = 0;
     vie = 5;
     frequence = 60;
-    doigt = loadImage("RACKET-1-OMBRE.png");
-    terre = loadImage("Terre.png");
-    fond = loadImage("fond-geo.png");
+    multiple = 1;
+    doigt = loadImage("images/raquettes/RACKET-1-OMBRE.png");
+    terre = loadImage("images/fonds/Terre.png");
+    fond = loadImage("images/fonds/fond-geo.png");
     fond.resize(displayWidth,displayHeight);
     musique_space();
     musique.loop();
@@ -247,8 +248,8 @@ class JeuGeo implements Fenetre {
       image(doigt,mouseX-displayWidth/2 , mouseY-displayHeight/2, 100, 100);
       for(int i=test.size()-1; i>=0; i--){
         if(abs(test.get(i).position.y*pow(10,-echelleGeopw)-(mouseY-displayHeight/2))<70 && abs(test.get(i).position.x*pow(10,-echelleGeopw)-(mouseX-displayWidth/2))<50){
+          coupePatate(test.get(i));
           test.remove(i);
-          score += 1;
         }
       }
     }
@@ -294,6 +295,27 @@ class JeuGeo implements Fenetre {
     }
     test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, random(0.05,0.1), type, tourne);
     test.add(test1);
+  }
+  
+  void coupePatate(Patate coupe){
+    score += 1*multiple;
+    if(coupe.type == 1 && mlg==false){
+      vie-=1;
+      score-=1*multiple;
+    }
+    
+    else if(coupe.type == 2){
+     viscosite = 0.002;
+     densite = 1;
+    }
+    
+    else if(coupe.type == 3){
+      multiple *= 2;
+    }
+   
+    else if(coupe.type == 4){
+      mlg = true;
+    }
   }
 }
 

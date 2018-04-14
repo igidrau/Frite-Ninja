@@ -27,9 +27,9 @@ class Patate{
     
     String nom =""; //importation de l'image de la patate en fonction de son type
     if (type == 0){
-      nom = "patate-" +type + "-" + int(random(3)) + ".png";
+      nom = "images/patates/patate-" +type + "-" + int(random(3)) + ".png";
     }else{
-      nom = "patate-" + type + ".png";
+      nom = "images/patates/patate-" + type + ".png";
     }
     this.img = loadImage(nom);
   }
