@@ -185,6 +185,7 @@ class JeuTerre implements Fenetre {
     if(coupe.type == 1 && mlg==false){
       vie-=1;
       score-=1*multiple;
+<<<<<<< HEAD
     }
     
     else if(coupe.type == 2){
@@ -197,6 +198,14 @@ class JeuTerre implements Fenetre {
     }
    
     else if(coupe.type == 4){
+=======
+    }else if(coupe.type == 2){
+      viscosite = 0.002002;
+      densite = 1;
+    }else if(coupe.type == 3){
+      multiple *= 2;
+    }else if(coupe.type == 4){
+>>>>>>> 8b1fd7fe7b15ee3cad0865e301aa92750da20774
       mlg = true;
     }
   }
