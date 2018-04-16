@@ -2,7 +2,6 @@ import processing.sound.*;
 
 
 Fenetre fenetre;
-ArrayList<Patate> test = new ArrayList<Patate>();
 
 void setup() {
   fullScreen();
