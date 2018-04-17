@@ -2,7 +2,8 @@
 float parsec; // le nombre d'images par seconde
 final int echelleTerre = 300; // pxl/m
 final float echelleGeopw = 4.5; //(10^)pxl/m
-int meilleur_score;
+IntList meilleurs_scores;
+ArrayList<Boolean> raquettesAchetees;
 
 
 static interface Fenetre {
@@ -45,6 +46,8 @@ class Menu implements Fenetre {
   void mouseClick(){
     if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2)) //bouton jouer
       fenetre = new MenuJeu();
+    if (mouseX > displayWidth-188 && mouseY > displayHeight-143)
+      quitter();
   }
 }
 

@@ -263,8 +263,9 @@ class EcranScore implements Fenetre{
       text("Tricheur !", displayWidth/3, displayHeight/2);
     else
       text("Score: "+str(score), displayWidth/3, displayHeight/2);
-    if(score>meilleur_score)
-      meilleur_score = score;
+    meilleurs_scores.append(score);
+    meilleurs_scores.sortReverse();
+    meilleurs_scores.remove(meilleurs_scores.size()-1);
   }
   
   void drow(){
