@@ -3,7 +3,7 @@ float parsec; // le nombre d'images par seconde
 final int echelleTerre = 300; // pxl/m
 final float echelleGeopw = 4.5; //(10^)pxl/m
 IntList meilleurs_scores;
-
+int argent;
 
 
 static interface Fenetre {
@@ -25,9 +25,6 @@ class Menu implements Fenetre {
     m_score = loadImage("images/boutons/bouton-2.png");
     quitter = loadImage("images/boutons/bouton-4.png");
     instruct = loadImage("images/boutons/bouton-5.png");
-    //musique_menu();
-    //musique.loop();
-
   }
   
   void drow(){
@@ -75,11 +72,11 @@ class MenuJeu implements Fenetre {
   
   void mouseClick(){
     if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2)){
-      //musique.stop();
+      musique.stop();
       fenetre = new JeuTerre();
     }
     else if (((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2))){
-      //musique.stop();
+      musique.stop();
       fenetre = new JeuGeo();
     }
     if (mouseX > displayWidth-188 && mouseY > displayHeight-143)

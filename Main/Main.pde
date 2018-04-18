@@ -12,24 +12,25 @@ void setup() {
     XML save = loadXML("save.save");
     XML[] scores = save.getChildren("score");
     XML[] raquettes = save.getChildren("raquette");
+    argent = int(save.getChild("argent").getContent());
     for (int i = 0; i<scores.length; i++){
       meilleurs_scores.append(int(scores[i].getContent()));
     }
     for (int i = 0; i<raquettes.length; i++){
       raquettesAchetees.add(boolean(raquettes[i].getContent()));
     }
-    println(raquettesAchetees);
   } catch (Exception e) {
     println(e);
     println("Erreur lors de la récupération de la sauvegarde");
-    for (int i = 0; i<5; i++){
+    argent = 0;
+    raquettesAchetees.add(true);
+    meilleurs_scores.append(0);
+    for (int i = 1; i<5; i++){
       meilleurs_scores.append(0);
-      if (i==0)
-        raquettesAchetees.add(true);
-      else
-        raquettesAchetees.add(false);
+      raquettesAchetees.add(false);
     }
   }
+  musique_menu();
   fenetre = new Menu();
 }
 
@@ -53,6 +54,7 @@ void mousePressed() {
 
 void quitter(){
   XML save = new XML("save");
+  save.addChild("argent").setContent(str(argent));
   for(int i : meilleurs_scores){
     save.addChild("score").setContent(str(i));
   }

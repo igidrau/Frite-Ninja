@@ -23,7 +23,6 @@ class JeuTerre implements Fenetre {
     fill(255);
     fond_cuisine.resize(displayWidth,displayHeight);
     musique_cuisine();
-    musique.loop();
   }
   
 
@@ -146,7 +145,6 @@ class JeuGeo implements Fenetre {
     fond = loadImage("images/fonds/fond-geo.png");
     fond.resize(displayWidth,displayHeight);
     musique_space();
-    musique.loop();
   }
   
   void drow(){
@@ -272,6 +270,7 @@ class EcranScore implements Fenetre{
   }
   
   void mousePress(){
+    musique_menu();
     fenetre = new Menu();
   }
   
