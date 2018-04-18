@@ -1,7 +1,8 @@
+
 class JeuTerre implements Fenetre {
   
   PFont police;
-  PImage doigt, fond_cuisine;
+  PImage doigt;
   int score, vie, frequence, multiple;
   boolean mlg;
   ArrayList<Patate> patates;
@@ -10,7 +11,6 @@ class JeuTerre implements Fenetre {
     parsec = 80;
     creerPatate();
     imageMode(CENTER);
-    fond_cuisine = loadImage("images/fonds/fond_cuisine.png");
     doigt = loadImage("images/raquettes/RACKET-1-OMBRE.png");
     //police = loadFont("French_Fries.tff");
     //textFont(police, 32);
@@ -21,15 +21,15 @@ class JeuTerre implements Fenetre {
     multiple = 1;
     mlg = false;
     fill(255);
-    fond_cuisine.resize(displayWidth,displayHeight);
     musique_cuisine();
+    musique.loop();
   }
   
 
   
   void drow(){
     clear();
-    background(fond_cuisine);
+    background(fond);
     text("score: "+str(score), displayWidth/10, 50);
     text("vie: "+str(vie),9*displayWidth/10, 50);
     
@@ -76,7 +76,7 @@ class JeuTerre implements Fenetre {
       
     if(vie <= 0){
       musique.stop();
-      background(fond_cuisine);
+      background(fond);
       fenetre = new EcranScore(score);
     }
   }
@@ -102,7 +102,9 @@ class JeuTerre implements Fenetre {
   }
   
   void coupePatate(Patate coupe){
-    score += 1*multiple;
+    score += 50*multiple;
+    if(coupe.type == 0)
+     soncoupe1.play();
     if(coupe.type == 1 && mlg==false){
       vie-=1;
       score-=1*multiple;
@@ -118,6 +120,8 @@ class JeuTerre implements Fenetre {
     }
    
     else if(coupe.type == 4){
+      musique_mlg();
+      musique_mlg.play();
       mlg = true;
     }
   }
@@ -128,7 +132,7 @@ class JeuTerre implements Fenetre {
 
 class JeuGeo implements Fenetre {
   
-  PImage doigt, terre, fond;
+  PImage doigt, terre;
   int score, vie, frequence, multiple;
   boolean mlg;
   ArrayList<Patate> patates;
@@ -145,6 +149,7 @@ class JeuGeo implements Fenetre {
     fond = loadImage("images/fonds/fond-geo.png");
     fond.resize(displayWidth,displayHeight);
     musique_space();
+    musique.loop();
   }
   
   void drow(){
@@ -243,6 +248,8 @@ class JeuGeo implements Fenetre {
    
     else if(coupe.type == 4){
       mlg = true;
+      musique_mlg();
+      musique_mlg.play();
     }
   }
 }
@@ -271,6 +278,7 @@ class EcranScore implements Fenetre{
   
   void mousePress(){
     musique_menu();
+    musique.loop();
     fenetre = new Menu();
   }
   
