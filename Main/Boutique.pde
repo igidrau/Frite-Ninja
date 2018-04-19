@@ -1,5 +1,5 @@
 ArrayList<Boolean> raquettesAchetees;
-int racket_activ = 0;
+int racket_activ;
 
 
 class MenuBoutique implements Fenetre {
@@ -7,8 +7,11 @@ class MenuBoutique implements Fenetre {
   PImage racket_visuel, racket_bad,racket_ten,racket_laser,racket_ping,racket_gold;
   PImage b_retour, b_achat, b_equip, b_active;
   int racket_visu = 1;
+  PImage fond;
   
   public MenuBoutique() {
+    fond = loadImage("images/fonds/fond_cuisine.png");
+    fond.resize(displayWidth, displayHeight);
     racket_visuel = loadImage("images/raquettes/RACKET-"+str(racket_visu)+".png");
     racket_bad = loadImage("images/raquettes/RACKET-1-OMBRE.png");
     racket_ten = loadImage("images/raquettes/RACKET-2-OMBRE.png");
