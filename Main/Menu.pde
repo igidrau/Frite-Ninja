@@ -3,7 +3,7 @@ float parsec; // le nombre d'images par seconde
 final int echelleTerre = 300; // pxl/m
 final float echelleGeopw = 4.5; //(10^)pxl/m
 IntList meilleurs_scores;
-int argent;
+float argent = 0;
 
 
 static interface Fenetre {
@@ -25,10 +25,13 @@ class Menu implements Fenetre {
     m_score = loadImage("images/boutons/bouton-2.png");
     quitter = loadImage("images/boutons/bouton-4.png");
     instruct = loadImage("images/boutons/bouton-5.png");
+    fond = loadImage("images/fonds/fond_cuisine.png");
+    fond.resize(displayWidth,displayHeight);
+    background(fond);
   }
   
   void drow(){
-    background(180);
+    
     imageMode(CENTER); //affichage des boutons du menu
     image(this.jouer,displayWidth/2, displayHeight/3);
     image(this.boutique,displayWidth/2, 2*displayHeight/3);
@@ -55,14 +58,16 @@ class Menu implements Fenetre {
 
 class MenuJeu implements Fenetre {
  
-  PImage b_classique, b_espace;
+  PImage b_classique, b_espace, b_retour;
   
   public MenuJeu(){
-  b_classique = loadImage("images/boutons/bouton-7.png"); //chargement des boutons
-  b_espace = loadImage("images/boutons/bouton-8.png");
+    b_retour = loadImage("images/boutons/bouton-9.png");
+    b_classique = loadImage("images/boutons/bouton-7.png"); //chargement des boutons
+    b_espace = loadImage("images/boutons/bouton-8.png");
   }
   
   void drow(){
+    image(b_retour,displayWidth - 188/2, displayHeight - 143/2);
     imageMode(CENTER); //affichage des boutons
     image(this.b_classique,displayWidth/2, displayHeight/3);
     image(this.b_espace,displayWidth/2, 2*displayHeight/3);
@@ -80,6 +85,5 @@ class MenuJeu implements Fenetre {
       fenetre = new JeuGeo();
     }
     if (mouseX > displayWidth-188 && mouseY > displayHeight-143)
-      quitter();
-  }
+      fenetre = new Menu();}
 }

@@ -1,7 +1,8 @@
+
 class JeuTerre implements Fenetre {
   
   PFont police;
-  PImage doigt, fond_cuisine;
+  PImage doigt;
   int score, vie, frequence, multiple;
   boolean mlg;
   ArrayList<Patate> patates;
@@ -10,8 +11,7 @@ class JeuTerre implements Fenetre {
     parsec = 80;
     creerPatate();
     imageMode(CENTER);
-    fond_cuisine = loadImage("images/fonds/fond_cuisine.png");
-    doigt = loadImage("images/raquettes/RACKET-1-OMBRE.png");
+    doigt = loadImage("images/raquettes/RACKET-"+str(racket_activ+1)+"-OMBRE.png");
     //police = loadFont("French_Fries.tff");
     //textFont(police, 32);
     textSize(25);
@@ -21,15 +21,16 @@ class JeuTerre implements Fenetre {
     multiple = 1;
     mlg = false;
     fill(255);
-    fond_cuisine.resize(displayWidth,displayHeight);
     musique_cuisine();
+    musique_mlg();
+    musique.loop();
   }
   
 
   
   void drow(){
     clear();
-    background(fond_cuisine);
+    background(fond);
     text("score: "+str(score), displayWidth/10, 50);
     text("vie: "+str(vie),9*displayWidth/10, 50);
     
@@ -76,7 +77,10 @@ class JeuTerre implements Fenetre {
       
     if(vie <= 0){
       musique.stop();
-      background(fond_cuisine);
+      musique_mlg.stop();
+      background(fond);
+      viscosite =  0.000017;
+      densite = 0;
       fenetre = new EcranScore(score);
     }
   }
@@ -103,6 +107,8 @@ class JeuTerre implements Fenetre {
   
   void coupePatate(Patate coupe){
     score += 1*multiple;
+    if(coupe.type == 0)
+     soncoupe1.play();
     if(coupe.type == 1 && mlg==false){
       vie-=1;
       score-=1*multiple;
@@ -118,6 +124,8 @@ class JeuTerre implements Fenetre {
     }
    
     else if(coupe.type == 4){
+      musique_mlg.stop();
+      musique_mlg.play();
       mlg = true;
     }
   }
@@ -128,7 +136,7 @@ class JeuTerre implements Fenetre {
 
 class JeuGeo implements Fenetre {
   
-  PImage doigt, terre, fond;
+  PImage doigt, terre;
   int score, vie, frequence, multiple;
   boolean mlg;
   ArrayList<Patate> patates;
@@ -140,16 +148,19 @@ class JeuGeo implements Fenetre {
     vie = 5;
     frequence = 60;
     multiple = 1;
-    doigt = loadImage("images/raquettes/RACKET-1-OMBRE.png");
+    doigt = loadImage("images/raquettes/RACKET-"+str(racket_activ+1)+"-OMBRE.png");
     terre = loadImage("images/fonds/Terre.png");
     fond = loadImage("images/fonds/fond-geo.png");
     fond.resize(displayWidth,displayHeight);
     musique_space();
+    musique_mlg();
+    musique.loop();
   }
   
   void drow(){
     clear();
     background(fond);
+    fill(255,255,0);
     text("score: "+str(score), displayWidth/10, 50);
     text("vie: "+str(vie),9*displayWidth/10, 50);
     translate(displayWidth/2, displayHeight/2);
@@ -193,6 +204,7 @@ class JeuGeo implements Fenetre {
       creerPatate();
       
     if(vie <= 0){
+      musique_mlg.stop();
       musique.stop();
       background(fond);
       translate(-displayWidth/2, -displayHeight/2);
@@ -243,6 +255,8 @@ class JeuGeo implements Fenetre {
    
     else if(coupe.type == 4){
       mlg = true;
+      musique_mlg.stop();
+      musique_mlg.play();
     }
   }
 }
@@ -269,11 +283,12 @@ class EcranScore implements Fenetre{
   void drow(){
   }
   
-  void mousePress(){
+  void mousePress(){}
+  
+  void mouseClick() {
     musique_menu();
+    musique.loop();
     fenetre = new Menu();
   }
-  
-  void mouseClick() {}
   
 }
