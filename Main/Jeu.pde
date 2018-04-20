@@ -81,6 +81,7 @@ class JeuTerre implements Fenetre {
       background(fond);
       viscosite =  0.000017;
       densite = 0;
+      argent += 5000;
       fenetre = new EcranScore(score);
     }
   }
