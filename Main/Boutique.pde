@@ -33,6 +33,8 @@ class MenuBoutique implements Fenetre {
 
   void drow() {
     background(fond);
+    textSize(50);
+    text(str(argent), 60,60);
     fill(100);
     image(b_retour,displayWidth - 188/2, displayHeight - 143/2);
     rect(displayWidth/4,displayHeight/2, racket_visuel.width+40,racket_visuel.height+40);
@@ -67,6 +69,8 @@ class MenuBoutique implements Fenetre {
         image(b_achat, 2*displayWidth/5+145,displayHeight/5+70);
       fill(255);
       text("Raquette de Tennis",2*displayWidth/5,displayHeight/5);
+      fill(100,255,100);
+      text("80 $", 2*displayWidth/5+295,displayHeight/5+90);
       fill(#FFC100);}
     rect(4*displayWidth/6, 3*displayHeight/5,110,racket_bad.height+10);
     
@@ -86,6 +90,8 @@ class MenuBoutique implements Fenetre {
         image(b_achat, 2*displayWidth/5+145,displayHeight/5+70);
       fill(255);
       text("Raquette Laser",2*displayWidth/5,displayHeight/5);
+      fill(100,255,100);
+      text("800 $", 2*displayWidth/5+295,displayHeight/5+90);
       fill(#FFC100);}
     rect(5*displayWidth/6, 3*displayHeight/5,110,racket_bad.height+10);
     
@@ -105,6 +111,8 @@ class MenuBoutique implements Fenetre {
         image(b_achat, 2*displayWidth/5+145,displayHeight/5+70);
       fill(255);
       text("Raquette de Ping-Pong",2*displayWidth/5,displayHeight/5);
+      fill(100,255,100);
+      text("30 $", 2*displayWidth/5+295,displayHeight/5+90);
       fill(#FFC100);}
     rect(3.5*displayWidth/6, 4*displayHeight/5,110,racket_bad.height+10);
     
@@ -124,6 +132,8 @@ class MenuBoutique implements Fenetre {
         image(b_achat, 2*displayWidth/5+145,displayHeight/5+70);
       fill(255);
       text("RAQUETTE DELUXE",2*displayWidth/5,displayHeight/5);
+      fill(100,255,100);
+      text("99999 $", 2*displayWidth/5+295,displayHeight/5+90);
       fill(#FFC100);}
     rect(4.5*displayWidth/6, 4*displayHeight/5,110,racket_bad.height+10);
     
@@ -158,33 +168,60 @@ class MenuBoutique implements Fenetre {
         if(racket_activ != 0)
           racket_activ = 0;}
           
+          
       else if(racket_visu == 2){      //acheter ou activer raquette tennis
         if(raquettesAchetees.get(1)){
           if(racket_activ != 1)
             racket_activ = 1;}
-        else
-          raquettesAchetees.set(1,true);}
+        else{
+          if(argent>80){
+            argent -= 80;
+            raquettesAchetees.set(1,true);}
+          else
+            sonerreur.play();
+            
+        }
+      }
+          
           
       else if(racket_visu == 3){      //acheter ou activer raquette laser
         if(raquettesAchetees.get(2)){
           if(racket_activ != 2)
             racket_activ = 2;}
-        else
-          raquettesAchetees.set(2,true);}
+        else{
+          if(argent>800){
+            argent -=800;
+            raquettesAchetees.set(2,true);}
+          else
+            sonerreur.play();
+        }
+      }
           
       else if(racket_visu == 4){      //acheter ou activer raquette ping-pong
         if(raquettesAchetees.get(3)){
           if(racket_activ != 3)
             racket_activ = 3;}
-        else
-          raquettesAchetees.set(3,true);}
+        else{
+          if(argent>30){
+            argent -= 30;
+            raquettesAchetees.set(3,true);}
+          else
+            sonerreur.play();
+        }
+      }
           
      else if(racket_visu == 5){      //acheter ou activer raquette deluxe
         if(raquettesAchetees.get(4)){
           if(racket_activ != 4)
             racket_activ = 4;}
-        else
-          raquettesAchetees.set(4,true);}
+        else{
+          if(argent>9999){
+            argent -= 9999;
+            raquettesAchetees.set(4,true);}
+          else
+            sonerreur.play();
+        }
+      }
     }
      
     else if (mouseX > displayWidth-188 && mouseY > displayHeight-143)      //bouton retour

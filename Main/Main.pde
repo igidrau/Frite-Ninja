@@ -2,6 +2,7 @@ import processing.sound.*;
 final int framerate = 30;
 
 
+
 Fenetre fenetre;
 
 void setup() {
@@ -50,8 +51,12 @@ void setup() {
     }
     racket_activ = 0;
   }
-  musique_menu();
   fenetre = new Menu();
+  soncoupe1 = new SoundFile(this, "son/son-coupe.mp3");
+  soncoupe2 = new SoundFile(this, "son/son-coupe2.mp3");
+  sonrate = new SoundFile(this, "son/son-rate.mp3");
+  sonerreur = new SoundFile(this, "son/son-erreur.wav");
+  musique_menu();
 }
 
 void draw() {

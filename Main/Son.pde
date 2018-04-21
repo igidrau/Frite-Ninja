@@ -1,4 +1,4 @@
-SoundFile musique, soncoupe1, soncoupe2, sonrate, musique_mlg;
+SoundFile musique, soncoupe1, soncoupe2, sonrate,sonerreur, musique_mlg;
 
 
 void musique_menu(){

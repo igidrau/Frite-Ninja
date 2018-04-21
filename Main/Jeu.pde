@@ -81,6 +81,7 @@ class JeuTerre implements Fenetre {
       background(fond);
       viscosite =  0.000017;
       densite = 0;
+      argent += 5000;
       fenetre = new EcranScore(score);
     }
     println(tMLG);
@@ -99,7 +100,7 @@ class JeuTerre implements Fenetre {
   void mouseClick(){}
   
   void creerPatate(){
-    int type = 4;//(int)random(10);
+    int type = (int)random(10);
     if(type>4)
       type = 0;
     float tourne;
