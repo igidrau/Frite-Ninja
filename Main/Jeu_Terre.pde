@@ -79,7 +79,6 @@ class JeuTerre implements Fenetre {
     if(vie <= 0){
       musique.stop();
       background(fond);
-      argent += 5000;
       fenetre = new EcranScore(score);
     }
     
@@ -161,6 +160,7 @@ class JeuTerre implements Fenetre {
 
 class EcranScore implements Fenetre{
   public EcranScore(int score){
+    argent += score;
     fill(255, 255, 0);
     textSize(50);
     if (score < 0)
