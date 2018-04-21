@@ -5,10 +5,11 @@ int racket_activ = 0;
 class MenuBoutique implements Fenetre {
   
   PImage racket_visuel, racket_bad,racket_ten,racket_laser,racket_ping,racket_gold;
-  PImage b_retour, b_achat, b_equip, b_active;
+  PImage b_retour, b_achat, b_equip, b_active, fond;
   int racket_visu = 1;
   
   public MenuBoutique() {
+    fond = loadImage("images/fonds/fond_cuisine.png");
     racket_visuel = loadImage("images/raquettes/RACKET-"+str(racket_visu)+".png");
     racket_bad = loadImage("images/raquettes/RACKET-1-OMBRE.png");
     racket_ten = loadImage("images/raquettes/RACKET-2-OMBRE.png");
@@ -19,6 +20,7 @@ class MenuBoutique implements Fenetre {
     b_achat = loadImage("images/boutons/bouton-10.png");
     b_equip = loadImage("images/boutons/bouton-11.png");
     b_active = loadImage("images/boutons/équipée.png");
+    fond.resize(displayWidth, displayHeight);
     racket_bad.resize(100,0);
     racket_ten.resize(100,0);
     racket_laser.resize(100,0);

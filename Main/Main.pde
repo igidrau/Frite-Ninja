@@ -1,11 +1,13 @@
 import processing.sound.*;
+final int framerate = 30;
 
 
 Fenetre fenetre;
 
 void setup() {
   fullScreen();
-  frameRate(30);
+  frameRate(framerate);
+  
   
   try {
     meilleurs_scores = new IntList();                    //Récupération de la sauvegarde

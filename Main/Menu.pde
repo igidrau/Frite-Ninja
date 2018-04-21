@@ -17,7 +17,7 @@ static interface Fenetre {
 class Menu implements Fenetre {
   
   
-  PImage jouer, boutique, parametre, m_score, quitter, instruct;
+  PImage jouer, boutique, parametre, m_score, quitter, instruct, fond;
   public Menu() {
     jouer = loadImage("images/boutons/bouton-0.png"); //chargement des boutons du menu
     boutique = loadImage("images/boutons/bouton-1.png");
