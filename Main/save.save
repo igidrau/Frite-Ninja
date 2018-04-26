@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <save>
-  <argent>4090.0</argent>
-  <score>10000</score>
-  <score>16</score>
-  <score>8</score>
-  <score>4</score>
+  <argent>609.0</argent>
+  <score>612</score>
+  <score>27</score>
+  <score>0</score>
+  <score>0</score>
   <score>0</score>
   <raquette>true</raquette>
-  <raquette>true</raquette>
-  <raquette>true</raquette>
+  <raquette>false</raquette>
+  <raquette>false</raquette>
   <raquette>true</raquette>
   <raquette>false</raquette>
-  <actif>2</actif>
+  <actif>0</actif>
 </save>

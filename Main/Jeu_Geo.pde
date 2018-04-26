@@ -67,7 +67,6 @@ class JeuGeo implements Fenetre {
       creerPatate();
       
     if(vie <= 0){
-      musique_mlg.stop();
       musique.stop();
       background(fond);
       translate(-displayWidth/2, -displayHeight/2);

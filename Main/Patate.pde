@@ -1,6 +1,6 @@
 final PVector g = new PVector(0, -9.86); //Intensité de la gravité à la surface de la Terre (SI)
-final float Gnb = 6.67; //Constante gravitationnelle (SI)
-final int Gpw = -11;
+final float Gnb = 6.67E-11; //Constante gravitationnelle (SI)
+final int Gpw = 1;
 float viscosite = 0.000017; //Viscosité du milieu (air : 0.000017, eau : 0.001002 (remonté à 0.002002 pour accentuer l'effet)) (SI)
 float densite = 0; //Densité du milieu (air : 0, eau : 1) (kg/L)
 final float mvpatate = 1.1; //Densité d'une patate (à ajuster) (kg/L)
@@ -35,21 +35,21 @@ class Patate{
   }
   
   void mouvementTerrestre(){ //simule le déplacement d'une patate dans un référentiel terrestre (fonctionnel)
-    PVector grav = PVector.mult(g, masse); //Vecteur force gravitationnelle (N)
-    PVector frottement = PVector.mult(v, -6*PI*taille*viscosite); //Vecteur force de friction (N)
-    PVector archimede = PVector.mult(g, -densite*4*PI/3*pow(taille,3)); //Vecteur poussée d'Archimède (N)
-    PVector a = grav.add(frottement).add(archimede).div(this.masse); //Vecteur accélération (m/s²)
-    this.v = PVector.add(v, PVector.div(a, parsec)); //Vecteur vitesse (m/s)
-    this.position = PVector.add(this.position, PVector.div(this.v, parsec)); //Vecteur position (m)
+    PVector grav = PVector.mult(g, masse); //Vecteur représentant le poids (N)
+    PVector frottement = PVector.mult(v, -6*PI*taille*viscosite); //Vecteur représentant la force de friction (N)
+    PVector archimede = PVector.mult(g, -densite*4*PI/3*pow(taille,3)); //Vecteur représentant la poussée d'Archimède (N)
+    PVector a = grav.add(frottement).add(archimede).div(this.masse); //Vecteur représentant l'accélération (m/s²)
+    this.v = PVector.add(v, PVector.div(a, parsec)); //Vecteur représentant la vitesse (m/s)
+    this.position = PVector.add(this.position, PVector.div(this.v, parsec)); //Vecteur représentant la position de la patate par rapport à l'origine du reprère (en bas à gauche)(m)
     this.tourne+=this.rotation; //Incrémentation de l'angle de la patate
   }
   
   void mouvementGeo(){ //simule le déplacement d'une patate dans un référentiel géocentrique (fonctionnel)
     float d = sqrt(pow(this.position.x,2)+pow(this.position.y,2)); //Distance entre la Terre et la patate (m)
     float pds = Gnb*mTerrenb*this.masse/pow(d,2) * pow(10, Gpw+mTerrepw); //Valeur du poids (N)
-    PVector a = PVector.div(this.position, d).mult(-pds/this.masse); //Vecteur accélération (m/s²)
-    this.v.add(PVector.div(a,parsec)); //Vecteur vitesse (m/s)
-    this.position.add(PVector.div(this.v, parsec)); //Vecteur position (m)
+    PVector a = PVector.div(this.position, d).mult(-pds/this.masse); //Vecteur représentant l'accélération (m/s²)
+    this.v.add(PVector.div(a,parsec)); //Vecteur représentant la vitesse (m/s)
+    this.position.add(PVector.div(this.v, parsec)); //Vecteur représentant la position de la patate par rapport à l'origine du repère (la planète) (m)
     this.tourne+=this.rotation; //Incrémentation de l'angle de la patate
   }
 }
