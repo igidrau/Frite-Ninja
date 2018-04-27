@@ -25,7 +25,7 @@ class Menu implements Fenetre {
     m_score = loadImage("images/boutons/bouton-2.png");
     quitter = loadImage("images/boutons/bouton-4.png");
     instruct = loadImage("images/boutons/bouton-5.png");
-    fond = loadImage("images/fonds/fond_cuisine.png");
+    fond = loadImage("images/fonds/fond-menu.png");
     fond.resize(displayWidth,displayHeight);
     background(fond);
   }

@@ -9,7 +9,7 @@ class MenuBoutique implements Fenetre {
   int racket_visu = 1;
   
   public MenuBoutique() {
-    fond = loadImage("images/fonds/fond_cuisine.png");
+    fond = loadImage("images/fonds/fond-menu.png");
     racket_visuel = loadImage("images/raquettes/RACKET-"+str(racket_visu)+".png");
     racket_bad = loadImage("images/raquettes/RACKET-1-OMBRE.png");
     racket_ten = loadImage("images/raquettes/RACKET-2-OMBRE.png");
@@ -34,6 +34,7 @@ class MenuBoutique implements Fenetre {
   void drow() {
     background(fond);
     textSize(50);
+    fill(255,255,0);
     text(str(argent), 60,60);
     fill(100);
     image(b_retour,displayWidth - 188/2, displayHeight - 143/2);
@@ -65,12 +66,12 @@ class MenuBoutique implements Fenetre {
         else
           image(b_equip, 2*displayWidth/5+145,displayHeight/5+70);
       }
-      else
+      else{
         image(b_achat, 2*displayWidth/5+145,displayHeight/5+70);
+        fill(100,255,100);
+        text("80 $", 2*displayWidth/5+295,displayHeight/5+90);}
       fill(255);
       text("Raquette de Tennis",2*displayWidth/5,displayHeight/5);
-      fill(100,255,100);
-      text("80 $", 2*displayWidth/5+295,displayHeight/5+90);
       fill(#FFC100);}
     rect(4*displayWidth/6, 3*displayHeight/5,110,racket_bad.height+10);
     
@@ -86,12 +87,12 @@ class MenuBoutique implements Fenetre {
         else
           image(b_equip, 2*displayWidth/5+145,displayHeight/5+70);
       }
-      else
+      else{
         image(b_achat, 2*displayWidth/5+145,displayHeight/5+70);
+        fill(100,255,100);
+        text("800 $", 2*displayWidth/5+295,displayHeight/5+90);}
       fill(255);
       text("Raquette Laser",2*displayWidth/5,displayHeight/5);
-      fill(100,255,100);
-      text("800 $", 2*displayWidth/5+295,displayHeight/5+90);
       fill(#FFC100);}
     rect(5*displayWidth/6, 3*displayHeight/5,110,racket_bad.height+10);
     
@@ -107,12 +108,12 @@ class MenuBoutique implements Fenetre {
         else
           image(b_equip, 2*displayWidth/5+145,displayHeight/5+70);
       }
-      else
+      else{
         image(b_achat, 2*displayWidth/5+145,displayHeight/5+70);
+        fill(100,255,100);
+        text("30 $", 2*displayWidth/5+295,displayHeight/5+90);}
       fill(255);
       text("Raquette de Ping-Pong",2*displayWidth/5,displayHeight/5);
-      fill(100,255,100);
-      text("30 $", 2*displayWidth/5+295,displayHeight/5+90);
       fill(#FFC100);}
     rect(3.5*displayWidth/6, 4*displayHeight/5,110,racket_bad.height+10);
     
@@ -128,12 +129,12 @@ class MenuBoutique implements Fenetre {
       else
         image(b_equip, 2*displayWidth/5+145,displayHeight/5+70);
       }
-      else
+      else{
         image(b_achat, 2*displayWidth/5+145,displayHeight/5+70);
+        fill(100,255,100);
+        text("99999 $", 2*displayWidth/5+295,displayHeight/5+90);}
       fill(255);
       text("RAQUETTE DELUXE",2*displayWidth/5,displayHeight/5);
-      fill(100,255,100);
-      text("99999 $", 2*displayWidth/5+295,displayHeight/5+90);
       fill(#FFC100);}
     rect(4.5*displayWidth/6, 4*displayHeight/5,110,racket_bad.height+10);
     
@@ -176,7 +177,8 @@ class MenuBoutique implements Fenetre {
         else{
           if(argent>80){
             argent -= 80;
-            raquettesAchetees.set(1,true);}
+            raquettesAchetees.set(1,true);
+            sonachat.play();}
           else
             sonerreur.play();
             
@@ -191,7 +193,8 @@ class MenuBoutique implements Fenetre {
         else{
           if(argent>800){
             argent -=800;
-            raquettesAchetees.set(2,true);}
+            raquettesAchetees.set(2,true);
+            sonachat.play();}
           else
             sonerreur.play();
         }
@@ -204,7 +207,8 @@ class MenuBoutique implements Fenetre {
         else{
           if(argent>30){
             argent -= 30;
-            raquettesAchetees.set(3,true);}
+            raquettesAchetees.set(3,true);
+            sonachat.play();}
           else
             sonerreur.play();
         }
@@ -217,7 +221,8 @@ class MenuBoutique implements Fenetre {
         else{
           if(argent>9999){
             argent -= 9999;
-            raquettesAchetees.set(4,true);}
+            raquettesAchetees.set(4,true);
+            sonachat.play();}
           else
             sonerreur.play();
         }

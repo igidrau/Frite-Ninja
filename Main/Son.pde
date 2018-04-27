@@ -1,4 +1,5 @@
-SoundFile musique, soncoupe1, soncoupe2, sonrate,sonerreur, musique_mlg;
+SoundFile musique, sonstart, soncoupe, sonrate,sonerreur, sonachat, musique_mlg, sonx2;
+int aleat;
 
 
 void musique_menu(){
@@ -7,7 +8,7 @@ void musique_menu(){
 }
 
 void musique_cuisine(){
-  musique = new SoundFile(this, "son/musique-partie(boucle).mp3");
+  musique = new SoundFile(this, "son/musique-partie.wav");
   musique.loop();  
 }
 
@@ -17,6 +18,11 @@ void musique_space(){
 }
 
 void musique_mlg(){
-  musique = new SoundFile(this, "son/musique-MLG.mp3");
-  musique.loop();
+  musique_mlg = new SoundFile(this, "son/musique-MLG.mp3");
+  musique_mlg.play();
+}
+
+void son_coupe(){
+  soncoupe = new SoundFile(this,"son/son-coupe"+str(aleat)+".mp3");
+  soncoupe.play();
 }

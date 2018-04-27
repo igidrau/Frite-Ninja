@@ -19,10 +19,11 @@ void setup() {
     nouvellePartie(e);
   }
   fenetre = new Menu();
-  soncoupe1 = new SoundFile(this, "son/son-coupe.mp3");
-  soncoupe2 = new SoundFile(this, "son/son-coupe2.mp3");
+  sonstart = new SoundFile(this, "son/son-start.wav");
   sonrate = new SoundFile(this, "son/son-rate.mp3");
   sonerreur = new SoundFile(this, "son/son-erreur.wav");
+  sonachat = new SoundFile(this, "son/son-monnaie.wav");
+  sonx2 = new SoundFile(this, "son/son-x2.wav");
   musique_menu();
 }
 
