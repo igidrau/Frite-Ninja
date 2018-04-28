@@ -5,6 +5,7 @@ void recupSave(){
   XML[] scores = save.getChildren("score");
   XML[] raquettes = save.getChildren("raquette");
   argent = int(save.getChild("argent").getContent());
+  argent_total = int(save.getChild("argentTotal").getContent());
   
   for (int i = 0; i<scores.length; i++){
     meilleurs_scores.append(int(scores[i].getContent()));
@@ -15,11 +16,8 @@ void recupSave(){
   racket_activ = int(save.getChild("actif").getContent());
 }
 
-void triche(){
-  int scoretotal = 0;                                  //Surveillance de potentielles triches.
-  for (int i = 0; i<meilleurs_scores.size(); i++)
-    scoretotal+=meilleurs_scores.get(i);
-  if(!raquettesAchetees.get(racket_activ) || meilleurs_scores.get(meilleurs_scores.size()-1)<=0 && scoretotal<argent){
+void triche(){                                 //Surveillance de potentielles triches.
+  if(!raquettesAchetees.get(racket_activ)){
     println("Triche détectée, suppression de la sauvegarde");
     Exception rien = null;
     nouvellePartie(rien);
@@ -45,11 +43,14 @@ void nouvellePartie(Exception e){
 void sauvegarde(){
   XML save = new XML("save");
   save.addChild("argent").setContent(str(argent));
+  save.addChild("argentTotal").setContent(str(argent_total));
   for(int i : meilleurs_scores){
     save.addChild("score").setContent(str(i));
   }
   for(boolean i : raquettesAchetees){
-    save.addChild("raquette").setContent(str(i));
+    XML raquettei = save.addChild("raquette");
+    raquettei.setContent(str(i));
+    raquettei.setString("n", str(i));
   }
   save.addChild("actif").setContent(str(racket_activ));
   saveXML(save, "save.save");

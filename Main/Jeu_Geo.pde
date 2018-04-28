@@ -123,7 +123,7 @@ class JeuGeo implements Fenetre {
   void coupePatate(Patate coupe){
     score += 1*multiple;
     if(coupe.type == 0){
-     soncoupe1.play();
+      son_coupe();
     }else if(coupe.type == 1 && mlg==false){
       vie-=1;
       score-=1*multiple;

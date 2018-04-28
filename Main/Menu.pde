@@ -3,7 +3,7 @@ float parsec; // le nombre d'images par seconde
 final int echelleTerre = 300; // pxl/m
 final float echelleGeopw = 4.5; //(10^)pxl/m
 IntList meilleurs_scores;
-float argent = 0;
+int argent, argent_total;
 
 
 static interface Fenetre {

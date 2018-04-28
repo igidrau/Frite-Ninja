@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<raquettes>
+  <raquette id="0" prix="0" score="1" argent="1" img="images/raquettes/RACKET-1.png" ombre="images/raquettes/RACKET-1-OMBRE.png">Raquette de Badminton</raquette>
+  <raquette id="1" prix="80" score="1.5" argent="1" img="images/raquettes/RACKET-2.png" ombre="images/raquettes/RACKET-2-OMBRE.png">Raquette de Tennis</raquette>
+  <raquette id="2" prix="800" score="0.5" argent="2" img="images/raquettes/RACKET-3.png" ombre="images/raquettes/RACKET-3-OMBRE.png">Raquette Laser</raquette>
+  <raquette id="3" prix="30" score="2" argent="0.5" img="images/raquettes/RACKET-4.png" ombre="images/raquettes/RACKET-4-OMBRE.png">Raquette de Ping-Pong</raquette>
+  <raquette id="4" prix="99999" score="1" argent="1" img="images/raquettes/RACKET-5.png" ombre="images/raquettes/RACKET-5-OMBRE.png">Raquette de Luxe</raquette>
+</raquettes>
