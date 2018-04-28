@@ -1,4 +1,4 @@
-SoundFile musique, sonstart, soncoupe, sonrate,sonerreur, sonachat, musique_mlg, sonx2;
+SoundFile musique, soneau, sonstart, soncoupe, sonrate,sonerreur, sonachat, musique_mlg, sonx2;
 int aleat;
 
 

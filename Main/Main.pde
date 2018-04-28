@@ -24,6 +24,7 @@ void setup() {
   sonerreur = new SoundFile(this, "son/son-erreur.wav");
   sonachat = new SoundFile(this, "son/son-monnaie.wav");
   sonx2 = new SoundFile(this, "son/son-x2.wav");
+  soneau = new SoundFile(this,"son/son-eau.wav");
   musique_menu();
 }
 
