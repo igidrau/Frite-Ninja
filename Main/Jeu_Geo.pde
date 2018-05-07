@@ -1,20 +1,24 @@
 class JeuGeo implements Fenetre {
-  PImage doigt, terre, fond;
-  int score, vie, frequence, multiple, tMLG, tAqua, tDouble;
+  PImage doigt, terre, fond, fondaqua;
+  PFont police;
+  int score, vie, frequence, multiple, tMLG, tAqua, tDouble, t_depart;
   boolean mlg;
   ArrayList<Patate> patates;
   
   public JeuGeo() {
+    t_depart = millis();
     tMLG = tAqua = tDouble = 20*framerate;
     patates = new ArrayList<Patate>();
     textSize(25);
     parsec = 0.05;
     score = 0;
-    vie = 5;
+    vie = 1;
     frequence = 60;
     multiple = 1;
     doigt = loadImage("images/raquettes/RACKET-"+str(racket_activ+1)+"-OMBRE.png");
     terre = loadImage("images/fonds/Terre.png");
+    police = loadFont("French_Fries-25.vlw");
+    textFont(police, 32);
     fond = loadImage("images/fonds/fond-geo.png");
     fond.resize(displayWidth,displayHeight);
     musique_space();
@@ -26,22 +30,42 @@ class JeuGeo implements Fenetre {
     fill(255,255,0);
     text("score: "+str(score), displayWidth/10, 50);
     text("vie: "+str(vie),9*displayWidth/10, 50);
+    if(multiple>1)
+      text("x" + str(multiple), 2*displayWidth/10, 50);
+      
     translate(displayWidth/2, displayHeight/2);
     image(terre, 0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
-    for(Patate i : patates){
-      translate(i.position.x*pow(10,-echelleGeopw), i.position.y*pow(10,-echelleGeopw));
-      rotate(i.tourne);
-      image(i.img, 0, 0, (int)displayWidth/20, (int)displayWidth/14);
-      rotate(-i.tourne);
-      translate(-i.position.x*pow(10,-echelleGeopw), -i.position.y*pow(10,-echelleGeopw));
-      i.mouvementGeo();
+    
+    if(millis() >= t_depart+4244 && millis() <= t_depart+4274){          //Lance la musique une fois que "sonstart" est fini 
+      musique_space();
     }
-    for(int i=patates.size()-1; i>=0; i--)
-      if(sqrt(pow(patates.get(i).position.x,2)+pow(patates.get(i).position.y,2))<rTerrenb*pow(10,rTerrepw)){
-        patates.remove(i);
-        vie -= 1;
-        this.creerPatate();
+    
+    else if(millis() >= t_depart + 3694){                                //Ne lance pas les patates dès le début
+    
+      for(int i=patates.size()-1; i>=0; i--){
+        translate(patates.get(i).position.x*pow(10,-echelleGeopw), patates.get(i).position.y*pow(10,-echelleGeopw));
+        rotate(patates.get(i).tourne);
+        image(patates.get(i).img, 0, 0, (int)displayWidth/20, (int)displayWidth/14);
+        rotate(-patates.get(i).tourne);
+        translate(-patates.get(i).position.x*pow(10,-echelleGeopw), -patates.get(i).position.y*pow(10,-echelleGeopw));
+        patates.get(i).mouvementGeo();
+        if(sqrt(pow(patates.get(i).position.x,2)+pow(patates.get(i).position.y,2))<rTerrenb*pow(10,rTerrepw)){
+          if(patates.get(i).type!=1 && !mlg) 
+            vie -= 1;
+          patates.remove(i);
+        }
       }
+      if(score >= 10)
+        frequence = 40;
+      else if(score >= 50)
+        frequence = 20;
+      else if (score >= 100)
+        frequence = 10;
+      else if (score < 0)
+        vie = 0;
+      else
+        frequence = 80;
+    }
     if(mousePressed){
       image(doigt,mouseX-displayWidth/2 , mouseY-displayHeight/2, 100, 100);
       for(int i=patates.size()-1; i>=0; i--){
@@ -77,7 +101,7 @@ class JeuGeo implements Fenetre {
       tMLG++;
     }else if(tMLG==10*framerate){
       musique.stop();
-      musique_cuisine();
+      musique_space();
       mlg = false;
       tMLG++;
     }
@@ -87,13 +111,6 @@ class JeuGeo implements Fenetre {
       multiple = 1;
       tDouble++;
     }
-    if(tAqua<10*framerate){
-      tAqua++;
-    }else if(tAqua==10*framerate){
-      densite = 0;
-      viscosite = 0.000017;
-      tAqua++;
-    }
   }
   
   void mousePress(){}
@@ -102,14 +119,12 @@ class JeuGeo implements Fenetre {
   
   void creerPatate(){
     int type = (int)random(10);
-    if(type>4)
+    if(type>4 || type==2 || type==1 && mlg)
       type = 0;
     float angle = random(2*PI);//random(2*PI);
-    PVector depart;
     Patate test1;
-    depart = PVector.fromAngle(angle);
-    depart.mult((rTerrenb) * pow(10,rTerrepw));
-    PVector vitesse = PVector.fromAngle(angle+random(-PI/2,PI/2)).mult(random(12000,15000));
+    PVector depart = PVector.fromAngle(angle).mult((rTerrenb) * pow(10,rTerrepw));
+    PVector vitesse = PVector.fromAngle(angle+random(-PI/2+0.1,PI/2-0.1)).mult(random(40000,50000));
     float tourne;
     if(type == 4){
       tourne = 0;

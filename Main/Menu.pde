@@ -50,6 +50,10 @@ class Menu implements Fenetre {
       fenetre = new MenuBoutique();
     if (mouseX > displayWidth-188 && mouseY > displayHeight-143)
       quitter();
+    if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && mouseY > displayHeight-143)
+      fenetre = new Instructions();
+    if (mouseX < 188 && mouseY > displayHeight-143)
+      fenetre = new Records();
   }
 }
 

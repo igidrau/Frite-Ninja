@@ -14,8 +14,14 @@ class Instructions implements Fenetre {
     policeinstructions = loadFont("TrebuchetMS-30.vlw");
     textFont(policeinstructions);
     instructions = loadStrings("data/instructions-1.txt");
+    StringList texte = new StringList();
     for(int i=0; i< instructions.length; i = i+1){
-      text(instructions[i], 100, (i+1)*displayHeight/18);}
+      texte.append(decouperTexte(instructions[i], 85));
+    }
+    for(int i=0; i<texte.size(); i++){
+      text(texte.get(i), 100, i*40+50);
+      println(texte.get(i));
+    }
     
   }
   void drow(){}
@@ -51,4 +57,20 @@ class Records implements Fenetre {
     if (mouseX > displayWidth-188 && mouseY > displayHeight-143)
       fenetre = new Menu();
   }
+}
+
+StringList decouperTexte(String texte, int max){        // Découpe un texte en plusieures lignes pour pouvoir l'afficher correctement
+  StringList lignes = new StringList();
+  String[] mots = split(texte, " ");
+  String ligne = "    ";
+  for(String mot : mots){
+    if((ligne+" "+mot).length() < max){
+      ligne = ligne + " " + mot;
+    }else{
+      lignes.append(ligne);
+      ligne = mot;
+    }
+  }
+  lignes.append(ligne);  
+  return lignes;
 }

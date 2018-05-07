@@ -27,7 +27,7 @@ class JeuTerre implements Fenetre {
     imageMode(CENTER);
     police = loadFont("French_Fries-25.vlw");
     textFont(police, 32);
-    sonstart.play();
+    musique_cuisine();
   }
   
 
@@ -38,31 +38,57 @@ class JeuTerre implements Fenetre {
       background(fondaqua);
     else
       background(fond);
-    fill(255);
-    text("score: "+str(score), 50, 50);
+    fill(255, 255, 0);
+    text("score: "+str(score), displayWidth/10, 50);
     text("vie: "+str(vie),9*displayWidth/10, 50);
+    if(multiple>1)
+      text("x" + str(multiple), 2*displayWidth/10, 50);
 
-    if(millis() >= t_depart+4244 && millis() <= t_depart+4274){
-      musique_cuisine();
-    }
     
-    else if(millis() >= t_depart + 3694){
-    for(Patate i : patates){
-      translate(displayWidth-i.position.x*echelleTerre, displayHeight-i.position.y*echelleTerre);
-      rotate(i.tourne);
-      image(i.img, 0, 0, (int)displayWidth/10, (int)displayWidth/7);
-      rotate(-i.tourne);
-      translate(i.position.x*echelleTerre-displayWidth, i.position.y*echelleTerre-displayHeight);
-      i.mouvementTerrestre();
-    }
-    for(int i=patates.size()-1; i>=0; i--){
-      if(patates.get(i).position.y<-0.5){
-        if(patates.get(i).type!=1 && mlg==false)
-          vie -= 1;        
-        patates.remove(i);
+    else if(millis() >= t_depart + 3694){                                //Ne lance pas les patates dès le début
+      
+      
+      for(int i=patates.size()-1; i>=0; i--){
+        translate(displayWidth-patates.get(i).position.x*echelleTerre, displayHeight-patates.get(i).position.y*echelleTerre);
+        rotate(patates.get(i).tourne);
+        image(patates.get(i).img, 0, 0, (int)displayWidth/10, (int)displayWidth/7);
+        rotate(-patates.get(i).tourne);
+        translate(patates.get(i).position.x*echelleTerre-displayWidth, patates.get(i).position.y*echelleTerre-displayHeight);
+        patates.get(i).mouvementTerrestre();
+        if(patates.get(i).position.y<-0.5){
+          if(patates.get(i).type!=1 && !mlg)
+            vie -= 1;        
+          patates.remove(i);
+        }
       }
-    }
     
+      if(score >= 10)
+        frequence = 40;
+      else if(score >= 50)
+        frequence = 20;
+      else if (score >= 100)
+        frequence = 10;
+      else if (score < 0)
+        vie = 0;
+      else
+        frequence = 80;
+      if(mlg)
+        frequence = (int) frequence/5;
+      
+      if((int)random(frequence)==1)
+        creerPatate();
+      
+      if(vie <= 0){
+        t_fin = millis()-t_depart-3694;
+        musique.stop();
+        background(fond);
+        argent += t_fin*score/5000;
+        fenetre = new EcranScore(score);
+      }
+      
+      testBonus();
+      
+    }
     if(mousePressed){
       image(doigt,mouseX, mouseY, 100, 100);
       for(int i=patates.size()-1; i>=0; i--){
@@ -72,30 +98,13 @@ class JeuTerre implements Fenetre {
         }
       }
     }
-    if(score >= 10)
-      frequence = 40;
-    else if(score >= 50)
-      frequence = 20;
-    else if (score >= 100)
-      frequence = 10;
-    else if (score < 0)
-      vie = 0;
-    else
-      frequence = 80;
-    if(mlg)
-      frequence = (int) frequence/5;
-      
-    if((int)random(frequence)==1)
-      creerPatate();
-      
-    if(vie <= 0){
-      t_fin = millis()-t_depart-3694;
-      musique.stop();
-      background(fond);
-      argent += t_fin*score/5000;
-      fenetre = new EcranScore(score);
-    }
-    
+  }
+  
+  void mousePress(){}
+  
+  void mouseClick(){}
+  
+  void testBonus(){
     if(tMLG<10*framerate){
       tMLG++;
     }else if(tMLG==10*framerate){
@@ -105,7 +114,6 @@ class JeuTerre implements Fenetre {
     if(tDouble<10*framerate){
       tDouble++;
       fill(255,255,0);
-      text("x"+str(multiple), 200, 50);
     }else if(tDouble==10*framerate){
       multiple = 1;
       tDouble++;
@@ -119,15 +127,7 @@ class JeuTerre implements Fenetre {
       viscosite = 0.000017;
       tAqua++;
     }
-    }
-    else{
-    if(mousePressed)
-      image(doigt,mouseX, mouseY, 100, 100);}
   }
-  
-  void mousePress(){}
-  
-  void mouseClick(){}
   
   void creerPatate(){
     int type = (int)random(30);

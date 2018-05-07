@@ -19,7 +19,6 @@ void setup() {
     nouvellePartie(e);
   }
   fenetre = new Menu();
-  sonstart = new SoundFile(this, "son/son-start.wav");
   sonrate = new SoundFile(this, "son/son-rate.mp3");
   sonerreur = new SoundFile(this, "son/son-erreur.wav");
   sonachat = new SoundFile(this, "son/son-monnaie.wav");
