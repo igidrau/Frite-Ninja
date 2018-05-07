@@ -10,7 +10,7 @@ class JeuGeo implements Fenetre {
     tMLG = tAqua = tDouble = 20*framerate;
     patates = new ArrayList<Patate>();
     textSize(25);
-    parsec = 0.05;
+    parsec = 0.08;
     score = 0;
     vie = 1;
     frequence = 60;
