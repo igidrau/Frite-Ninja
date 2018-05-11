@@ -12,7 +12,7 @@ class JeuTerre implements Fenetre {
     patates = new ArrayList<Patate>();
     frites = new ArrayList<Frite>();
     textSize(25);
-    parsec = 2.7;
+    parsec = 80;
     score = 0;
     vie = 5;
     frequence = 60;
@@ -159,7 +159,7 @@ class JeuTerre implements Fenetre {
     if(type == 4){                          //La patate MLG ne tourne pas
       tourne = 0;
     }else{
-      tourne = random(-2*PI, 2*PI);
+      tourne = random(-PI/16, PI/16);
     }
     
     Patate test1 = new Patate(random(displayWidth/echelleTerre), 0, random(-3, 3), random(4, 7), random(0.025,0.1), type, tourne);
