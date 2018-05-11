@@ -12,7 +12,6 @@ class Instructions implements Fenetre {
     textSize(20);
     fill(#ffff00);
     policeinstructions = loadFont("TrebuchetMS-30.vlw");
-    textFont(policeinstructions);
     instructions = loadStrings("data/instructions-1.txt");
     StringList texte = new StringList();
     for(int i=0; i< instructions.length; i = i+1){
