@@ -1,6 +1,5 @@
 class JeuGeo implements Fenetre {
   PImage doigt, terre, fond, fondaqua;
-  PFont police;
   int score, vie, frequence, multiple, tMLG, tAqua, tDouble, t_depart;
   boolean mlg;
   ArrayList<Patate> patates;
@@ -17,8 +16,6 @@ class JeuGeo implements Fenetre {
     multiple = 1;
     doigt = loadImage("images/raquettes/RACKET-"+str(racket_activ+1)+"-OMBRE.png");
     terre = loadImage("images/fonds/Terre.png");
-    police = loadFont("French_Fries-25.vlw");
-    textFont(police, 32);
     fond = loadImage("images/fonds/fond-geo.png");
     fond.resize(displayWidth,displayHeight);
     musique_space();
@@ -36,11 +33,11 @@ class JeuGeo implements Fenetre {
     translate(displayWidth/2, displayHeight/2);
     image(terre, 0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
     
-    if(millis() >= t_depart+4244 && millis() <= t_depart+4274){          //Lance la musique une fois que "sonstart" est fini 
+/*    if(millis() >= t_depart+4244 && millis() <= t_depart+4274){          //Lance la musique une fois que "sonstart" est fini 
       musique_space();
     }
     
-    else if(millis() >= t_depart + 3694){                                //Ne lance pas les patates dès le début
+    else if(millis() >= t_depart + 3694){                                //Ne lance pas les patates dès le début*/
     
       for(int i=patates.size()-1; i>=0; i--){
         translate(patates.get(i).position.x*pow(10,-echelleGeopw), patates.get(i).position.y*pow(10,-echelleGeopw));
@@ -65,7 +62,7 @@ class JeuGeo implements Fenetre {
         vie = 0;
       else
         frequence = 80;
-    }
+   // }
     if(mousePressed){
       image(doigt,mouseX-displayWidth/2 , mouseY-displayHeight/2, 100, 100);
       for(int i=patates.size()-1; i>=0; i--){
@@ -138,6 +135,7 @@ class JeuGeo implements Fenetre {
   void coupePatate(Patate coupe){
     score += 1*multiple;
     if(coupe.type == 0){
+      aleat = (int) random(1,2);
       son_coupe();
     }else if(coupe.type == 1 && mlg==false){
       vie-=1;
