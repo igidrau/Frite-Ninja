@@ -1,14 +1,3 @@
-/*final PVector g = new PVector(0, -9.86); //Intensité de la gravité à la surface de la Terre (SI)
-final float Gnb = 6.67E-11; //Constante gravitationnelle (SI)
-final int Gpw = 1;
-float viscosite = 0.000017; //Viscosité du milieu (air : 0.000017, eau : 0.001002 (remonté à 0.002002 pour accentuer l'effet)) (SI)
-float densite = 0; //Densité du milieu (air : 0, eau : 1) (kg/L)
-final float mvpatate = 1.1; //Densité d'une patate (à ajuster) (kg/L)
-final float mTerrenb = 5.9722; //Masse de la Terre (kg)
-final int mTerrepw = 24;
-final float rTerrenb = 3.1855; //Rayon de la Terre (m)
-final int rTerrepw = 6;*/
-
 
 class Frite{
   int type;
@@ -25,7 +14,7 @@ class Frite{
     this.rotation = rotation; //Vitesse de rotation de la patate (rad/s)
     this.tourne = 0; //Angle d'origine de la patate (évolue à chaque itération de la boucle en fonction de la vitesse de rotation) (rad)
     
-    String nom =""; //importation de l'image de la patate en fonction de son type
+    String nom =""; //importation de l'image de la de la frite en fonction de son type
     
     nom = "images/patates/frite-" + type +".png";
     this.img = loadImage(nom);
@@ -33,7 +22,7 @@ class Frite{
   
   void mouvementTerrestre(){ //simule le déplacement d'une patate dans un référentiel terrestre (fonctionnel)
     PVector grav = PVector.mult(g, masse); //Vecteur représentant le poids (N)
-    PVector frottement = PVector.mult(v, -6*PI*taille*viscosite); //Vecteur représentant la force de friction (N)
+    PVector frottement = PVector.mult(v, 0.41*PI*taille*taille*viscosite); //Vecteur représentant la force de friction (N)
     PVector archimede = PVector.mult(g, -densite*0*4*PI/3*pow(taille,3)); //Vecteur représentant la poussée d'Archimède (N)
     PVector a = grav.add(frottement).add(archimede).div(this.masse); //Vecteur représentant l'accélération (m/s²)
     this.v = PVector.add(v, PVector.div(a, parsec*framerate)); //Vecteur représentant la vitesse (m/s)

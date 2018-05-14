@@ -8,6 +8,7 @@ final float mTerrenb = 5.9722; //Masse de la Terre (kg)
 final int mTerrepw = 24;
 final float rTerrenb = 3.1855; //Rayon de la Terre (m)
 final int rTerrepw = 6;
+ArrayList<Frite> frites;
 
 
 class Patate{
@@ -40,7 +41,7 @@ class Patate{
     PVector archimede = PVector.mult(g, -densite*4*PI/3*pow(taille,3)); //Vecteur représentant la poussée d'Archimède (N)
     PVector a = grav.add(frottement).add(archimede).div(this.masse); //Vecteur représentant l'accélération (m/s²)
     this.v = PVector.add(v, PVector.div(a, parsec * framerate)); //Vecteur représentant la vitesse (m/s)
-    this.position = PVector.add(this.position, PVector.div(this.v, parsec * framerate)); //Vecteur représentant la position de la patate par rapport à l'origine du reprère (en bas à gauche)(m)
+    this.position = PVector.add(this.position, PVector.div(this.v, parsec * framerate)); //Vecteur représentant la position de la patate par rapport à l'origine du repère (en bas à gauche)(m)
     this.tourne+=this.rotation/(parsec*framerate); //Incrémentation de l'angle de la patate
   }
   
@@ -51,5 +52,10 @@ class Patate{
     this.v.add(PVector.div(a,parsec)); //Vecteur représentant la vitesse (m/s)
     this.position.add(PVector.div(this.v, parsec)); //Vecteur représentant la position de la patate par rapport à l'origine du repère (la planète) (m)
     this.tourne+=this.rotation/(parsec*framerate); //Incrémentation de l'angle de la patate
+  }
+  
+  void creerFrite(){
+    Frite frite = new Frite(random(this.position.x-0.1, this.position.x+0.1),random(this.position.y-0.1, this.position.y+0.1), random(this.v.x-1, this.v.x+1), random(this.v.y-1, this.v.y+1), this.taille/3, int(random(0, 5.99)), this.rotation);
+    frites.add(frite);
   }
 }
