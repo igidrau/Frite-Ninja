@@ -4,7 +4,6 @@ class JeuTerre implements Fenetre {
   float t_depart, t_fin;
   boolean mlg;
   ArrayList<Patate> patates;
-  ArrayList<Frite> frites;
   
   public JeuTerre() {
     t_depart = millis();
@@ -167,15 +166,11 @@ class JeuTerre implements Fenetre {
   }
   
   
-  void creerFrite(Patate patate){
-    Frite frite = new Frite(random(patate.position.x-0.1, patate.position.x+0.1),random(patate.position.y-0.1, patate.position.y+0.1), random(patate.v.x-0.1, patate.v.x+0.1), random(patate.v.y-0.1, patate.v.y+0.1), random(patate.taille-0.25,patate.taille+0.25), int(random(0, 5.99)), patate.rotation);
-    frites.add(frite);
-  }
   
   void coupePatate(Patate coupe){
-    creerFrite(coupe);
-    creerFrite(coupe);
-    creerFrite(coupe);
+    coupe.creerFrite();
+    coupe.creerFrite();
+    coupe.creerFrite();
     score += 1*multiple;
     if(coupe.type == 0){
       aleat = (int) random(1,2.99);
