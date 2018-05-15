@@ -21,7 +21,7 @@ class MenuBoutique implements Fenetre {
     b_retour = loadImage("images/boutons/bouton-9.png");
     b_achat = loadImage("images/boutons/bouton-10.png");
     b_equip = loadImage("images/boutons/bouton-11.png");
-    b_active = loadImage("images/boutons/équipée.png");
+    b_active = loadImage("images/boutons/equipee.png");
     fond.resize(displayWidth, displayHeight);
     racket_bad.resize(100,0);
     racket_ten.resize(100,0);
