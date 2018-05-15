@@ -91,7 +91,7 @@ class JeuGeo implements Fenetre {
       musique.stop();
       background(fond);
       translate(-displayWidth/2, -displayHeight/2);
-      fenetre = new EcranScore(score);
+      fenetre = new EcranScore(score, millis());
     }
     
     if(tMLG<10*framerate){
@@ -126,7 +126,7 @@ class JeuGeo implements Fenetre {
     if(type == 4){
       tourne = 0;
     }else{
-      tourne = random(-PI/16, PI/16);
+      tourne = random(-PI/128, PI/128);
     }
     test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, random(0.05,0.1), type, tourne);
     patates.add(test1);

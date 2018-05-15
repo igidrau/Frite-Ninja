@@ -28,7 +28,7 @@ class Patate{
     
     String nom =""; //importation de l'image de la patate en fonction de son type
     if (type == 0){
-      nom = "images/patates/patate-" +type + "-" + int(random(3)) + ".png";
+      nom = "images/patates/patate-" +type + "-" + int(random(4)) + ".png";
     }else{
       nom = "images/patates/patate-" + type + ".png";
     }
@@ -49,8 +49,8 @@ class Patate{
     float d = sqrt(pow(this.position.x,2)+pow(this.position.y,2)); //Distance entre la Terre et la patate (m)
     float pds = Gnb*mTerrenb*this.masse/pow(d,2) * pow(10, Gpw+mTerrepw); //Valeur du poids (N)
     PVector a = PVector.div(this.position, d).mult(-pds/this.masse); //Vecteur représentant l'accélération (m/s²)
-    this.v.add(PVector.div(a,parsec)); //Vecteur représentant la vitesse (m/s)
-    this.position.add(PVector.div(this.v, parsec)); //Vecteur représentant la position de la patate par rapport à l'origine du repère (la planète) (m)
+    this.v.add(PVector.div(a,parsec*framerate)); //Vecteur représentant la vitesse (m/s)
+    this.position.add(PVector.div(this.v, parsec*framerate)); //Vecteur représentant la position de la patate par rapport à l'origine du repère (la planète) (m)
     this.tourne+=this.rotation/(parsec*framerate); //Incrémentation de l'angle de la patate
   }
   

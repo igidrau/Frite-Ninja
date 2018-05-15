@@ -17,7 +17,15 @@ void recupSave(){
 }
 
 void triche(){                                 //Surveillance de potentielles triches.
-  if(!raquettesAchetees.get(racket_activ)){
+  XML[] raquettes = loadXML("data/raquettes.data").getChildren("raquette");
+  int prixRaquettes=0;
+  for(int i = 0; i<5; i++){
+    if(raquettesAchetees.get(i))
+      prixRaquettes+=raquettes[i].getInt("prix");
+  }
+  if(!raquettesAchetees.get(racket_activ) || prixRaquettes+argent>argent_total){
+    println(prixRaquettes+argent);
+    println(argent_total);
     println("Triche détectée, suppression de la sauvegarde");
     Exception rien = null;
     nouvellePartie(rien);

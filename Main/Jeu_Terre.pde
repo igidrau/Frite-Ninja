@@ -109,10 +109,9 @@ class JeuTerre implements Fenetre {
       t_fin = millis()-t_depart-3694;
       musique.stop();
       background(fond);
-      argent += t_fin*score/5000;
       if(argent>99999)
         argent = 99999;
-      fenetre = new EcranScore(score);
+      fenetre = new EcranScore(score, (int)t_fin);
     }
     
     if(tMLG<10*framerate){
@@ -205,13 +204,15 @@ class JeuTerre implements Fenetre {
 
 
 class EcranScore implements Fenetre{
-  public EcranScore(int score){
+  public EcranScore(int score, int temps){
     fill(255, 255, 0);
     textSize(60);
     if (score < 0)
       text("Tricheur !", displayWidth/3, displayHeight/2);
     else
       text("Score: "+str(score), displayWidth/3, displayHeight/2);
+    argent += temps*score/5000;
+    argent_total += temps*score/5000;
     meilleurs_scores.append(score);
     meilleurs_scores.sortReverse();
     meilleurs_scores.remove(meilleurs_scores.size()-1);
