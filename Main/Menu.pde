@@ -82,7 +82,10 @@ class MenuJeu implements Fenetre {
   void mouseClick(){
     if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2)){
       musique.stop();
-      fenetre = new JeuTerre();
+      patates = new ArrayList<Patate>();
+      frites = new ArrayList<Frite>();
+      int u = framerate * 20;
+      fenetre = new JeuTerre(patates, frites, 0, 5, millis(), false, u , u, u);
     }
     else if (((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2))){
       musique.stop();

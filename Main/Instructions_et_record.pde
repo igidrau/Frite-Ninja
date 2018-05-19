@@ -9,14 +9,13 @@ class Instructions implements Fenetre {
     background(fond);
     b_retour = loadImage("images/boutons/bouton-9.png");
     image(b_retour,displayWidth - 188/2, displayHeight - 143/2);
-    int police = 30;
-    textSize(police);
+    textSize(20);
     fill(#ffff00);
     policeinstructions = loadFont("TrebuchetMS-30.vlw");
     instructions = loadStrings("data/instructions-1.txt");
     StringList texte = new StringList();
     for(int i=0; i< instructions.length; i = i+1){
-      texte.append(decouperTexte(instructions[i], police));
+      texte.append(decouperTexte(instructions[i], 85));
     }
     for(int i=0; i<texte.size(); i++){
       text(texte.get(i), 100, i*40+50);
@@ -59,8 +58,7 @@ class Records implements Fenetre {
   }
 }
 
-StringList decouperTexte(String texte, int taille){        // Découpe un texte en plusieures lignes pour pouvoir l'afficher correctement
-  int max = 2*(displayWidth-200)/taille;
+StringList decouperTexte(String texte, int max){        // Découpe un texte en plusieures lignes pour pouvoir l'afficher correctement
   StringList lignes = new StringList();
   String[] mots = split(texte, " ");
   String ligne = "    ";
