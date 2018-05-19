@@ -8,7 +8,9 @@ final float mTerrenb = 5.9722; //Masse de la Terre (kg)
 final int mTerrepw = 24;
 final float rTerrenb = 3.1855; //Rayon de la Terre (m)
 final int rTerrepw = 6;
+ArrayList<Patate> patates;
 ArrayList<Frite> frites;
+boolean potato;
 
 
 class Patate{
@@ -28,11 +30,12 @@ class Patate{
     
     String nom =""; //importation de l'image de la patate en fonction de son type
     if (type == 0){
-      nom = "images/patates/patate-" +type + "-" + int(random(4)) + ".png";
+      nom = "images/patates/patate-" +type + "-" + int(random(3)) + ".png";
     }else{
       nom = "images/patates/patate-" + type + ".png";
     }
     this.img = loadImage(nom);
+    this.img.resize((int)displayWidth/10, (int)displayWidth/7);
   }
   
   void mouvementTerrestre(){ //simule le déplacement d'une patate dans un référentiel terrestre (fonctionnel)
@@ -49,13 +52,8 @@ class Patate{
     float d = sqrt(pow(this.position.x,2)+pow(this.position.y,2)); //Distance entre la Terre et la patate (m)
     float pds = Gnb*mTerrenb*this.masse/pow(d,2) * pow(10, Gpw+mTerrepw); //Valeur du poids (N)
     PVector a = PVector.div(this.position, d).mult(-pds/this.masse); //Vecteur représentant l'accélération (m/s²)
-    this.v.add(PVector.div(a,parsec*framerate)); //Vecteur représentant la vitesse (m/s)
-    this.position.add(PVector.div(this.v, parsec*framerate)); //Vecteur représentant la position de la patate par rapport à l'origine du repère (la planète) (m)
+    this.v.add(PVector.div(a,parsec)); //Vecteur représentant la vitesse (m/s)
+    this.position.add(PVector.div(this.v, parsec)); //Vecteur représentant la position de la patate par rapport à l'origine du repère (la planète) (m)
     this.tourne+=this.rotation/(parsec*framerate); //Incrémentation de l'angle de la patate
-  }
-  
-  void creerFrite(){
-    Frite frite = new Frite(random(this.position.x-0.1, this.position.x+0.1),random(this.position.y-0.1, this.position.y+0.1), random(this.v.x-1, this.v.x+1), random(this.v.y-1, this.v.y+1), this.taille/3, int(random(0, 5.99)), this.rotation);
-    frites.add(frite);
   }
 }

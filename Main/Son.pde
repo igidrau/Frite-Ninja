@@ -1,4 +1,4 @@
-SoundFile musique, soneau, sonstart, soncoupe, sonrate,sonerreur, sonachat, musique_mlg, sonx2;
+SoundFile musique, soneau, sonstart, soncoupe, sonrate,sonerreur, sonachat, musique_mlg, sonx2, sad;
 int aleat;
 
 void son_start(){
@@ -30,4 +30,9 @@ void son_coupe(){
   String nom = "son/son-coupe"+str((int)random(0,3))+".mp3";
   soncoupe = new SoundFile(this,nom);
   soncoupe.play();
+}
+
+void defaite(){
+  sad = new SoundFile(this, "son/sad trombone.mp3");
+  sad.play();
 }

@@ -1,5 +1,5 @@
 class JeuGeo implements Fenetre {
-  PImage doigt, terre, fond, fondaqua;
+  PImage doigt, terre, fond, fondaqua, pause;
   int score, vie, frequence, multiple, tMLG, tAqua, tDouble, t_depart;
   boolean mlg;
   ArrayList<Patate> patates;
@@ -16,6 +16,7 @@ class JeuGeo implements Fenetre {
     multiple = 1;
     doigt = loadImage("images/raquettes/RACKET-"+str(racket_activ+1)+"-OMBRE.png");
     terre = loadImage("images/fonds/Terre.png");
+    pause = loadImage("images/boutons/bouton-6.png");
     fond = loadImage("images/fonds/fond-geo.png");
     fond.resize(displayWidth,displayHeight);
     musique_space();
@@ -26,18 +27,13 @@ class JeuGeo implements Fenetre {
     background(fond);
     fill(255,255,0);
     text("score: "+str(score), displayWidth/10, 50);
-    text("vie: "+str(vie),9*displayWidth/10, 50);
+    text("vie: "+str(vie), displayWidth/10, 100);
+    image(this.pause, displayWidth - 188/2, displayHeight-(displayHeight - 143/2));
     if(multiple>1)
       text("x" + str(multiple), 2*displayWidth/10, 50);
       
     translate(displayWidth/2, displayHeight/2);
     image(terre, 0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
-    
-/*    if(millis() >= t_depart+4244 && millis() <= t_depart+4274){          //Lance la musique une fois que "sonstart" est fini 
-      musique_space();
-    }
-    
-    else if(millis() >= t_depart + 3694){                                //Ne lance pas les patates dès le début*/
     
       for(int i=patates.size()-1; i>=0; i--){
         translate(patates.get(i).position.x*pow(10,-echelleGeopw), patates.get(i).position.y*pow(10,-echelleGeopw));
@@ -91,7 +87,7 @@ class JeuGeo implements Fenetre {
       musique.stop();
       background(fond);
       translate(-displayWidth/2, -displayHeight/2);
-      fenetre = new EcranScore(score, millis());
+      fenetre = new EcranScore(score);
     }
     
     if(tMLG<10*framerate){
@@ -126,7 +122,7 @@ class JeuGeo implements Fenetre {
     if(type == 4){
       tourne = 0;
     }else{
-      tourne = random(-PI/128, PI/128);
+      tourne = random(-PI/16, PI/16);
     }
     test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, random(0.05,0.1), type, tourne);
     patates.add(test1);
