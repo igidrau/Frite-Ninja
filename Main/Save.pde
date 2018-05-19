@@ -23,7 +23,7 @@ void triche(){                                 //Surveillance de potentielles tr
     if(raquettesAchetees.get(i))
       prixRaquettes+=raquettes[i].getInt("prix");
   }
-  if(!raquettesAchetees.get(racket_activ) || prixRaquettes+argent>argent_total){
+  if(!raquettesAchetees.get(racket_activ) || prixRaquettes+argent!=argent_total){
     println(prixRaquettes+argent);
     println(argent_total);
     println("Triche détectée, suppression de la sauvegarde");
@@ -55,10 +55,10 @@ void sauvegarde(){
   for(int i : meilleurs_scores){
     save.addChild("score").setContent(str(i));
   }
-  for(boolean i : raquettesAchetees){
+  for(int i = 0; i<raquettesAchetees.size(); i++){
     XML raquettei = save.addChild("raquette");
     raquettei.setContent(str(i));
-    raquettei.setString("n", str(i));
+    raquettei.setString("n", str(raquettesAchetees.get(i)));
   }
   save.addChild("actif").setContent(str(racket_activ));
   saveXML(save, "save.save");

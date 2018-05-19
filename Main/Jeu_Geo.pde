@@ -11,7 +11,7 @@ class JeuGeo implements Fenetre {
     textSize(25);
     parsec = 0.0027;
     score = 0;
-    vie = 1;
+    vie = 5;
     frequence = 60;
     multiple = 1;
     doigt = loadImage("images/raquettes/RACKET-"+str(racket_activ+1)+"-OMBRE.png");
@@ -87,7 +87,7 @@ class JeuGeo implements Fenetre {
       musique.stop();
       background(fond);
       translate(-displayWidth/2, -displayHeight/2);
-      fenetre = new EcranScore(score);
+      fenetre = new EcranScore(score, millis()-t_depart);
     }
     
     if(tMLG<10*framerate){
@@ -122,7 +122,7 @@ class JeuGeo implements Fenetre {
     if(type == 4){
       tourne = 0;
     }else{
-      tourne = random(-PI/16, PI/16);
+      tourne = random(-PI/128, PI/128);
     }
     test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, random(0.05,0.1), type, tourne);
     patates.add(test1);

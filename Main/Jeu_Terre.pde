@@ -1,7 +1,7 @@
 class JeuTerre implements Fenetre {
   PImage doigt, fond, fondaqua, pause;
-  int score, vie, frequence, multiple, tMLG, tAqua, tDouble;
-  float t_depart, t_fin;
+  int score, vie, frequence, multiple, tMLG, tAqua, tDouble, t_fin;
+  float t_depart;
   boolean mlg, commence;
   ArrayList<Patate> patates;
   ArrayList<Frite> frites;
@@ -143,13 +143,12 @@ class JeuTerre implements Fenetre {
     
     if(vie <= 0){
       musique.amp(1);
-      t_fin = millis()-t_depart-3694;
+      int t_fin = int(millis()-t_depart-3694);
       musique.stop();
       background(fond);
-      argent += t_fin*this.score/5000;
       if(argent>99999)
         argent = 99999;
-      fenetre = new EcranScore(this.score);
+      fenetre = new EcranScore(this.score, t_fin);
     }
     }
     else{
@@ -234,13 +233,15 @@ class JeuTerre implements Fenetre {
 
 
 class EcranScore implements Fenetre{
-  public EcranScore(int score){
+  public EcranScore(int score, int temps){
     fill(255, 255, 0);
     textSize(60);
     if (score < 0)
       text("Tricheur !", displayWidth/3, displayHeight/2);
     else
       text("Score: "+str(score), displayWidth/3, displayHeight/2);
+    argent += temps*score/5000;
+    argent_total += temps*score/5000;
     meilleurs_scores.append(score);
     meilleurs_scores.sortReverse();
     meilleurs_scores.remove(meilleurs_scores.size()-1);
