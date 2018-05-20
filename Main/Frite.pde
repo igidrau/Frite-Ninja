@@ -17,9 +17,9 @@ class Frite{
     String nom =""; //importation de l'image de la de la frite en fonction de son type
     
     if(potato)
-      nom = "images/patates/potato-" + int(random(3.99)) +".png";
+      nom = "images/patates/potato-" + int(random(4)) +".png";
     else
-      nom = "images/patates/frite-" + int(random(5.99)) +".png";
+      nom = "images/patates/frite-" + int(random(6)) +".png";
 
     
     this.img = loadImage(nom);
