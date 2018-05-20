@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <save>
   <argent>0</argent>
-  <argentTotal>571</argentTotal>
+  <argentTotal>0</argentTotal>
   <score>0</score>
   <score>0</score>
   <score>0</score>
   <score>0</score>
   <score>0</score>
-  <raquette n="true">0</raquette>
-  <raquette n="false">1</raquette>
-  <raquette n="false">2</raquette>
-  <raquette n="false">3</raquette>
-  <raquette n="false">4</raquette>
+  <raquette n="0">true</raquette>
+  <raquette n="1">false</raquette>
+  <raquette n="2">false</raquette>
+  <raquette n="3">false</raquette>
+  <raquette n="4">false</raquette>
   <actif>0</actif>
 </save>

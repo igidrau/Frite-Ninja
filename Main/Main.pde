@@ -10,14 +10,9 @@ void setup() {
   frameRate(framerate);
   
   
-  try {
     recupSave();
-    
     triche();
-    
-  } catch (Exception e) {                                //En cas d'erreur, réinitialisation des variables.
-    nouvellePartie(e);
-  }
+
   fenetre = new Menu();
   sonstart = new SoundFile(this, "son/son-start.wav");
   sonrate = new SoundFile(this, "son/son-rate.mp3");

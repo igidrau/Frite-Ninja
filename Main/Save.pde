@@ -1,19 +1,25 @@
 void recupSave(){
-  meilleurs_scores = new IntList();                    //Récupération de la sauvegarde
-  raquettesAchetees = new ArrayList<Boolean>();
-  XML save = loadXML("save.save");
-  XML[] scores = save.getChildren("score");
-  XML[] raquettes = save.getChildren("raquette");
-  argent = int(save.getChild("argent").getContent());
-  argent_total = int(save.getChild("argentTotal").getContent());
+  try{
+    meilleurs_scores = new IntList();                    //Récupération de la sauvegarde
+    raquettesAchetees = new ArrayList<Boolean>();
+    XML save = loadXML("save.save");
+    XML[] scores = save.getChildren("score");
+    XML[] raquettes = save.getChildren("raquette");
+    argent = int(save.getChild("argent").getContent());
+    argent_total = int(save.getChild("argentTotal").getContent());
   
-  for (int i = 0; i<scores.length; i++){
-    meilleurs_scores.append(int(scores[i].getContent()));
+    for (int i = 0; i<scores.length; i++){
+      meilleurs_scores.append(int(scores[i].getContent()));
+    }
+    for (int i = 0; i<raquettes.length; i++){
+      raquettesAchetees.add(boolean(raquettes[i].getContent()));
+    }
+    racket_activ = int(save.getChild("actif").getContent());
+  }catch(Exception e){
+    println(e);
+    println("Erreur lors de la récupération de la sauvegarde");
+    nouvellePartie();
   }
-  for (int i = 0; i<raquettes.length; i++){
-    raquettesAchetees.add(boolean(raquettes[i].getContent()));
-  }
-  racket_activ = int(save.getChild("actif").getContent());
 }
 
 void triche(){                                 //Surveillance de potentielles triches.
@@ -27,18 +33,16 @@ void triche(){                                 //Surveillance de potentielles tr
     println(prixRaquettes+argent);
     println(argent_total);
     println("Triche détectée, suppression de la sauvegarde");
-    Exception rien = null;
-    nouvellePartie(rien);
+    nouvellePartie();
     sauvegarde();
   }
 }
 
-void nouvellePartie(Exception e){
-  println(e);
-  println("Erreur lors de la récupération de la sauvegarde");
+void nouvellePartie(){
+  
   meilleurs_scores = new IntList();
   raquettesAchetees = new ArrayList<Boolean>();
-  argent = 0;
+  argent = argent_total = 0;
   raquettesAchetees.add(true);
   meilleurs_scores.append(0);
   for (int i = 1; i<5; i++){
@@ -57,8 +61,8 @@ void sauvegarde(){
   }
   for(int i = 0; i<raquettesAchetees.size(); i++){
     XML raquettei = save.addChild("raquette");
-    raquettei.setContent(str(i));
-    raquettei.setString("n", str(raquettesAchetees.get(i)));
+    raquettei.setContent(str(raquettesAchetees.get(i)));
+    raquettei.setString("n", str(i));
   }
   save.addChild("actif").setContent(str(racket_activ));
   saveXML(save, "save.save");
