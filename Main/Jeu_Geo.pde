@@ -1,17 +1,17 @@
 class JeuGeo implements Fenetre {
   PImage doigt, terre, fond, fondaqua, pause;
-  int score, vie, frequence, multiple, tMLG, tDouble, t_fin;
-  float t_depart;
+  int vie, frequence, multiple, tMLG, tDouble, temps;
+  float score;
   boolean mlg, commence;
   ArrayList<Patate> patates;
   ArrayList<Frite> frites;
   
-  public JeuGeo(ArrayList<Patate> patates, ArrayList<Frite> frites, int score, int vie, float t_depart, boolean commence, int tMLG, int tDouble) {
+  public JeuGeo(ArrayList<Patate> patates, ArrayList<Frite> frites, float score, int vie, int temps, boolean commence, int tMLG, int tDouble) {
     this.patates =  new ArrayList<Patate>(patates);
     this.frites = new ArrayList<Frite>(frites);
     this.score = score;
     this.vie = vie;
-    this.t_depart = t_depart;
+    this.temps = temps;
     this.commence = commence;
     this.tMLG = tMLG;
     this.tDouble = tDouble;
@@ -30,12 +30,12 @@ class JeuGeo implements Fenetre {
   }
 
   void drow(){
+    this.temps++;
     clear();
     background(fond);
     fill(255, 255, 0);
-    text("score: "+str(score), displayWidth/10, 50);
-    text("vie: "+str(vie), displayWidth/10, 100);
-    image(this.pause, displayWidth - 188/2, displayHeight-(displayHeight - 143/2));
+    text("score: "+str(int(score)), 50, 50);
+    text("vie: "+str(vie), 50, 100);
     if(multiple>1)
       text("x" + str(multiple), 2*displayWidth/10, 50);
       
@@ -67,9 +67,12 @@ class JeuGeo implements Fenetre {
           this.patates.remove(i);
         }
       }
-
+    
+    translate(-displayWidth/2, -displayHeight/2);
+    image(this.pause, displayWidth - 188/2, displayHeight-(displayHeight - 143/2));
+    
     if(mousePressed){
-      image(doigt,mouseX-displayWidth/2 , mouseY-displayHeight/2, 100, 100);
+      image(doigt,mouseX , mouseY, displayWidth/25, displayWidth/25);
       for(int i=this.patates.size()-1; i>=0; i--){
         if(abs(this.patates.get(i).position.y*pow(10,-echelleGeopw)-(mouseY-displayHeight/2))<70 && abs(this.patates.get(i).position.x*pow(10,-echelleGeopw)-(mouseX-displayWidth/2))<50){
           coupePatate(this.patates.get(i));
@@ -101,7 +104,7 @@ class JeuGeo implements Fenetre {
         musique_mlg.stop();
       background(fond);
       translate(-displayWidth/2, -displayHeight/2);
-      fenetre = new EcranScore(score, (int) millis()-this.t_depart, 2);
+      fenetre = new EcranScore(this.score, this.temps, 2);
     }
     
     if(this.tMLG<10*framerate){
@@ -122,8 +125,8 @@ class JeuGeo implements Fenetre {
   void mousePress(){}
   
   void mouseClick(){
-    if (mouseX > displayWidth - 188 && mouseY < 143 && millis() >= t_depart + 4200)
-      fenetre = new MenuPause(this.patates, this.frites, this.score, this.vie, this.tMLG, this.tDouble, -12000);
+    if (mouseX > displayWidth - 188 && mouseY < 143)
+      fenetre = new MenuPause(this.patates, this.frites, this.score, this.vie, this.temps, this.tMLG, this.tDouble, -12000);
   }
   
   void creerFrite(Patate patate){
@@ -131,8 +134,8 @@ class JeuGeo implements Fenetre {
       potato = true;}
     else{
       potato = false;}
-    Frite frite = new Frite(random(patate.position.x-5, patate.position.x+5),random(patate.position.y-5, patate.position.y+5), random(patate.v.x-10, patate.v.x+10), random(patate.v.y-10, patate.v.y+10), patate.taille/6, potato, patate.rotation);
-    frite.img.resize(0, patate.img.height);
+    Frite frite = new Frite(random(patate.position.x-5000, patate.position.x+5000),random(patate.position.y-5000, patate.position.y+5000), random(patate.v.x-5000, patate.v.x+5000), random(patate.v.y-5000, patate.v.y+5000), patate.taille/6, potato, patate.rotation);
+    frite.img.resize(0, patate.img.height-20);
     this.frites.add(frite);
   }  
   
@@ -153,7 +156,7 @@ class JeuGeo implements Fenetre {
     if(type == 4){
       tourne = 0;
     }else{
-      tourne = random(-PI/128, PI/128);
+      tourne = random(-PI/200, PI/200);
     }
     test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, random(0.05,0.1), type, tourne);
     this.patates.add(test1);

@@ -1,21 +1,22 @@
 class JeuTerre implements Fenetre {
   PImage doigt, fond, fondaqua, pause;
-  int score, vie, frequence, multiple, tMLG, tAqua, tDouble, t_fin;
-  float t_depart;
+  int vie, frequence, multiple, tMLG, tAqua, tDouble, temps;
+  float score, t_depart;
   boolean mlg, commence;
   ArrayList<Patate> patates;
   ArrayList<Frite> frites;
   
-  public JeuTerre(ArrayList<Patate> patates, ArrayList<Frite> frites, int score, int vie, float t_depart, boolean commence, int tMLG, int tDouble, int tAqua) {
+  public JeuTerre(ArrayList<Patate> patates, ArrayList<Frite> frites, float score, int vie, int temps, boolean commence, int tMLG, int tDouble, int tAqua) {
     this.patates =  new ArrayList<Patate>(patates);
     this.frites = new ArrayList<Frite>(frites);
     this.score = score;
     this.vie = vie;
-    this.t_depart = t_depart;
+    this.temps = temps;
     this.commence = commence;
     this.tMLG = tMLG;
     this.tDouble = tDouble;
     this.tAqua = tAqua;
+    t_depart = millis();
     textSize(25);
     multiple = 1;
     pause = loadImage("images/boutons/bouton-6.png");
@@ -38,15 +39,15 @@ class JeuTerre implements Fenetre {
 
   
   void drow(){
+    this.temps++;
     clear();
     if(tAqua<10*framerate)
       background(fondaqua);
     else
       background(fond);
     fill(255);
-    text("score: "+str(this.score), 50, 50);
+    text("score: "+str(int(this.score)), 50, 50);
     text("vie: "+str(vie),50, 100);
-    image(this.pause, displayWidth - 188/2, displayHeight-(displayHeight - 143/2));
 
     if(millis() >= t_depart+3870 && millis() <= t_depart+3900 && this.commence == false){
       musique_cuisine();
@@ -57,7 +58,6 @@ class JeuTerre implements Fenetre {
     for(Frite i : this.frites){
       translate(displayWidth-i.position.x*echelleTerre, displayHeight-i.position.y*echelleTerre);
       rotate(i.tourne);
-      i.img.resize(0, displayHeight/5);
       image(i.img, 0, 0);
       rotate(-i.tourne);
       translate(i.position.x*echelleTerre-displayWidth, i.position.y*echelleTerre-displayHeight);
@@ -86,6 +86,7 @@ class JeuTerre implements Fenetre {
       }
     }
     
+    image(this.pause, displayWidth - 188/2, displayHeight-(displayHeight - 143/2));
     
     
     if(mousePressed){
@@ -142,17 +143,14 @@ class JeuTerre implements Fenetre {
     
     if(this.vie <= 0){
       musique.amp(1);
-      int t_fin = int(millis()-t_depart-3694);
       musique.stop();
       background(fond);
-      if(argent>99999)
-        argent = 99999;
-      fenetre = new EcranScore(this.score, t_fin, 1);
+      fenetre = new EcranScore(this.score, this.temps, 1);
     }
     }
     else{
     if(mousePressed)
-      image(doigt,mouseX, mouseY, 100, 100);}
+      image(doigt,mouseX, mouseY, displayWidth/20, displayWidth/20);}
   }
   
   void mousePress(){}
@@ -160,7 +158,7 @@ class JeuTerre implements Fenetre {
   
   void mouseClick(){
     if (mouseX > displayWidth - 188 && mouseY < 143 && millis() >= t_depart + 4200)
-      fenetre = new MenuPause(this.patates, this.frites, this.score, this.vie, this.tMLG, this.tDouble, this.tAqua);
+      fenetre = new MenuPause(this.patates, this.frites, this.score, this.vie, this.temps, this.tMLG, this.tDouble, this.tAqua);
   }
   
   
@@ -180,6 +178,8 @@ class JeuTerre implements Fenetre {
   void creerPatate(){
     int type = (int)random(25);
     if(type>4 || mlg && type==1)            //La majorité des patates générées sont des patates normales
+      type = 0;
+    if(type == 4 && mlg)
       type = 0;
       
     float tourne;
@@ -233,21 +233,21 @@ class JeuTerre implements Fenetre {
 
 
 class EcranScore implements Fenetre{
-  public EcranScore(int score, float temps, int mode){
+  public EcranScore(float score, float temps, int mode){
     fill(255, 255, 0);
     textSize(60);
     if (score < 0)
       text("Tricheur !", displayWidth/3, displayHeight/2);
     else
-      text("Score: "+str(score), displayWidth/3, displayHeight/2);
-    argent += temps*score/25000;
-    argent_total += temps*score/25000;
+      text("Score: "+str(int(score)), displayWidth/3, displayHeight/2);
+    argent += score/temps*25000;
+    argent_total += score/temps*25000;
     if(mode == 1){
-      meilleurs_scoresT.append(score);
+      meilleurs_scoresT.append(int(score));
       meilleurs_scoresT.sortReverse();
       meilleurs_scoresT.remove(meilleurs_scoresT.size()-1);}
     else if(mode==2){
-      meilleurs_scoresG.append(score);
+      meilleurs_scoresG.append(int(score));
       meilleurs_scoresG.sortReverse();
       meilleurs_scoresG.remove(meilleurs_scoresT.size()-1);}
     defaite();
