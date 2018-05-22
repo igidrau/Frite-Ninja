@@ -2,7 +2,7 @@
 float parsec; // le nombre d'images par seconde
 final int echelleTerre = 300; // pxl/m
 final float echelleGeopw = 4.5; //(10^)pxl/m
-IntList meilleurs_scores;
+IntList meilleurs_scoresT, meilleurs_scoresG;
 int argent, argent_total;
 
 
@@ -80,16 +80,16 @@ class MenuJeu implements Fenetre {
   void mousePress(){}
   
   void mouseClick(){
+    int u = framerate * 20;
+    patates = new ArrayList<Patate>();
+    frites = new ArrayList<Frite>();
     if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2)){
       musique.stop();
-      patates = new ArrayList<Patate>();
-      frites = new ArrayList<Frite>();
-      int u = framerate * 20;
       fenetre = new JeuTerre(patates, frites, 0, 5, millis(), false, u , u, u);
     }
     else if (((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2))){
       musique.stop();
-      fenetre = new JeuGeo();
+      fenetre = new JeuGeo(patates, frites, 0, 5, millis(), false, u , u);
     }
     if (mouseX > displayWidth-188 && mouseY > displayHeight-143)
       fenetre = new Menu();}
