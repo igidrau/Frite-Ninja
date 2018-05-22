@@ -34,7 +34,7 @@ void triche() {                                 //Surveillance de potentielles t
     if (raquettesAchetees.get(i))
       prixRaquettes+=raquettes[i].getInt("prix");
   }
-  if (!raquettesAchetees.get(racket_activ) || prixRaquettes+argent!=argent_total) {
+  if (!raquettesAchetees.get(racket_activ) || prixRaquettes+argent!=argent_total || meilleurs_scoresT.size()!=5 || meilleurs_scoresG.size()!=5) {
     println(prixRaquettes+argent);
     println(argent_total);
     println("Triche détectée, suppression de la sauvegarde");
