@@ -17,6 +17,7 @@ class JeuTerre implements Fenetre {
     this.tDouble = tDouble;
     this.tAqua = tAqua;
     textSize(25);
+    multiple = 1;
     pause = loadImage("images/boutons/bouton-6.png");
     doigt = loadImage("images/raquettes/RACKET-"+str(racket_activ+1)+"-OMBRE.png");
     fond = loadImage("images/fonds/fond_cuisine.png");
@@ -28,7 +29,6 @@ class JeuTerre implements Fenetre {
       sonstart.play();
       parsec = 2.7;
       frequence = 60;
-      multiple = 1;
       viscosite =  0.000017;
       densite = 0;
       mlg = false;}
@@ -39,7 +39,6 @@ class JeuTerre implements Fenetre {
   
   void drow(){
     clear();
-    musique.amp(1);
     if(tAqua<10*framerate)
       background(fondaqua);
     else
@@ -49,7 +48,7 @@ class JeuTerre implements Fenetre {
     text("vie: "+str(vie),50, 100);
     image(this.pause, displayWidth - 188/2, displayHeight-(displayHeight - 143/2));
 
-    if(millis() >= t_depart+4249 && millis() <= t_depart+4280 && this.commence == false){
+    if(millis() >= t_depart+3870 && millis() <= t_depart+3900 && this.commence == false){
       musique_cuisine();
       creerPatate();
     }
@@ -82,7 +81,7 @@ class JeuTerre implements Fenetre {
     for(int i=this.patates.size()-1; i>=0; i--){
       if(this.patates.get(i).position.y<-0.5){
         if(this.patates.get(i).type!=1 && mlg==false)
-          vie -= 1;
+          this.vie -= 1;
         this.patates.remove(i);
       }
     }
@@ -105,12 +104,11 @@ class JeuTerre implements Fenetre {
     else if (this.score >= 100)
       frequence = 10;
     else if (this.score < 0)
-      vie = 0;
+      this.vie = 0;
     else
       frequence = 80;
     if(mlg){
-      frequence = (int) frequence/5;
-      musique.amp(0);}
+      frequence = (int) frequence/5;}
       
     if((int)random(frequence)==1)
       creerPatate();
@@ -119,6 +117,7 @@ class JeuTerre implements Fenetre {
     if(this.tMLG<10*framerate){
       this.tMLG++;
     }else if(this.tMLG==10*framerate){
+      musique.amp(1);
       mlg = false;
       this.tMLG++;
     }
@@ -141,14 +140,14 @@ class JeuTerre implements Fenetre {
       this.tAqua++;
     }
     
-    if(vie <= 0){
+    if(this.vie <= 0){
       musique.amp(1);
       int t_fin = int(millis()-t_depart-3694);
       musique.stop();
       background(fond);
       if(argent>99999)
         argent = 99999;
-      fenetre = new EcranScore(this.score, t_fin);
+      fenetre = new EcranScore(this.score, t_fin, 1);
     }
     }
     else{
@@ -160,7 +159,7 @@ class JeuTerre implements Fenetre {
   
   
   void mouseClick(){
-    if (mouseX > displayWidth - 188 && mouseY < 143)
+    if (mouseX > displayWidth - 188 && mouseY < 143 && millis() >= t_depart + 4200)
       fenetre = new MenuPause(this.patates, this.frites, this.score, this.vie, this.tMLG, this.tDouble, this.tAqua);
   }
   
@@ -171,7 +170,7 @@ class JeuTerre implements Fenetre {
       potato = true;}
     else{
       potato = false;}
-    Frite frite = new Frite(random(patate.position.x-0.1, patate.position.x+0.1),random(patate.position.y-0.1, patate.position.y+0.1), random(patate.v.x-1, patate.v.x+1), random(patate.v.y-1, patate.v.y+1), patate.taille/3, potato, patate.rotation);
+    Frite frite = new Frite(random(patate.position.x-0.1, patate.position.x+0.1),random(patate.position.y-0.1, patate.position.y+0.1), random(patate.v.x-1, patate.v.x+1), random(patate.v.y-1, patate.v.y+1), patate.taille/6, potato, patate.rotation);
     frite.img.resize(0, patate.img.height-20);
     this.frites.add(frite);
   }
@@ -204,7 +203,7 @@ class JeuTerre implements Fenetre {
       aleat = (int) random(1,2.99);
       son_coupe();
     }else if(coupe.type == 1 && mlg==false){
-      vie-=1;
+      this.vie-=1;
       this.score-=1*multiple;
       sonrate.play();
     }
@@ -213,16 +212,17 @@ class JeuTerre implements Fenetre {
       soneau.play();
       viscosite = 0.002;
       densite = 1;
-      tAqua = 0;
+      this.tAqua = 0;
     }
     
     else if(coupe.type == 3){
       multiple *= 2;
-      tDouble = 0;
+      this.tDouble = 0;
       sonx2.play();
     }
    
     else if(coupe.type == 4 && mlg == false){
+      musique.amp(0.5);
       this.tMLG = 0;
       musique_mlg();
       mlg = true;
@@ -233,18 +233,23 @@ class JeuTerre implements Fenetre {
 
 
 class EcranScore implements Fenetre{
-  public EcranScore(int score, int temps){
+  public EcranScore(int score, float temps, int mode){
     fill(255, 255, 0);
     textSize(60);
     if (score < 0)
       text("Tricheur !", displayWidth/3, displayHeight/2);
     else
       text("Score: "+str(score), displayWidth/3, displayHeight/2);
-    argent += temps*score/5000;
-    argent_total += temps*score/5000;
-    meilleurs_scores.append(score);
-    meilleurs_scores.sortReverse();
-    meilleurs_scores.remove(meilleurs_scores.size()-1);
+    argent += temps*score/25000;
+    argent_total += temps*score/25000;
+    if(mode == 1){
+      meilleurs_scoresT.append(score);
+      meilleurs_scoresT.sortReverse();
+      meilleurs_scoresT.remove(meilleurs_scoresT.size()-1);}
+    else if(mode==2){
+      meilleurs_scoresG.append(score);
+      meilleurs_scoresG.sortReverse();
+      meilleurs_scoresG.remove(meilleurs_scoresT.size()-1);}
     defaite();
   }
   

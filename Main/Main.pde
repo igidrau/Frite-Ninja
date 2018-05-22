@@ -1,3 +1,5 @@
+//AMAR
+
 import processing.sound.*;    //Bibliothèque qui gère les sons
 final int framerate = 30;     //Nombre d'images par seconde
 PFont police;

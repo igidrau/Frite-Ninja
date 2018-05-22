@@ -1,31 +1,38 @@
 class JeuGeo implements Fenetre {
   PImage doigt, terre, fond, fondaqua, pause;
-  int score, vie, frequence, multiple, tMLG, tAqua, tDouble, t_depart;
-  boolean mlg;
+  int score, vie, frequence, multiple, tMLG, tDouble, t_fin;
+  float t_depart;
+  boolean mlg, commence;
   ArrayList<Patate> patates;
+  ArrayList<Frite> frites;
   
-  public JeuGeo() {
-    t_depart = millis();
-    tMLG = tAqua = tDouble = 20*framerate;
-    patates = new ArrayList<Patate>();
+  public JeuGeo(ArrayList<Patate> patates, ArrayList<Frite> frites, int score, int vie, float t_depart, boolean commence, int tMLG, int tDouble) {
+    this.patates =  new ArrayList<Patate>(patates);
+    this.frites = new ArrayList<Frite>(frites);
+    this.score = score;
+    this.vie = vie;
+    this.t_depart = t_depart;
+    this.commence = commence;
+    this.tMLG = tMLG;
+    this.tDouble = tDouble;
     textSize(25);
-    parsec = 0.0027;
-    score = 0;
-    vie = 5;
-    frequence = 60;
     multiple = 1;
     doigt = loadImage("images/raquettes/RACKET-"+str(racket_activ+1)+"-OMBRE.png");
     terre = loadImage("images/fonds/Terre.png");
     pause = loadImage("images/boutons/bouton-6.png");
     fond = loadImage("images/fonds/fond-geo.png");
     fond.resize(displayWidth,displayHeight);
-    musique_space();
+    if(this.commence == false){
+      musique_space();
+      parsec = 0.0027;
+      frequence = 60;}
+      musique.amp(1);
   }
-  
+
   void drow(){
     clear();
     background(fond);
-    fill(255,255,0);
+    fill(255, 255, 0);
     text("score: "+str(score), displayWidth/10, 50);
     text("vie: "+str(vie), displayWidth/10, 100);
     image(this.pause, displayWidth - 188/2, displayHeight-(displayHeight - 143/2));
@@ -35,85 +42,108 @@ class JeuGeo implements Fenetre {
     translate(displayWidth/2, displayHeight/2);
     image(terre, 0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
     
-      for(int i=patates.size()-1; i>=0; i--){
-        translate(patates.get(i).position.x*pow(10,-echelleGeopw), patates.get(i).position.y*pow(10,-echelleGeopw));
-        rotate(patates.get(i).tourne);
-        image(patates.get(i).img, 0, 0, (int)displayWidth/20, (int)displayWidth/14);
-        rotate(-patates.get(i).tourne);
-        translate(-patates.get(i).position.x*pow(10,-echelleGeopw), -patates.get(i).position.y*pow(10,-echelleGeopw));
-        patates.get(i).mouvementGeo();
-        if(sqrt(pow(patates.get(i).position.x,2)+pow(patates.get(i).position.y,2))<rTerrenb*pow(10,rTerrepw)){
-          if(patates.get(i).type!=1 && !mlg) 
-            vie -= 1;
-          patates.remove(i);
+      for(int i=this.frites.size()-1; i>=0; i--){
+        translate(this.frites.get(i).position.x*pow(10,-echelleGeopw), this.frites.get(i).position.y*pow(10,-echelleGeopw));
+        rotate(this.frites.get(i).tourne);
+        image(this.frites.get(i).img, 0, 0);
+        rotate(-this.frites.get(i).tourne);
+        translate(-this.frites.get(i).position.x*pow(10,-echelleGeopw), -this.frites.get(i).position.y*pow(10,-echelleGeopw));
+        this.frites.get(i).mouvementGeo();
+        if(sqrt(pow(this.frites.get(i).position.x,2)+pow(this.frites.get(i).position.y,2))<rTerrenb*pow(10,rTerrepw)){
+          this.frites.remove(i);
         }
       }
-      if(score >= 10)
-        frequence = 40;
-      else if(score >= 50)
-        frequence = 20;
-      else if (score >= 100)
-        frequence = 10;
-      else if (score < 0)
-        vie = 0;
-      else
-        frequence = 80;
-   // }
+      
+      for(int i=this.patates.size()-1; i>=0; i--){
+        translate(this.patates.get(i).position.x*pow(10,-echelleGeopw), this.patates.get(i).position.y*pow(10,-echelleGeopw));
+        rotate(this.patates.get(i).tourne);
+        image(this.patates.get(i).img, 0, 0);
+        rotate(-this.patates.get(i).tourne);
+        translate(-this.patates.get(i).position.x*pow(10,-echelleGeopw), -this.patates.get(i).position.y*pow(10,-echelleGeopw));
+        this.patates.get(i).mouvementGeo();
+        if(sqrt(pow(this.patates.get(i).position.x,2)+pow(this.patates.get(i).position.y,2))<rTerrenb*pow(10,rTerrepw)){
+          if(this.patates.get(i).type!=1 && !mlg) 
+            this.vie -= 1;
+          this.patates.remove(i);
+        }
+      }
+
     if(mousePressed){
       image(doigt,mouseX-displayWidth/2 , mouseY-displayHeight/2, 100, 100);
-      for(int i=patates.size()-1; i>=0; i--){
-        if(abs(patates.get(i).position.y*pow(10,-echelleGeopw)-(mouseY-displayHeight/2))<70 && abs(patates.get(i).position.x*pow(10,-echelleGeopw)-(mouseX-displayWidth/2))<50){
-          coupePatate(patates.get(i));
-          patates.remove(i);
+      for(int i=this.patates.size()-1; i>=0; i--){
+        if(abs(this.patates.get(i).position.y*pow(10,-echelleGeopw)-(mouseY-displayHeight/2))<70 && abs(this.patates.get(i).position.x*pow(10,-echelleGeopw)-(mouseX-displayWidth/2))<50){
+          coupePatate(this.patates.get(i));
+          this.patates.remove(i);
         }
       }
     }
     
-    if(score >= 10)
+    if(this.score >= 10)
       frequence = 40;
-    else if(score >= 50)
+    else if(this.score >= 50)
       frequence = 20;
-    else if (score >= 100)
+    else if (this.score >= 100)
       frequence = 10;
     else if (score < 0)
-      vie = 0;
+      this.vie = 0;
     else
       frequence = 80;
+    if(mlg)
+      frequence = (int) frequence/5;
       
     if((int)random(frequence)==1)
       creerPatate();
       
-    if(vie <= 0){
+    if(this.vie <= 0){
+      musique.amp(1);
       musique.stop();
+      musique_mlg.stop();
       background(fond);
       translate(-displayWidth/2, -displayHeight/2);
-      fenetre = new EcranScore(score, millis()-t_depart);
+      fenetre = new EcranScore(score, (int) millis()-this.t_depart, 2);
     }
     
-    if(tMLG<10*framerate){
-      tMLG++;
-    }else if(tMLG==10*framerate){
-      musique.stop();
-      musique_space();
+    if(this.tMLG<10*framerate){
+      this.tMLG++;
+    }else if(this.tMLG==10*framerate){
+      musique.amp(1);
       mlg = false;
-      tMLG++;
+      this.tMLG++;
     }
-    if(tDouble<10*framerate){
-      tDouble++;
-    }else if(tDouble==10*framerate){
+    if(this.tDouble<10*framerate){
+      this.tDouble++;
+    }else if(this.tDouble==10*framerate){
       multiple = 1;
-      tDouble++;
+      this.tDouble++;
     }
   }
   
   void mousePress(){}
   
-  void mouseClick(){}
+  void mouseClick(){
+    if (mouseX > displayWidth - 188 && mouseY < 143 && millis() >= t_depart + 4200)
+      fenetre = new MenuPause(this.patates, this.frites, this.score, this.vie, this.tMLG, this.tDouble, -12000);
+  }
+  
+  void creerFrite(Patate patate){
+    if(patate.type==1){
+      potato = true;}
+    else{
+      potato = false;}
+    Frite frite = new Frite(random(patate.position.x-5, patate.position.x+5),random(patate.position.y-5, patate.position.y+5), random(patate.v.x-10, patate.v.x+10), random(patate.v.y-10, patate.v.y+10), patate.taille/6, potato, patate.rotation);
+    frite.img.resize(0, patate.img.height);
+    this.frites.add(frite);
+  }  
+  
   
   void creerPatate(){
-    int type = (int)random(10);
+    
+    int type = (int)random(25);
     if(type>4 || type==2 || type==1 && mlg)
       type = 0;
+    if(type == 4 && mlg)
+      type = 0;
+      
     float angle = random(2*PI);//random(2*PI);
     Patate test1;
     PVector depart = PVector.fromAngle(angle).mult((rTerrenb) * pow(10,rTerrepw));
@@ -125,34 +155,33 @@ class JeuGeo implements Fenetre {
       tourne = random(-PI/128, PI/128);
     }
     test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, random(0.05,0.1), type, tourne);
-    patates.add(test1);
+    this.patates.add(test1);
+    test1.img.resize((int)displayWidth/20, (int)displayWidth/14);
   }
   
   void coupePatate(Patate coupe){
-    score += 1*multiple;
+    for(int i=0; i<6; i++){
+      creerFrite(coupe);}
+    this.score += 1*multiple;
     if(coupe.type == 0){
       aleat = (int) random(1,2);
       son_coupe();
     }else if(coupe.type == 1 && mlg==false){
-      vie-=1;
-      score-=1*multiple;
-    }
-    
-    else if(coupe.type == 2){
-     viscosite = 0.002;
-     densite = 1;
-     tAqua = 0;
+      this.vie-=1;
+      this.score-=1*multiple;
+      sonrate.play();
     }
     
     else if(coupe.type == 3){
       multiple *= 2;
-      tDouble = 0;
+      this.tDouble = 0;
+      sonx2.play();
     }
    
     else if(coupe.type == 4){
-      tMLG = 0;
+      musique.amp(0.5);
+      this.tMLG = 0;
       if(!mlg){
-        musique.stop();
         musique_mlg();
         mlg = true;
       }
