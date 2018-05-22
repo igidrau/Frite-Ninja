@@ -97,7 +97,8 @@ class JeuGeo implements Fenetre {
     if(this.vie <= 0){
       musique.amp(1);
       musique.stop();
-      musique_mlg.stop();
+      if(mlg)
+        musique_mlg.stop();
       background(fond);
       translate(-displayWidth/2, -displayHeight/2);
       fenetre = new EcranScore(score, (int) millis()-this.t_depart, 2);

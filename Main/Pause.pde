@@ -18,8 +18,6 @@ class MenuPause implements Fenetre{
     fill(255);
     imageMode(CENTER);
     musique.amp(0.1);
-    ;
-  
   }
   
   void drow() {
@@ -42,4 +40,5 @@ class MenuPause implements Fenetre{
       musique_menu();
       fenetre = new Menu();
   }
+}
 }

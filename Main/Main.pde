@@ -12,8 +12,8 @@ void setup() {
   frameRate(framerate);
   
   
-    recupSave();
-    triche();
+  recupSave();
+  triche();
 
   fenetre = new Menu();
   sonstart = new SoundFile(this, "son/son-start.wav");
