@@ -1,3 +1,5 @@
+//cette classe est en majorité identique à la classe patate
+
 
 class Frite{
   float masse, taille, tourne, rotation;
@@ -8,15 +10,15 @@ class Frite{
     this.position = new PVector(x, y); //Vecteur position (m)
     this.v = new PVector(vx, vy); //Vecteur vitesse (m/s)
     this.masse = 4*PI/3*pow(taille,3)*mvpatate; //Calcul de la masse en fonction du diamètre et de la densité
-    this.taille = taille; //Taille de la patate (m)
+    this.taille = taille; //Taille de la frite (m)
     this.potato = potato;
     
-    this.rotation = rotation; //Vitesse de rotation de la patate (rad/s)
-    this.tourne = 0; //Angle d'origine de la patate (évolue à chaque itération de la boucle en fonction de la vitesse de rotation) (rad)
+    this.rotation = rotation;
+    this.tourne = 0;
     
-    String nom =""; //importation de l'image de la de la frite en fonction de son type
+    String nom =""; //importation de l'image de la frite en fonction de son type
     
-    if(potato)
+    if(potato)                                                      //si cette frite est issu d'une patate non épluchée, c'est une potato
       nom = "images/patates/potato-" + int(random(4)) +".png";
     else
       nom = "images/patates/frite-" + int(random(6)) +".png";
