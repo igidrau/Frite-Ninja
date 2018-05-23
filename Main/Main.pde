@@ -1,5 +1,3 @@
-//AMAR
-
 import processing.sound.*;    //Bibliothèque qui gère les sons
 final int framerate = 30;     //Nombre d'images par seconde
 PFont police;
@@ -23,7 +21,7 @@ void setup() {
   sonx2 = new SoundFile(this, "son/son-x2.wav");
   soneau = new SoundFile(this,"son/son-eau.wav");
   musique_menu();
-  police = loadFont("TrebuchetMS-30.vlw");
+  police = loadFont("TrebuchetMS-30.vlw");    //police d'écriture du jeu
 }
 
 void draw() {
@@ -45,6 +43,6 @@ void mousePressed() {
 }
 
 void quitter(){
-  sauvegarde();
+  sauvegarde();      //on sauvegarde avant de quitter
   exit();
 }

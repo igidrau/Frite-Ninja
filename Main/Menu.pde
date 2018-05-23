@@ -48,9 +48,8 @@ class Menu implements Fenetre {
     if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2)){ //bouton boutique
       fenetre = new MenuBoutique();
       son_coupe();}
-    if (mouseX > displayWidth-188 && mouseY > displayHeight-143){
+    if (mouseX > displayWidth-188 && mouseY > displayHeight-143)
       quitter();
-      son_coupe();}
     if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && mouseY > displayHeight-143){
       fenetre = new Instructions();
       son_coupe();}
@@ -93,12 +92,18 @@ class MenuJeu implements Fenetre {
     if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2)){
       musique.stop();
       son_coupe();
-      fenetre = new JeuTerre(patates, frites, 0, 5, millis(), false, u , u, u);
+      fenetre = new JeuTerre(patates, frites, 0, 5, 0, false, false, u , u, u);
     }
     else if (((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2))){
-      musique.stop();
-      son_coupe();
-      fenetre = new JeuGeo(patates, frites, 0, 5, millis(), false, u , u);
+      if(meilleurs_scoresT.get(0) >= 1500){
+        musique.stop();
+        son_coupe();
+        fenetre = new JeuGeo(patates, frites, 0, 5, 0, false, false, u , u);}
+      else{
+        sonerreur.play();
+        textSize(20);
+        fill(255);
+        text("Il faut avoir fait plus de 1500 dans la cuisine avant de pouvoir décoller", 10, 20);}
     }
     if (mouseX > displayWidth-188 && mouseY > displayHeight-143){
       fenetre = new Menu();

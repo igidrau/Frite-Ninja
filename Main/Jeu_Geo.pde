@@ -1,12 +1,14 @@
 class JeuGeo implements Fenetre {
   PImage doigt, terre, fond, fondaqua, pause;
-  int vie, frequence, multiple, tMLG, tDouble, temps;
-  float score;
+  int vie, tMLG, tDouble, temps;
+  float score, frequence, multiple, xArgent, xScore;
   boolean mlg, commence;
   ArrayList<Patate> patates;
   ArrayList<Frite> frites;
+  XML[] raquettes;
   
-  public JeuGeo(ArrayList<Patate> patates, ArrayList<Frite> frites, float score, int vie, int temps, boolean commence, int tMLG, int tDouble) {
+  public JeuGeo(ArrayList<Patate> patates, ArrayList<Frite> frites, float score, int vie, int temps, boolean commence, boolean mlg, int tMLG, int tDouble) {
+    raquettes = loadXML("data/raquettes.data").getChildren("raquette");
     this.patates =  new ArrayList<Patate>(patates);
     this.frites = new ArrayList<Frite>(frites);
     this.score = score;
@@ -15,8 +17,11 @@ class JeuGeo implements Fenetre {
     this.commence = commence;
     this.tMLG = tMLG;
     this.tDouble = tDouble;
+    this.mlg = mlg;
     textSize(25);
-    multiple = 1;
+    xArgent = float(raquettes[racket_activ].getString("argent"));
+    xScore = float(raquettes[racket_activ].getString("score"));
+    multiple = 1 * xScore;
     doigt = loadImage("images/raquettes/RACKET-"+str(racket_activ+1)+"-OMBRE.png");
     terre = loadImage("images/fonds/Terre.png");
     pause = loadImage("images/boutons/bouton-6.png");
@@ -26,7 +31,7 @@ class JeuGeo implements Fenetre {
       musique_space();
       parsec = 0.0027;
       frequence = 60;}
-      musique.amp(1);
+    musique.amp(1);
   }
 
   void drow(){
@@ -36,8 +41,8 @@ class JeuGeo implements Fenetre {
     fill(255, 255, 0);
     text("score: "+str(int(score)), 50, 50);
     text("vie: "+str(vie), 50, 100);
-    if(multiple>1)
-      text("x" + str(multiple), 2*displayWidth/10, 50);
+    if(multiple>xScore)
+      text("x" + str(multiple/xScore), 2*displayWidth/10, 50);
       
     translate(displayWidth/2, displayHeight/2);
     image(terre, 0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
@@ -62,7 +67,7 @@ class JeuGeo implements Fenetre {
         translate(-this.patates.get(i).position.x*pow(10,-echelleGeopw), -this.patates.get(i).position.y*pow(10,-echelleGeopw));
         this.patates.get(i).mouvementGeo();
         if(sqrt(pow(this.patates.get(i).position.x,2)+pow(this.patates.get(i).position.y,2))<rTerrenb*pow(10,rTerrepw)){
-          if(this.patates.get(i).type!=1 && !mlg) 
+          if(this.patates.get(i).type!=1 && !this.mlg) 
             this.vie -= 1;
           this.patates.remove(i);
         }
@@ -81,43 +86,35 @@ class JeuGeo implements Fenetre {
       }
     }
     
-    if(this.score >= 10)
-      frequence = 40;
-    else if(this.score >= 50)
-      frequence = 20;
-    else if (this.score >= 100)
-      frequence = 10;
-    else if (score < 0)
-      this.vie = 0;
-    else
-      frequence = 80;
-    if(mlg)
+    frequence = 52*exp(-score/400)+8; 
+    if(this.mlg)
       frequence = (int) frequence/5;
       
-    if((int)random(frequence)==1)
+      
+    if((int)random(frequence)==1 && this.patates.size()<= 10)
       creerPatate();
       
     if(this.vie <= 0){
       musique.amp(1);
       musique.stop();
-      if(mlg)
+      if(this.mlg)
         musique_mlg.stop();
       background(fond);
       translate(-displayWidth/2, -displayHeight/2);
-      fenetre = new EcranScore(this.score, this.temps, 2);
+      fenetre = new EcranScore(this.score, this.temps, 2, xArgent);
     }
     
-    if(this.tMLG<10*framerate){
+    if(this.tMLG<8*framerate){
       this.tMLG++;
-    }else if(this.tMLG==10*framerate){
+    }else if(this.tMLG==8*framerate){
       musique.amp(1);
-      mlg = false;
+      this.mlg = false;
       this.tMLG++;
     }
     if(this.tDouble<10*framerate){
       this.tDouble++;
     }else if(this.tDouble==10*framerate){
-      multiple = 1;
+      multiple = xScore;
       this.tDouble++;
     }
   }
@@ -125,8 +122,8 @@ class JeuGeo implements Fenetre {
   void mousePress(){}
   
   void mouseClick(){
-    if (mouseX > displayWidth - 188 && mouseY < 143)
-      fenetre = new MenuPause(this.patates, this.frites, this.score, this.vie, this.temps, this.tMLG, this.tDouble, -12000);
+    if (mouseX > displayWidth - 188 && mouseY < 143){
+      fenetre = new MenuPause(this.patates, this.frites, this.score, this.vie, this.temps, this.mlg, this.tMLG, this.tDouble, -12000);}
   }
   
   void creerFrite(Patate patate){
@@ -143,9 +140,9 @@ class JeuGeo implements Fenetre {
   void creerPatate(){
     
     int type = (int)random(25);
-    if(type>4 || type==2 || type==1 && mlg)
+    if(type>4 || type==2 || type==1 && this.mlg)
       type = 0;
-    if(type == 4 && mlg)
+    if(type == 4 && this.mlg)
       type = 0;
       
     float angle = random(2*PI);//random(2*PI);
@@ -170,7 +167,7 @@ class JeuGeo implements Fenetre {
     if(coupe.type == 0){
       aleat = (int) random(1,2);
       son_coupe();
-    }else if(coupe.type == 1 && mlg==false){
+    }else if(coupe.type == 1 && this.mlg==false){
       this.vie-=1;
       this.score-=1*multiple;
       sonrate.play();
@@ -185,9 +182,9 @@ class JeuGeo implements Fenetre {
     else if(coupe.type == 4){
       musique.amp(0.5);
       this.tMLG = 0;
-      if(!mlg){
+      if(!this.mlg){
         musique_mlg();
-        mlg = true;
+        this.mlg = true;
       }
     }
   }
