@@ -92,13 +92,13 @@ class MenuJeu implements Fenetre {
     if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2)){
       musique.stop();
       son_coupe();
-      fenetre = new JeuTerre(patates, frites, 0, 5, 0, false, false, u , u, u);
+      fenetre = new JeuTerre(patates, frites, 0, 3, 0, false, false, u , u, u);
     }
     else if (((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2))){
       if(meilleurs_scoresT.get(0) >= 1500){
         musique.stop();
         son_coupe();
-        fenetre = new JeuGeo(patates, frites, 0, 5, 0, false, false, u , u);}
+        fenetre = new JeuGeo(patates, frites, 0, 3, 0, false, false, u , u);}
       else{
         sonerreur.play();
         textSize(20);
