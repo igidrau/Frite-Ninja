@@ -43,19 +43,23 @@ class Menu implements Fenetre {
   
   void mouseClick(){
     if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2)){ //bouton jouer
+      son_coupe();
       fenetre = new MenuJeu();
-      son_coupe();}
+    }
     if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2)){ //bouton boutique
+      son_coupe();
       fenetre = new MenuBoutique();
-      son_coupe();}
+    }
     if (mouseX > displayWidth-188 && mouseY > displayHeight-143)
       quitter();
     if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && mouseY > displayHeight-143){
+      son_coupe();
       fenetre = new Instructions();
-      son_coupe();}
+    }
     if (mouseX < 188 && mouseY > displayHeight-143){
+      son_coupe();
       fenetre = new Records();
-      son_coupe();}
+    }
   }
 }
 
@@ -65,18 +69,22 @@ class Menu implements Fenetre {
 class MenuJeu implements Fenetre {
  
   PImage b_classique, b_espace, b_retour, fond;
+  int temps;
   
   public MenuJeu(){
     fond = loadImage("images/fonds/fond-menu.png");
     fond.resize(displayWidth,displayHeight);
-    background(fond);
     b_retour = loadImage("images/boutons/bouton-9.png");
     b_classique = loadImage("images/boutons/bouton-7.png"); //chargement des boutons
     b_espace = loadImage("images/boutons/bouton-8.png");
-    
+    background(fond);
+    temps = framerate*6;
   }
   
   void drow(){
+    temps++;
+    if(temps==framerate*1)
+      background(fond);
     image(b_retour,displayWidth - 188/2, displayHeight - 143/2);
     imageMode(CENTER); //affichage des boutons
     image(this.b_classique,displayWidth/2, displayHeight/3);
@@ -90,23 +98,28 @@ class MenuJeu implements Fenetre {
     patates = new ArrayList<Patate>();
     frites = new ArrayList<Frite>();
     if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2)){
-      musique.stop();
       son_coupe();
-      fenetre = new JeuTerre(patates, frites, 0, 5, 0, false, false, u , u, u);
+      musique.stop();
+      fenetre = new JeuTerre(patates, frites, 0, 3, 0, false, false, u , u, u);
     }
     else if (((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2))){
       if(meilleurs_scoresT.get(0) >= 1500){
-        musique.stop();
         son_coupe();
-        fenetre = new JeuGeo(patates, frites, 0, 5, 0, false, false, u , u);}
+        musique.stop();
+        fenetre = new JeuGeo(patates, frites, 0, 3, 0, false, false, u , u);}
       else{
         sonerreur.play();
-        textSize(20);
         fill(255);
-        text("Il faut avoir fait plus de 1500 dans la cuisine avant de pouvoir décoller", 10, 20);}
+        rect(displayWidth/5, displayHeight/2-20, 3*displayWidth/5, 40);
+        textSize(20);
+        fill(255, 0, 0);
+        text("Il faut avoir fait plus de 1500 points dans la cuisine avant de pouvoir décoller", displayWidth/5+20, displayHeight/2+10);
+        temps=0;
+      }
     }
     if (mouseX > displayWidth-188 && mouseY > displayHeight-143){
+      son_coupe();
       fenetre = new Menu();
-      son_coupe();}
-}
+    }
+  }
 }

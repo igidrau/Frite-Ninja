@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <save>
-  <argent>0</argent>
-  <argentTotal>0</argentTotal>
-  <score>0</score>
-  <score>0</score>
-  <score>0</score>
-  <score>0</score>
-  <score>0</score>
+  <argent>237</argent>
+  <argentTotal>237</argentTotal>
+  <scoret>150</scoret>
+  <scoret>0</scoret>
+  <scoret>0</scoret>
+  <scoret>0</scoret>
+  <scoret>0</scoret>
+  <scoreg>0</scoreg>
+  <scoreg>0</scoreg>
+  <scoreg>0</scoreg>
+  <scoreg>0</scoreg>
+  <scoreg>0</scoreg>
   <raquette n="0">true</raquette>
   <raquette n="1">false</raquette>
   <raquette n="2">false</raquette>
