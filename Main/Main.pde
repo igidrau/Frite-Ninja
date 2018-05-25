@@ -1,6 +1,7 @@
 import processing.sound.*;    //Bibliothèque qui gère les sons
 final int framerate = 30;     //Nombre d'images par seconde
 PFont police;
+PImage logo;
 
 
 Fenetre fenetre;
@@ -8,6 +9,10 @@ Fenetre fenetre;
 void setup() {
   fullScreen();
   frameRate(framerate);
+  
+  PImage logo = loadImage("images/logo.png");
+  Image icon = (Image)logo.getNative();
+  frame.setIconImage(icon);
   
   
   recupSave();
