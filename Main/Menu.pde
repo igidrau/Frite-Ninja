@@ -13,6 +13,19 @@ static interface Fenetre {
   void mouseClick();
 }
 
+class Chargement implements Fenetre {
+  public Chargement(){
+    thread("chargerMenu");
+    PImage logo = loadImage("images/logo.png");
+    imageMode(CENTER);
+    image(logo, displayWidth/2, displayHeight/2);
+  }
+  
+  void drow(){}
+  void mousePress(){}
+  void mouseClick(){}
+}
+
 
 class Menu implements Fenetre {
   
