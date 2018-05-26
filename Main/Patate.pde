@@ -45,7 +45,7 @@ class Patate{
     PVector a = grav.add(frottement).add(archimede).div(this.masse); //Vecteur représentant l'accélération (m/s²)
     this.v = PVector.add(v, PVector.div(a, parsec * framerate)); //Vecteur représentant la vitesse (m/s)
     this.position = PVector.add(this.position, PVector.div(this.v, parsec * framerate)); //Vecteur représentant la position de la patate par rapport à l'origine du repère (en bas à gauche)(m)
-    if(this.position.x>(displayWidth+(float)(displayWidth/60))/echelleTerre || this.position.x<0){
+    if(this.position.x>(float)(61*displayWidth/(60*echelleTerre)) || this.position.x<0){
       this.v = new PVector(-this.v.x, this.v.y);
     }
     this.tourne+=this.rotation/(parsec*framerate); //Incrémentation de l'angle de la patate
