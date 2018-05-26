@@ -126,6 +126,7 @@ class MenuJeu implements Fenetre {
         rect(displayWidth/5, displayHeight/2-20, 3*displayWidth/5, 40);
         textSize(20);
         fill(255, 0, 0);
+        rectMode(CORNER);
         text("Il faut avoir fait plus de 1500 points dans la cuisine avant de pouvoir décoller", displayWidth/5+20, displayHeight/2+10);
         temps=0;
       }
