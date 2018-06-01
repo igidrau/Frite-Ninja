@@ -5,12 +5,11 @@ int racket_activ;                        //raquette que le jouer utilise pour l'
 class MenuBoutique implements Fenetre {
   
   PImage racket_visuel, racket_bad,racket_ten,racket_laser,racket_ping,racket_gold;
-  PImage b_retour, b_achat, b_equip, b_active, fond;
+  PImage b_retour, b_achat, b_equip, b_active;
   int racket_visu = racket_activ;
   XML[] raquettes;
   
   public MenuBoutique() {
-    fond = loadImage("images/fonds/fond-menu.png");
     raquettes = loadXML("data/raquettes.data").getChildren("raquette");    //charge le fichier contenant les données sur les raquettes
     racket_visuel = loadImage(raquettes[racket_visu].getString("img"));    //charge l'image de la raquette visionné à partir de la chaîne de caractère dans le fichier XML
     racket_bad = loadImage(raquettes[0].getString("ombre"));              //charge l'icône de chaque raquette 
@@ -22,7 +21,6 @@ class MenuBoutique implements Fenetre {
     b_achat = loadImage("images/boutons/bouton-10.png");
     b_equip = loadImage("images/boutons/bouton-11.png");
     b_active = loadImage("images/boutons/equipee.png");
-    fond.resize(displayWidth, displayHeight);                  //le fond doit faire la taille de l'écran pour être utilisé comme arrière plan
     racket_bad.resize(100,0);
     racket_ten.resize(100,0);
     racket_laser.resize(100,0);
@@ -34,7 +32,7 @@ class MenuBoutique implements Fenetre {
   }
 
   void drow() {
-    background(fond);
+    background(fondMenu);
     textSize(50);
     fill(255,255,0);
     text(str(argent) + "€", 60,60);      //affiche le montant actuel d'argent
@@ -43,7 +41,10 @@ class MenuBoutique implements Fenetre {
     rect(displayWidth/4,displayHeight/2, racket_visuel.width+40,racket_visuel.height+40);
     image(racket_visuel, displayWidth/4 ,displayHeight/2);                  //affiche l'image de la raquette dont on a sélectionné l'icône
     textSize(40);
+    StringList description = new StringList();
+    description.append(raquettes[racket_visu].getContent());
     fill(255);
+    afficherTexte(description, 30, 2*displayWidth/5, 5*displayWidth/6, displayHeight/5+150, 10); 
     
     if(raquettesAchetees.get(racket_visu)){          //si la raquette affichée est achetée
       if(racket_activ == racket_visu)
@@ -55,7 +56,7 @@ class MenuBoutique implements Fenetre {
       fill(#64ff64);
       text(raquettes[racket_visu].getString("prix")+" €", 2*displayWidth/5+295, displayHeight/5+90);    //prix de la raquette affichée
     }
-    text(raquettes[racket_visu].getContent(), 2*displayWidth/5,displayHeight/5); //nom de la raquette
+    text(raquettes[racket_visu].getString("nom"), 2*displayWidth/5,displayHeight/5); //nom de la raquette
     
     if(racket_visu == 0)                  //change la couleur du rectangle derrière le bouton pause si achetée ou affichée ou non
       fill(#ffc100);
@@ -133,6 +134,7 @@ class MenuBoutique implements Fenetre {
       else if(argent>=int(raquettes[racket_visu].getString("prix"))){    //sinon, on dépense le prix de la raquette, le booléen change de valeur et un son indique l'achat
         argent-=int(raquettes[racket_visu].getString("prix"));
         raquettesAchetees.set(racket_visu, true);
+        racket_activ = racket_visu;
         sonachat.play();
       } else                                            //si l'on a pas assez pour acheter, un son indique l'impossibilité de l'achat
         sonerreur.play();

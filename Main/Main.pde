@@ -6,7 +6,6 @@ PFont police;
 Fenetre fenetre;
 
 void chargerMenu(){
-  println("ok1");
   recupSave();
   triche();
     
@@ -14,8 +13,11 @@ void chargerMenu(){
     
   musique_menu();
   police = loadFont("TrebuchetMS-30.vlw");    //police d'écriture du jeu
+  textFont(police);
+  
+  fondMenu = loadImage("images/fonds/fond-menu.png");  //fond des menus
+  fondMenu.resize(displayWidth,displayHeight);
   fenetre = new Menu();
-  println("ok2");
 }
 
 void chargerSons(){

@@ -1,27 +1,18 @@
 class Instructions implements Fenetre {
   
-  PFont policeinstructions;
-  String[] instructions;
-  PImage fond, b_retour;
+  StringList instructions;
+  PImage b_retour;
   public Instructions() {
-    fond = loadImage("images/fonds/fond-menu.png");
-    fond.resize(displayWidth,displayHeight);
-    background(fond);
+    background(fondMenu);
     b_retour = loadImage("images/boutons/bouton-9.png");
     image(b_retour,displayWidth - 188/2, displayHeight - 143/2);
     int police = 30;
     textSize(police);
     fill(#ffff00);
-    policeinstructions = loadFont("TrebuchetMS-30.vlw");
-    instructions = loadStrings("data/instructions-1.txt");
-    StringList texte = new StringList();
-    for(int i=0; i< instructions.length; i = i+1){
-      texte.append(decouperTexte(instructions[i], police));
-    }
-    for(int i=0; i<texte.size(); i++){
-      text(texte.get(i), 100, i*40+50);
-      println(texte.get(i));
-    }
+    instructions = new StringList();
+    for(String paragraphe : loadStrings("data/instructions-1.txt"))
+      instructions.append(paragraphe);
+    afficherTexte(instructions, police, 100, displayWidth-100, 50, 10);
     
   }
   void drow(){}
@@ -40,9 +31,7 @@ class Records implements Fenetre {
   public Records() {
     textSize(50);
     fill(255,255,0);
-    fond = loadImage("images/fonds/fond-menu.png");
-    fond.resize(displayWidth,displayHeight);
-    background(fond);
+    background(fondMenu);
     b_retour = loadImage("images/boutons/bouton-9.png");
     image(b_retour,displayWidth - 188/2, displayHeight - 143/2);
     text("Mode Cuisine", displayWidth/10-20, displayHeight/7);
@@ -64,19 +53,29 @@ class Records implements Fenetre {
   }
 }
 
-StringList decouperTexte(String texte, int taille){        // Découpe un texte en plusieures lignes pour pouvoir l'afficher correctement
-  int max = 2*(displayWidth-200)/taille;
+StringList decouperTexte(String texte, int taille, int gauche, int droite){        // Découpe un texte en plusieures lignes pour pouvoir l'afficher correctement
+  int max = 2*(droite-gauche)/taille;
   StringList lignes = new StringList();
   String[] mots = split(texte, " ");
   String ligne = "    ";
   for(String mot : mots){
-    if((ligne+" "+mot).length() < max){
-      ligne = ligne + " " + mot;
+    if((ligne+mot).length() < max){
+      ligne = ligne + mot + " ";
     }else{
       lignes.append(ligne);
-      ligne = mot;
+      ligne = mot+" ";
     }
   }
-  lignes.append(ligne);  
+  lignes.append(ligne);
   return lignes;
+}
+
+void afficherTexte(StringList texte, int taille, int gauche, int droite, int haut, int interligne){
+  int i = 0;
+  for(String paragraphe : texte){
+    for(String ligne : decouperTexte(paragraphe, taille, gauche, droite)){
+      text(ligne, gauche, haut+i*(interligne+taille));
+      i++;
+    }
+  }
 }

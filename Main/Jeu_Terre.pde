@@ -246,11 +246,12 @@ class EcranScore implements Fenetre{
     if(mode == 1){
       meilleurs_scoresT.append(int(score));
       meilleurs_scoresT.sortReverse();
-      meilleurs_scoresT.remove(meilleurs_scoresT.size()-1);}
-    else if(mode==2){
+      meilleurs_scoresT.remove(meilleurs_scoresT.size()-1);
+    }else if(mode==2){
       meilleurs_scoresG.append(int(score));
       meilleurs_scoresG.sortReverse();
-      meilleurs_scoresG.remove(meilleurs_scoresT.size()-1);}
+      meilleurs_scoresG.remove(meilleurs_scoresT.size()-1);
+    }
     defaite();
   }
   
