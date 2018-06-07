@@ -2,16 +2,16 @@
 <save>
   <argent>100367</argent>
   <argentTotal>100647</argentTotal>
-  <scoret>2166</scoret>
-  <scoret>54</scoret>
-  <scoret>2</scoret>
-  <scoret>1</scoret>
-  <scoret>0</scoret>
-  <scoreg>1626</scoreg>
-  <scoreg>6</scoreg>
-  <scoreg>0</scoreg>
-  <scoreg>0</scoreg>
-  <scoreg>0</scoreg>
+  <scoret nom="blabla">2166</scoret>
+  <scoret nom="">100</scoret>
+  <scoret nom="Moi">60</scoret>
+  <scoret nom="">54</scoret>
+  <scoret nom="k">3</scoret>
+  <scoreg nom="albalb">1626</scoreg>
+  <scoreg nom="">6</scoreg>
+  <scoreg nom="">0</scoreg>
+  <scoreg nom="">0</scoreg>
+  <scoreg nom="">0</scoreg>
   <raquette n="0">true</raquette>
   <raquette n="1">true</raquette>
   <raquette n="2">false</raquette>

@@ -1,7 +1,7 @@
 void recupSave() {
   try {
-    meilleurs_scoresT = new IntList();                    //Récupération de la sauvegarde
-    meilleurs_scoresG = new IntList();
+    meilleurs_scoresT = new ArrayList<Score>();                    //Récupération de la sauvegarde
+    meilleurs_scoresG = new ArrayList<Score>();
     raquettesAchetees = new ArrayList<Boolean>();
     XML save = loadXML("save.save");
     XML[] scorest = save.getChildren("scoret");
@@ -11,8 +11,8 @@ void recupSave() {
     argent_total = int(save.getChild("argentTotal").getContent());
 
     for (int i = 0; i<scorest.length; i++) {
-      meilleurs_scoresT.append(int(scorest[i].getContent()));
-      meilleurs_scoresG.append(int(scoresg[i].getContent()));
+      meilleurs_scoresT.add(new Score(int(scorest[i].getContent()), scorest[i].getString("nom")));
+      meilleurs_scoresG.add(new Score(int(scoresg[i].getContent()), scoresg[i].getString("nom")));
     }
 
     for (int i = 0; i<raquettes.length; i++) {
@@ -45,16 +45,16 @@ void triche() {                                 //Surveillance de potentielles t
 
 void nouvellePartie() {
 
-  meilleurs_scoresT = new IntList();
-  meilleurs_scoresG = new IntList();
+  meilleurs_scoresT = new ArrayList<Score>();
+  meilleurs_scoresG = new ArrayList<Score>();
   raquettesAchetees = new ArrayList<Boolean>();
   argent = argent_total = 0;
   raquettesAchetees.add(true);
-  meilleurs_scoresT.append(0);
-  meilleurs_scoresG.append(0);
+  meilleurs_scoresT.add(new Score(0, ""));
+  meilleurs_scoresG.add(new Score(0, ""));
   for (int i = 1; i<5; i++) {
-    meilleurs_scoresT.append(0);
-    meilleurs_scoresG.append(0);
+    meilleurs_scoresT.add(new Score(0, ""));
+    meilleurs_scoresG.add(new Score(0, ""));
     raquettesAchetees.add(false);
   }
   racket_activ = 0;
@@ -64,11 +64,15 @@ void sauvegarde() {
   XML save = new XML("save");
   save.addChild("argent").setContent(str(argent));
   save.addChild("argentTotal").setContent(str(argent_total));
-  for (int i : meilleurs_scoresT) {
-    save.addChild("scoret").setContent(str(i));
+  for (Score i : meilleurs_scoresT) {
+    XML scori = save.addChild("scoret");
+    scori.setContent(str(i.score));
+    scori.setString("nom", i.nom);
   }
-  for (int i : meilleurs_scoresG) {
-    save.addChild("scoreg").setContent(str(i));
+  for (Score i : meilleurs_scoresG) {
+    XML scori = save.addChild("scoreg");
+    scori.setContent(str(i.score));
+    scori.setString("nom", i.nom);
   }
   for (int i = 0; i<raquettesAchetees.size(); i++) {
     XML raquettei = save.addChild("raquette");

@@ -144,5 +144,5 @@ class MenuBoutique implements Fenetre {
       fenetre = new Menu();
     
   }
-  
+  void keyPress(){}
 }

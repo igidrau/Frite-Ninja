@@ -53,6 +53,11 @@ void mousePressed() {
   }
 }
 
+void keyPressed(){
+  if(fenetre != null)
+    fenetre.keyPress();
+}
+
 void quitter(){
   sauvegarde();      //on sauvegarde avant de quitter
   exit();

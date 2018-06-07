@@ -2,7 +2,6 @@
 float parsec; // le nombre d'images par seconde
 final int echelleTerre = 300; // pxl/m
 final float echelleGeopw = 4.5; //(10^)pxl/m
-IntList meilleurs_scoresT, meilleurs_scoresG;
 int argent, argent_total;
 PImage fondMenu;
 
@@ -12,6 +11,7 @@ static interface Fenetre {
   void drow();
   void mousePress();
   void mouseClick();
+  void keyPress();
 }
 
 class Chargement implements Fenetre {
@@ -25,6 +25,7 @@ class Chargement implements Fenetre {
   void drow(){}
   void mousePress(){}
   void mouseClick(){}
+  void keyPress(){}
 }
 
 
@@ -73,6 +74,7 @@ class Menu implements Fenetre {
       fenetre = new Records();
     }
   }
+  void keyPress(){}
 }
 
 
@@ -113,7 +115,7 @@ class MenuJeu implements Fenetre {
       fenetre = new JeuTerre(patates, frites, 0, 3, 0, false, false, u , u, u);
     }
     else if (((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2))){
-      if(meilleurs_scoresT.get(0) >= 1500){
+      if(meilleurs_scoresT.get(0).score >= 1500){
         son_coupe();
         musique.stop();
         fenetre = new JeuGeo(patates, frites, 0, 3, 0, false, false, u , u);}
@@ -133,4 +135,5 @@ class MenuJeu implements Fenetre {
       fenetre = new Menu();
     }
   }
+  void keyPress(){}
 }

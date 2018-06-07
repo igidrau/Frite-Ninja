@@ -51,4 +51,5 @@ class MenuPause implements Fenetre{
       fenetre = new Menu();
     }
   }
+  void keyPress(){}
 }

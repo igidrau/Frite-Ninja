@@ -228,34 +228,42 @@ class JeuTerre implements Fenetre {
       this.mlg = true;
     }
   }
+  void keyPress(){}
 }
 
 
 
 class EcranScore implements Fenetre{
-  
+  boolean newrecord, mode;
+  int score;
+  String nom;
   public EcranScore(float score, float temps, int mode, float xArgent){
+    defaite();
+    this.newrecord = false;
+    this.score = int(score);
+    this.nom = "";
+    this.mode = mode==1;
+    
+    argent += score/temps*25000*xArgent;
+    argent_total += score/temps*25000*xArgent;
+    if(this.mode){
+      this.newrecord = meilleurs_scoresT.get(4).score<score;
+    }else{
+      this.newrecord = meilleurs_scoresG.get(4).score<score;
+    }
+  }
+  
+  void drow(){
+    clear();
     fill(255, 255, 0);
     textSize(60);
     if (score < 0)
-      text("Tricheur !", displayWidth/3, displayHeight/2);
+      text("Tricheur ! (comment t'as fait ?)", displayWidth/3, displayHeight/3);
     else
-      text("Score: "+str(int(score)), displayWidth/3, displayHeight/2);
-    argent += score/temps*25000*xArgent;
-    argent_total += score/temps*25000*xArgent;
-    if(mode == 1){
-      meilleurs_scoresT.append(int(score));
-      meilleurs_scoresT.sortReverse();
-      meilleurs_scoresT.remove(meilleurs_scoresT.size()-1);
-    }else if(mode==2){
-      meilleurs_scoresG.append(int(score));
-      meilleurs_scoresG.sortReverse();
-      meilleurs_scoresG.remove(meilleurs_scoresT.size()-1);
-    }
-    defaite();
+      text("Score: "+str(this.score), displayWidth/3, displayHeight/3);
+    if (this.newrecord)
+      text("Entrez votre nom : "+this.nom, displayWidth/3, 2*displayHeight/3);
   }
-  
-  void drow(){}
   
   void mousePress(){}
   
@@ -265,5 +273,27 @@ class EcranScore implements Fenetre{
     sad.stop();
     fenetre = new Menu();
   }
-  
+  void keyPress(){
+    if (key!=CODED && this.newrecord) {
+      println(key);
+      if (key==BACKSPACE) {
+        if (this.nom.length()>0) {
+          this.nom=this.nom.substring(0, this.nom.length()-1);
+        } // if
+      } else if (key==RETURN || key==ENTER) {
+        if(this.mode){
+          meilleurs_scoresT.add(new Score(int(score), nom));
+          meilleurs_scoresT = triScores(meilleurs_scoresT);
+          meilleurs_scoresT.remove(meilleurs_scoresT.size()-1);
+        }else{
+          meilleurs_scoresG.add(new Score(int(score), nom));
+          meilleurs_scoresG = triScores(meilleurs_scoresG);
+          meilleurs_scoresG.remove(meilleurs_scoresT.size()-1);
+        }
+        fenetre = new Records();
+      } else {
+        this.nom+=key;
+      }
+    }
+  }
 }

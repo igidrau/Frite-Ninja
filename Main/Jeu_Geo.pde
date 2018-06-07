@@ -187,4 +187,5 @@ class JeuGeo implements Fenetre {
       }
     }
   }
+  void keyPress(){}
 }
