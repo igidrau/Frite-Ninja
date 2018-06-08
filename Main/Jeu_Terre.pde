@@ -262,36 +262,34 @@ class EcranScore implements Fenetre{
     else
       text("Score: "+str(this.score), displayWidth/3, displayHeight/3);
     if (this.newrecord)
-      text("Entrez votre nom : "+this.nom, displayWidth/3, 2*displayHeight/3);
+      text("Entrez votre nom : "+this.nom, displayWidth/6, 2*displayHeight/3);
   }
   
   void mousePress(){}
   
-  void mouseClick() {
-    sauvegarde();
-    musique_menu();
-    sad.stop();
-    fenetre = new Menu();
-  }
+  void mouseClick() {}
   void keyPress(){
-    if (key!=CODED && this.newrecord) {
+    if (key!=CODED) {
       println(key);
       if (key==BACKSPACE) {
         if (this.nom.length()>0) {
           this.nom=this.nom.substring(0, this.nom.length()-1);
         } // if
       } else if (key==RETURN || key==ENTER) {
-        if(this.mode){
-          meilleurs_scoresT.add(new Score(int(score), nom));
-          meilleurs_scoresT = triScores(meilleurs_scoresT);
-          meilleurs_scoresT.remove(meilleurs_scoresT.size()-1);
-        }else{
-          meilleurs_scoresG.add(new Score(int(score), nom));
-          meilleurs_scoresG = triScores(meilleurs_scoresG);
-          meilleurs_scoresG.remove(meilleurs_scoresT.size()-1);
+        if(this.newrecord){
+          if(this.mode){
+            meilleurs_scoresT.add(new Score(int(score), nom));
+            meilleurs_scoresT = triScores(meilleurs_scoresT);
+            meilleurs_scoresT.remove(meilleurs_scoresT.size()-1);
+          }else{
+            meilleurs_scoresG.add(new Score(int(score), nom));
+            meilleurs_scoresG = triScores(meilleurs_scoresG);
+            meilleurs_scoresG.remove(meilleurs_scoresT.size()-1);
+          }
+        sauvegarde();
         }
         fenetre = new Records();
-      } else {
+      } else if(this.nom.length()<10){
         this.nom+=key;
       }
     }
