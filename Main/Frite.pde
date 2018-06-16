@@ -4,8 +4,8 @@
 class Frite{
   float masse, taille, tourne, rotation;
   boolean potato;
-  PImage img;
   PVector position, v;
+  int img;
   public Frite(float x, float y, float vx, float vy, float taille, boolean potato, float rotation){
     this.position = new PVector(x, y); //Vecteur position (m)
     this.v = new PVector(vx, vy); //Vecteur vitesse (m/s)
@@ -16,15 +16,11 @@ class Frite{
     this.rotation = rotation;
     this.tourne = 0;
     
-    String nom =""; //importation de l'image de la frite en fonction de son type
-    
     if(potato)                                                      //si cette frite est issu d'une patate non épluchée, c'est une potato
-      nom = "images/patates/potato-" + int(random(4)) +".png";
+      this.img = int(random(14,18));
     else
-      nom = "images/patates/frite-" + int(random(6)) +".png";
+      this.img = int(random(8,14));
 
-    
-    this.img = loadImage(nom);
   }
   
   void mouvementTerrestre(){ //simule le déplacement d'une patate dans un référentiel terrestre (fonctionnel)

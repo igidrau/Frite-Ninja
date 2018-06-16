@@ -14,9 +14,8 @@ boolean potato;
 
 
 class Patate{
-  int type;
+  int type, img;
   float masse, taille, tourne, rotation;
-  PImage img;
   PVector position, v;
   public Patate(float x, float y, float vx, float vy, float taille, int type, float rotation){
     this.position = new PVector(x, y); //Vecteur position (m)
@@ -28,14 +27,11 @@ class Patate{
     this.rotation = rotation; //Vitesse de rotation de la patate (rad/s)
     this.tourne = 0; //Angle d'origine de la patate (évolue à chaque itération de la boucle en fonction de la vitesse de rotation) (rad)
     
-    String nom =""; //importation de l'image de la patate en fonction de son type
     if (type == 0){
-      nom = "images/patates/patate-" +type + "-" + int(random(3)) + ".png";
+      this.img = int(random(4));
     }else{
-      nom = "images/patates/patate-" + type + ".png";
+      this.img = type+3;
     }
-    this.img = loadImage(nom);
-    this.img.resize((int)displayWidth/10, (int)displayWidth/7);
   }
   
   void mouvementTerrestre(){ //simule le déplacement d'une patate dans un référentiel terrestre (fonctionnel)

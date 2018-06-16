@@ -18,6 +18,12 @@ class JeuGeo implements Fenetre {
     this.tMLG = tMLG;
     this.tDouble = tDouble;
     this.mlg = mlg;
+    
+    for(int i=0; i<8; i++)
+      patatesEtFrites.get(i).resize(0, displayWidth/20);
+    for(int i=8; i<18; i++)
+      patatesEtFrites.get(i).resize(0, displayWidth/21);
+    
     textSize(25);
     xArgent = float(raquettes[racket_activ].getString("argent"));
     xScore = float(raquettes[racket_activ].getString("score"));
@@ -50,7 +56,7 @@ class JeuGeo implements Fenetre {
       for(int i=this.frites.size()-1; i>=0; i--){
         translate(this.frites.get(i).position.x*pow(10,-echelleGeopw), this.frites.get(i).position.y*pow(10,-echelleGeopw));
         rotate(this.frites.get(i).tourne);
-        image(this.frites.get(i).img, 0, 0);
+        image(patatesEtFrites.get(this.frites.get(i).img), 0, 0);
         rotate(-this.frites.get(i).tourne);
         translate(-this.frites.get(i).position.x*pow(10,-echelleGeopw), -this.frites.get(i).position.y*pow(10,-echelleGeopw));
         this.frites.get(i).mouvementGeo();
@@ -62,7 +68,7 @@ class JeuGeo implements Fenetre {
       for(int i=this.patates.size()-1; i>=0; i--){
         translate(this.patates.get(i).position.x*pow(10,-echelleGeopw), this.patates.get(i).position.y*pow(10,-echelleGeopw));
         rotate(this.patates.get(i).tourne);
-        image(this.patates.get(i).img, 0, 0);
+        image(patatesEtFrites.get(this.patates.get(i).img), 0, 0);
         rotate(-this.patates.get(i).tourne);
         translate(-this.patates.get(i).position.x*pow(10,-echelleGeopw), -this.patates.get(i).position.y*pow(10,-echelleGeopw));
         this.patates.get(i).mouvementGeo();
@@ -131,7 +137,6 @@ class JeuGeo implements Fenetre {
     else{
       potato = false;}
     Frite frite = new Frite(random(patate.position.x-5000, patate.position.x+5000),random(patate.position.y-5000, patate.position.y+5000), random(patate.v.x-5000, patate.v.x+5000), random(patate.v.y-5000, patate.v.y+5000), patate.taille/6, potato, patate.rotation);
-    frite.img.resize(0, patate.img.height-20);
     this.frites.add(frite);
   }  
   
@@ -156,7 +161,6 @@ class JeuGeo implements Fenetre {
     }
     test1 = new Patate(depart.x, depart.y, vitesse.x, vitesse.y, random(0.05,0.1), type, tourne);
     this.patates.add(test1);
-    test1.img.resize((int)displayWidth/20, (int)displayWidth/14);
   }
   
   void coupePatate(Patate coupe){

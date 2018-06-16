@@ -19,6 +19,12 @@ class JeuTerre implements Fenetre {
     this.tDouble = tDouble;
     this.tAqua = tAqua;
     this.mlg = mlg;
+    
+    for(int i=0; i<8; i++)
+      patatesEtFrites.get(i).resize(0, displayWidth/7);
+    for(int i=8; i<18; i++)
+      patatesEtFrites.get(i).resize(0, displayWidth/8);
+    
     t_depart = millis();
     textSize(25);
     xArgent = float(raquettes[racket_activ].getString("argent"));
@@ -62,7 +68,7 @@ class JeuTerre implements Fenetre {
     for(Frite i : this.frites){
       translate(displayWidth-i.position.x*echelleTerre, displayHeight-i.position.y*echelleTerre);
       rotate(i.tourne);
-      image(i.img, 0, 0);
+      image(patatesEtFrites.get(i.img), 0, 0);
       rotate(-i.tourne);
       translate(i.position.x*echelleTerre-displayWidth, i.position.y*echelleTerre-displayHeight);
       i.mouvementTerrestre();
@@ -77,7 +83,7 @@ class JeuTerre implements Fenetre {
     for(Patate i : this.patates){
       translate(displayWidth-i.position.x*echelleTerre, displayHeight-i.position.y*echelleTerre);
       rotate(i.tourne);
-      image(i.img, 0, 0, (int)displayWidth/10, (int)displayWidth/7);
+      image(patatesEtFrites.get(i.img), 0, 0);
       rotate(-i.tourne);
       translate(i.position.x*echelleTerre-displayWidth, i.position.y*echelleTerre-displayHeight);
       i.mouvementTerrestre();
@@ -167,7 +173,6 @@ class JeuTerre implements Fenetre {
     else{
       potato = false;}
     Frite frite = new Frite(random(patate.position.x-0.1, patate.position.x+0.1),random(patate.position.y-0.1, patate.position.y+0.1), random(patate.v.x-1, patate.v.x+1), random(patate.v.y-1, patate.v.y+1), patate.taille/6, potato, patate.rotation);
-    frite.img.resize(0, patate.img.height-20);
     this.frites.add(frite);
   }
   
