@@ -12,7 +12,7 @@ class Instructions implements Fenetre {
     instructions = new StringList();
     for(String paragraphe : loadStrings("data/instructions-1.txt"))
       instructions.append(paragraphe);
-    afficherTexte(instructions, police, 100, displayWidth-100, 50, 10);
+    afficherTexte(instructions, police, 120, displayWidth-120, 75, 10);
     
   }
   void drow(){}
@@ -26,8 +26,8 @@ class Instructions implements Fenetre {
 
 
 
-StringList decouperTexte(String texte, int taille, int gauche, int droite){        // Découpe un texte en plusieures lignes pour pouvoir l'afficher correctement
-  int max = 2*(droite-gauche)/taille;
+StringList decouperTexte(String texte, int taille, int largeur){        // Découpe un texte en plusieures lignes pour pouvoir l'afficher correctement
+  int max = int(2.25*largeur/taille);
   StringList lignes = new StringList();
   String[] mots = split(texte, " ");
   String ligne = "    ";
@@ -45,8 +45,9 @@ StringList decouperTexte(String texte, int taille, int gauche, int droite){     
 
 void afficherTexte(StringList texte, int taille, int gauche, int droite, int haut, int interligne){
   int i = 0;
+  int largeur = droite-gauche;
   for(String paragraphe : texte){
-    for(String ligne : decouperTexte(paragraphe, taille, gauche, droite)){
+    for(String ligne : decouperTexte(paragraphe, taille, largeur)){
       text(ligne, gauche, haut+i*(interligne+taille));
       i++;
     }
