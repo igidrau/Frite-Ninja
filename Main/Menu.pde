@@ -22,7 +22,8 @@ class Chargement implements Fenetre {
     image(logo, displayWidth/2, displayHeight/2);
   }
   
-  void drow(){}
+  void drow(){
+  }
   void mousePress(){}
   void mouseClick(){}
   void keyPress(){}
@@ -43,13 +44,29 @@ class Menu implements Fenetre {
   }
   
   void drow(){
-    
+    clear();
+    background(fondMenu);
     imageMode(CENTER); //affichage des boutons du menu
     image(this.jouer,displayWidth/2, displayHeight/3);
     image(this.boutique,displayWidth/2, 2*displayHeight/3);
     image(this.m_score, 188/2, displayHeight - 143/2);
     image(this.quitter, displayWidth - 188/2, displayHeight - 143/2);
     image(this.instruct, displayWidth/2, displayHeight - 140/2);
+    if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2)){ //bouton jouer
+      image(this.jouer,displayWidth/2, displayHeight/3, 640, 145);
+    }
+    if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2)){ //bouton boutique
+      image(this.boutique,displayWidth/2, 2*displayHeight/3, 640, 145);
+    }
+    if (mouseX > displayWidth-188 && mouseY > displayHeight-143)
+      image(this.quitter, displayWidth - 205/2, displayHeight - 155/2, 205, 155);
+    if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && mouseY > displayHeight-143){
+      image(this.instruct, displayWidth/2, displayHeight - 155/2, 580, 155);
+    }
+    if (mouseX < 188 && mouseY > displayHeight-143){
+      image(this.m_score, 205/2, displayHeight - 155/2, 205, 155);
+    }
+    
   }
   
   void mousePress(){}

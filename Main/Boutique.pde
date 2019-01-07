@@ -32,12 +32,15 @@ class MenuBoutique implements Fenetre {
   }
 
   void drow() {
+    
     background(fondMenu);
     textSize(50);
     fill(255,255,0);
     text(str(argent) + "€", 60,60);      //affiche le montant actuel d'argent
     fill(100);
     image(b_retour,displayWidth - 188/2, displayHeight - 143/2);
+    if (mouseX > displayWidth-188 && mouseY > displayHeight-143)      //bouton retour
+      image(b_retour,displayWidth - 205/2, displayHeight - 155/2, 205, 155);
     rect(displayWidth/4,displayHeight/2, racket_visuel.width+40,racket_visuel.height+40);
     image(racket_visuel, displayWidth/4 ,displayHeight/2);                  //affiche l'image de la raquette dont on a sélectionné l'icône
     textSize(40);
@@ -49,12 +52,17 @@ class MenuBoutique implements Fenetre {
     if(raquettesAchetees.get(racket_visu)){          //si la raquette affichée est achetée
       if(racket_activ == racket_visu)
         image(b_active, 2*displayWidth/5+145, displayHeight/5+70);    //si c'est également la raquette active, on affiche l'image "équipée"
-      else
+      else{
         image(b_equip, 2*displayWidth/5+145, displayHeight/5+70);    // sinon le bouton équiper
+        if(mouseX > 2*displayWidth/5 && mouseX < 2*displayWidth/5+290 && mouseY > displayHeight/5+39 && mouseY < displayHeight/5+102)
+          image(b_equip, 2*displayWidth/5+145, displayHeight/5+70, 300, 70);
+      }
     }else{
       image(b_achat, 2*displayWidth/5+145, displayHeight/5+70);      //si elle n'est pas achetée, on affiche le bouton acheter
       fill(#64ff64);
       text(raquettes[racket_visu].getString("prix")+" €", 2*displayWidth/5+295, displayHeight/5+90);    //prix de la raquette affichée
+      if(mouseX > 2*displayWidth/5 && mouseX < 2*displayWidth/5+290 && mouseY > displayHeight/5+39 && mouseY < displayHeight/5+102)
+          image(b_achat, 2*displayWidth/5+145, displayHeight/5+70, 300, 70);
     }
     text(raquettes[racket_visu].getString("nom"), 2*displayWidth/5,displayHeight/5); //nom de la raquette
     
