@@ -111,6 +111,8 @@ class MenuJeu implements Fenetre {
   }
   
   void drow(){
+    clear();
+    background(fondMenu);
     temps++;
     if(temps==framerate*1)
       background(fondMenu);
@@ -118,6 +120,14 @@ class MenuJeu implements Fenetre {
     imageMode(CENTER); //affichage des boutons
     image(this.b_classique,displayWidth/2, displayHeight/3);
     image(this.b_espace,displayWidth/2, 2*displayHeight/3);
+    if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < displayHeight/3 + 131/2) && (mouseY > displayHeight/3 - 131/2)){ //bouton jouer
+      image(this.b_classique,displayWidth/2, displayHeight/3, 640, 145);
+    }
+    else if ((mouseX < displayWidth/2 + 614/2) && (mouseX > displayWidth/2 - 614/2) && (mouseY < 2*displayHeight/3 + 131/2) && (mouseY > 2*displayHeight/3 - 131/2)){ //bouton boutique
+      image(this.b_espace,displayWidth/2, 2*displayHeight/3, 640, 145);
+    }
+    else if (mouseX > displayWidth-188 && mouseY > displayHeight-143)
+      image(this.b_retour, displayWidth - 205/2, displayHeight - 155/2, 205, 155);
   }
   
   void mousePress(){}

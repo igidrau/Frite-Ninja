@@ -22,7 +22,7 @@ void musique_mlg(){                                              //charge et jou
 }
 
 void son_coupe(){                                                      //charge et joue un son de coupe entre deux possibilité
-  String nom = "son/son-coupe"+str((int)random(0,3))+".mp3";
+  String nom = "son/son-coupe"+str((int)random(1,3))+".wav";
   soncoupe = new SoundFile(this,nom);
   soncoupe.play();
 }
