@@ -6,6 +6,7 @@ class JeuGeo implements Fenetre {
   ArrayList<Patate> patates;
   ArrayList<Frite> frites;
   XML[] raquettes;
+  PVector curseur;
   
   public JeuGeo(ArrayList<Patate> patates, ArrayList<Frite> frites, float score, int vie, int temps, boolean commence, boolean mlg, int tMLG, int tDouble) {
     raquettes = loadXML("data/raquettes.data").getChildren("raquette");
@@ -18,6 +19,7 @@ class JeuGeo implements Fenetre {
     this.tMLG = tMLG;
     this.tDouble = tDouble;
     this.mlg = mlg;
+    this.curseur = new PVector(mouseX,mouseY);
     
     for(int i=0; i<8; i++)
       patatesEtFrites.get(i).resize(0, displayWidth/20);
@@ -84,12 +86,20 @@ class JeuGeo implements Fenetre {
     
     if(mousePressed){
       image(doigt,mouseX , mouseY, displayWidth/25, displayWidth/25);
+      stroke(255);
+      line(curseur.x,curseur.y,mouseX,mouseY);
       for(int i=this.patates.size()-1; i>=0; i--){
-        if(abs(this.patates.get(i).position.y*pow(10,-echelleGeopw)-(mouseY-displayHeight/2))<70 && abs(this.patates.get(i).position.x*pow(10,-echelleGeopw)-(mouseX-displayWidth/2))<50){
+        if(abs(this.patates.get(i).position.y*pow(10,-echelleGeopw)-(curseur.x-mouseX)/(curseur.y-mouseY)*(this.patates.get(i).position.x*pow(10,-echelleGeopw)-curseur.y+displayHeight/2+curseur.x-displayWidth/2))<50){
+           && ((mouseX>curseur.x && this.patates.get(i).position.x*pow(10,-echelleGeopw)>curseur.x-displayWidth/2 && this.patates.get(i).position.x*pow(10,-echelleGeopw)<mouseX-displayWidth/2)
+           || (mouseX<curseur.x && this.patates.get(i).position.x*pow(10,-echelleGeopw)<curseur.x-displayWidth/2 && this.patates.get(i).position.x*pow(10,-echelleGeopw)>mouseX-displayWidth/2))
+           && ((mouseY>curseur.y && this.patates.get(i).position.y*pow(10,-echelleGeopw)>curseur.y-displayHeight/2 && this.patates.get(i).position.y*pow(10,-echelleGeopw)<mouseY-displayHeight/2)
+           || (mouseY<curseur.y && this.patates.get(i).position.y*pow(10,-echelleGeopw)<curseur.y-displayHeight/2 && this.patates.get(i).position.y*pow(10,-echelleGeopw)>mouseY-displayHeight/2))){  //Ne fonctionne pas
+//      if(abs(this.patates.get(i).position.y*pow(10,-echelleGeopw)-(mouseY-displayHeight/2))<70 && abs(this.patates.get(i).position.x*pow(10,-echelleGeopw)-(mouseX-displayWidth/2))<50){
           coupePatate(this.patates.get(i));
           this.patates.remove(i);
         }
       }
+      curseur = new PVector(mouseX,mouseY);
     }
     
     frequence = 52*exp(-score/400)+8; 
