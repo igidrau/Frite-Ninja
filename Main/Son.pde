@@ -1,4 +1,4 @@
-SoundFile musique, soneau, sonstart, soncoupe, sonrate,sonerreur, sonachat, musique_mlg, sonx2, sad;
+SoundFile musique, soneau, sonstart, soncoupe, sonrate,sonerreur, sonachat, musique_mlg, sonx2, sad, musicNyan, nyanYes, nyanNo;
 int aleat;
 
 void musique_menu(){                                                //charge et joue la musique du menu en boucle

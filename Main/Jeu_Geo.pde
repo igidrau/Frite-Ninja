@@ -1,14 +1,13 @@
 class JeuGeo implements Fenetre {
-  PImage doigt, terre, fond, fondaqua, pause;
-  int vie, tMLG, tDouble, temps;
-  float score, frequence, multiple, xArgent, xScore;
-  boolean mlg, commence;
+  PImage doigt, terre, fond, fondaqua, pause, spriteNyan;
+  int vie, tMLG, tDouble, temps, frame;
+  float score, frequence, multiple, xArgent, xScore, ynyan, xnyan;
+  boolean mlg, commence, nyancat;
   ArrayList<Patate> patates;
   ArrayList<Frite> frites;
   XML[] raquettes;
-  PVector curseur;
   
-  public JeuGeo(ArrayList<Patate> patates, ArrayList<Frite> frites, float score, int vie, int temps, boolean commence, boolean mlg, int tMLG, int tDouble) {
+  public JeuGeo(ArrayList<Patate> patates, ArrayList<Frite> frites, float score, int vie, int temps, boolean commence, boolean mlg, int tMLG, int tDouble, boolean nyancat, float xnyan, float ynyan) {
     raquettes = loadXML("data/raquettes.data").getChildren("raquette");
     this.patates =  new ArrayList<Patate>(patates);
     this.frites = new ArrayList<Frite>(frites);
@@ -19,7 +18,9 @@ class JeuGeo implements Fenetre {
     this.tMLG = tMLG;
     this.tDouble = tDouble;
     this.mlg = mlg;
-    this.curseur = new PVector(mouseX,mouseY);
+    this.nyancat = nyancat;
+    this.xnyan = xnyan;
+    this.ynyan = ynyan;
     
     for(int i=0; i<8; i++)
       patatesEtFrites.get(i).resize(0, displayWidth/20);
@@ -55,6 +56,29 @@ class JeuGeo implements Fenetre {
     translate(displayWidth/2, displayHeight/2);
     image(terre, 0, 0, 2*rTerrenb*pow(10, rTerrepw-echelleGeopw), 2*rTerrenb*pow(10, rTerrepw-echelleGeopw));
     
+    if(this.nyancat){
+      spriteNyan = loadImage("images/patates/nyan/nyan-"+frame+".gif");
+      image(spriteNyan, this.xnyan-displayWidth/2, this.ynyan-displayHeight/2, 120, 48);
+      if(this.xnyan >= displayWidth+24){
+        this.nyancat = false;
+        score += 100;
+        musicNyan.stop();
+        nyanYes.play();
+      }else{
+        this.xnyan += 7;
+        frame ++;
+        if(frame>11)
+          frame=0;
+      }
+      if(mousePressed && mouseX>this.xnyan-60 && mouseX<this.xnyan+60 && mouseY>this.ynyan-24 && mouseY<this.ynyan+24){
+        this.nyancat = false;
+        this.vie --;
+        musicNyan.stop();
+        nyanNo.play();
+      }
+      
+    }
+    
       for(int i=this.frites.size()-1; i>=0; i--){
         translate(this.frites.get(i).position.x*pow(10,-echelleGeopw), this.frites.get(i).position.y*pow(10,-echelleGeopw));
         rotate(this.frites.get(i).tourne);
@@ -79,6 +103,7 @@ class JeuGeo implements Fenetre {
             this.vie -= 1;
           this.patates.remove(i);
         }
+          
       }
     
     translate(-displayWidth/2, -displayHeight/2);
@@ -86,20 +111,12 @@ class JeuGeo implements Fenetre {
     
     if(mousePressed){
       image(doigt,mouseX , mouseY, displayWidth/25, displayWidth/25);
-      stroke(255);
-      line(curseur.x,curseur.y,mouseX,mouseY);
       for(int i=this.patates.size()-1; i>=0; i--){
-        if(abs(this.patates.get(i).position.y*pow(10,-echelleGeopw)-(curseur.x-mouseX)/(curseur.y-mouseY)*(this.patates.get(i).position.x*pow(10,-echelleGeopw)-curseur.y+displayHeight/2+curseur.x-displayWidth/2))<50){
-           && ((mouseX>curseur.x && this.patates.get(i).position.x*pow(10,-echelleGeopw)>curseur.x-displayWidth/2 && this.patates.get(i).position.x*pow(10,-echelleGeopw)<mouseX-displayWidth/2)
-           || (mouseX<curseur.x && this.patates.get(i).position.x*pow(10,-echelleGeopw)<curseur.x-displayWidth/2 && this.patates.get(i).position.x*pow(10,-echelleGeopw)>mouseX-displayWidth/2))
-           && ((mouseY>curseur.y && this.patates.get(i).position.y*pow(10,-echelleGeopw)>curseur.y-displayHeight/2 && this.patates.get(i).position.y*pow(10,-echelleGeopw)<mouseY-displayHeight/2)
-           || (mouseY<curseur.y && this.patates.get(i).position.y*pow(10,-echelleGeopw)<curseur.y-displayHeight/2 && this.patates.get(i).position.y*pow(10,-echelleGeopw)>mouseY-displayHeight/2))){  //Ne fonctionne pas
-//      if(abs(this.patates.get(i).position.y*pow(10,-echelleGeopw)-(mouseY-displayHeight/2))<70 && abs(this.patates.get(i).position.x*pow(10,-echelleGeopw)-(mouseX-displayWidth/2))<50){
+        if(abs(this.patates.get(i).position.y*pow(10,-echelleGeopw)-(mouseY-displayHeight/2))<70 && abs(this.patates.get(i).position.x*pow(10,-echelleGeopw)-(mouseX-displayWidth/2))<50){
           coupePatate(this.patates.get(i));
           this.patates.remove(i);
         }
       }
-      curseur = new PVector(mouseX,mouseY);
     }
     
     frequence = 52*exp(-score/400)+8; 
@@ -113,6 +130,8 @@ class JeuGeo implements Fenetre {
     if(this.vie <= 0){
       musique.amp(1);
       musique.stop();
+      if(musicNyan.isPlaying())
+        musicNyan.stop();
       if(this.mlg)
         musique_mlg.stop();
       background(fond);
@@ -132,13 +151,15 @@ class JeuGeo implements Fenetre {
       multiple = xScore;
       this.tDouble++;
     }
+    
+    
   }
   
   void mousePress(){}
   
   void mouseClick(){
     if (mouseX > displayWidth - 188 && mouseY < 143){
-      fenetre = new MenuPause(this.patates, this.frites, this.score, this.vie, this.temps, this.mlg, this.tMLG, this.tDouble, -12000);}
+      fenetre = new MenuPause(this.patates, this.frites, this.score, this.vie, this.temps, this.mlg, this.tMLG, this.tDouble, -12000, this.nyancat, this.xnyan, this.ynyan);}
   }
   
   void creerFrite(Patate patate){
@@ -154,11 +175,21 @@ class JeuGeo implements Fenetre {
   void creerPatate(){
     
     int type = (int)random(25);
-    if(type>4 || type==2 || type==1 && this.mlg)
+    if(type>4 || type==1 && this.mlg)
       type = 0;
     if(type == 4 && this.mlg)
       type = 0;
-      
+    if(type == 2 && !this.nyancat){
+      if(!this.nyancat && !this.mlg){
+        frame = 0;
+        this.ynyan = random(displayHeight);
+        this.xnyan = 0;
+        this.nyancat = true;
+        musicNyan.play(1,0.5);
+      }
+      type = 0;
+    }
+    
     float angle = random(2*PI);//random(2*PI);
     Patate test1;
     PVector depart = PVector.fromAngle(angle).mult((rTerrenb) * pow(10,rTerrepw));
@@ -201,5 +232,8 @@ class JeuGeo implements Fenetre {
       }
     }
   }
+             
+  
+  
   void keyPress(){}
 }

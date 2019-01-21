@@ -59,7 +59,7 @@ class JeuTerre implements Fenetre {
     text("score: "+str(int(this.score)), 50, 50);
     text("vie: "+str(vie),50, 100);
 
-    if(millis() >= t_depart+3900 && millis() <= t_depart+3931 && this.commence == false){
+    if(millis() >= t_depart+2900 && millis() <= t_depart+2931 && this.commence == false){
       musique_cuisine();                                                                      //joue la musique de la partie une fois que le son d'intro est terminé
       creerPatate();
     }
@@ -162,7 +162,7 @@ class JeuTerre implements Fenetre {
   
   void mouseClick(){
     if (mouseX > displayWidth - 188 && mouseY < 143 && millis() >= t_depart + 4200){
-      fenetre = new MenuPause(this.patates, this.frites, this.score, this.vie, this.temps, this.mlg, this.tMLG, this.tDouble, this.tAqua);}
+      fenetre = new MenuPause(this.patates, this.frites, this.score, this.vie, this.temps, this.mlg, this.tMLG, this.tDouble, this.tAqua, false, 0, 0);}
   }
   
   
@@ -184,7 +184,7 @@ class JeuTerre implements Fenetre {
       type = 0;
     if(type>=25 && this.mlg==false)
       type = 1;
-    if(type == 4 && this.mlg)
+    if(type == 4 && this.mlg || type==2 && this.mlg || type == 3 && this.tAqua<8*framerate || type==4 && this.tAqua<8*framerate)
       type = 0;
       
     float tourne;
@@ -260,6 +260,7 @@ class EcranScore implements Fenetre{
   
   void drow(){
     clear();
+    background(fondMenu);
     fill(255, 255, 0);
     textSize(60);
     if (score < 0)

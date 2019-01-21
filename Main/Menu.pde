@@ -15,14 +15,31 @@ static interface Fenetre {
 }
 
 class Chargement implements Fenetre {
+  
+  int dots = 0;
+  PImage logo = loadImage("images/logo.png");
   public Chargement(){
     thread("chargerMenu");
-    PImage logo = loadImage("images/logo.png");
     imageMode(CENTER);
-    image(logo, displayWidth/2, displayHeight/2);
+    textSize(50);
+    
   }
   
   void drow(){
+    clear();
+    background(209);
+    text("Chargement", 30, displayHeight-20);
+    image(logo, displayWidth/2, displayHeight/2);
+    if(dots > 15)
+      text(".", 330, displayHeight-20);
+    if(dots > 30)
+      text(".", 345, displayHeight-20);
+    if(dots > 45)
+      text(".", 360, displayHeight-20);
+    if(dots>60)
+      dots = 0;
+    dots++;
+      
   }
   void mousePress(){}
   void mouseClick(){}
@@ -145,7 +162,7 @@ class MenuJeu implements Fenetre {
       if(meilleurs_scoresT.get(0).score >= 1500){
         son_coupe();
         musique.stop();
-        fenetre = new JeuGeo(patates, frites, 0, 3, 0, false, false, u , u);}
+        fenetre = new JeuGeo(patates, frites, 0, 3, 0, false, false, u , u, false, 0, 0);}
       else{
         sonerreur.play();
         fill(255);

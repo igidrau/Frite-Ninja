@@ -4,12 +4,13 @@ PFont police;
 ArrayList<PImage> patatesEtFrites;
 
 
+
 Fenetre fenetre;
 
 void chargerMenu(){
   recupSave();
   triche();
-    
+
   chargerSons();
   chargerImages();
     
@@ -29,6 +30,9 @@ void chargerSons(){
   sonachat = new SoundFile(this, "son/son-monnaie.wav");
   sonx2 = new SoundFile(this, "son/son-x2.wav");
   soneau = new SoundFile(this,"son/son-eau.wav");
+  musicNyan = new SoundFile(this, "son/nyan.wav");
+  nyanYes = new SoundFile(this, "son/nyanYes.wav");
+  nyanNo = new SoundFile(this, "son/nyanNo.wav");
 }
 
 void chargerImages(){

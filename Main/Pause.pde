@@ -1,12 +1,13 @@
 class MenuPause implements Fenetre{
   int vie, tMLG, tDouble, tAqua, temps; 
-  float score;
-  boolean mlg;
+  float score, xnyan, ynyan;
+  boolean mlg, nyancat;
   ArrayList<Patate> patates;
   ArrayList<Frite> frites;
   PImage b_resume, b_retour;
+  
 
-  public MenuPause(ArrayList<Patate> patates, ArrayList<Frite> frites, float score, int vie, int temps, boolean mlg, int tMLG, int tDouble, int tAqua){
+  public MenuPause(ArrayList<Patate> patates, ArrayList<Frite> frites, float score, int vie, int temps, boolean mlg, int tMLG, int tDouble, int tAqua, boolean nyancat, float xnyan, float ynyan){
     this.patates =  new ArrayList<Patate>(patates);
     this.frites = new ArrayList<Frite>(frites);
     this.score = score;
@@ -16,6 +17,9 @@ class MenuPause implements Fenetre{
     this.tDouble = tDouble;
     this.tAqua = tAqua;
     this.mlg = mlg;
+    this.nyancat = nyancat;
+    this.xnyan = xnyan;
+    this.ynyan = ynyan;
     b_resume = loadImage("images/boutons/bouton-12.png");    //charger les images qui apparaitront dan sle menu pause
     b_retour = loadImage("images/boutons/bouton-9.png");
     textSize(60);
@@ -41,7 +45,7 @@ class MenuPause implements Fenetre{
       
     if (mouseX > displayWidth - 188 && mouseY < 143){
       if(tAqua<0)
-        fenetre = new JeuGeo(this.patates, this.frites, this.score, this.vie, this.temps, true, this.mlg, this.tMLG, this.tDouble);                //retourner au bon mode de jeu une fois sorti du menu pause
+        fenetre = new JeuGeo(this.patates, this.frites, this.score, this.vie, this.temps, true, this.mlg, this.tMLG, this.tDouble, this.nyancat, this.xnyan, this.ynyan);                //retourner au bon mode de jeu une fois sorti du menu pause
       else
         fenetre = new JeuTerre(this.patates, this.frites, this.score, this.vie, this.temps, true, this.mlg, this.tMLG, this.tDouble, this.tAqua);  //l'absence de bonus aqua dans le jeu géo permet d'éviter la crétion d'une nouvelle variable
     }
